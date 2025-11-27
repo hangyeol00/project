@@ -1,0 +1,131 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Demo\\Main\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|C:\\Demo\\Main\\nutritionist\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|c:\\demo\\main\\nutritionist\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|c:\\demo\\main\\nutritionist\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|C:\\Demo\\Main\\nutritionist\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|C:\\Demo\\Main\\nutritionist\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|C:\\Demo\\Main\\nutritionist\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LoginForm.cs",
+              "DocumentMoniker": "C:\\Demo\\Main\\nutritionist\\LoginForm.cs",
+              "RelativeDocumentMoniker": "nutritionist\\LoginForm.cs",
+              "ToolTip": "C:\\Demo\\Main\\nutritionist\\LoginForm.cs",
+              "RelativeToolTip": "nutritionist\\LoginForm.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAApwBgAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-27T13:07:09.136Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Form1.cs [\uB514\uC790\uC778]",
+              "DocumentMoniker": "C:\\Demo\\Main\\nutritionist\\Form1.cs",
+              "RelativeDocumentMoniker": "nutritionist\\Form1.cs",
+              "ToolTip": "C:\\Demo\\Main\\nutritionist\\Form1.cs [\uB514\uC790\uC778]",
+              "RelativeToolTip": "nutritionist\\Form1.cs [\uB514\uC790\uC778]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-27T09:50:19.684Z",
+              "EditorCaption": " [\uB514\uC790\uC778]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "C:\\Demo\\Main\\nutritionist\\Form1.cs",
+              "RelativeDocumentMoniker": "nutritionist\\Form1.cs",
+              "ToolTip": "C:\\Demo\\Main\\nutritionist\\Form1.cs",
+              "RelativeToolTip": "nutritionist\\Form1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAsAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-27T10:05:13.047Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Form1.Designer.cs",
+              "DocumentMoniker": "C:\\Demo\\Main\\nutritionist\\Form1.Designer.cs",
+              "RelativeDocumentMoniker": "nutritionist\\Form1.Designer.cs",
+              "ToolTip": "C:\\Demo\\Main\\nutritionist\\Form1.Designer.cs",
+              "RelativeToolTip": "nutritionist\\Form1.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFEAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-27T09:59:24.761Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AdminForm.cs",
+              "DocumentMoniker": "C:\\Demo\\Main\\nutritionist\\AdminForm.cs",
+              "RelativeDocumentMoniker": "nutritionist\\AdminForm.cs",
+              "ToolTip": "C:\\Demo\\Main\\nutritionist\\AdminForm.cs",
+              "RelativeToolTip": "nutritionist\\AdminForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-27T10:03:05.729Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AdminForm.cs [\uB514\uC790\uC778]",
+              "DocumentMoniker": "C:\\Demo\\Main\\nutritionist\\AdminForm.cs",
+              "RelativeDocumentMoniker": "nutritionist\\AdminForm.cs",
+              "ToolTip": "C:\\Demo\\Main\\nutritionist\\AdminForm.cs [\uB514\uC790\uC778]",
+              "RelativeToolTip": "nutritionist\\AdminForm.cs [\uB514\uC790\uC778]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-27T10:02:16.645Z",
+              "EditorCaption": " [\uB514\uC790\uC778]"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
