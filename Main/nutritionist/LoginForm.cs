@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 using Oracle.DataAccess.Client;
 
@@ -7,11 +8,6 @@ namespace nutritionist
 {
     public class LoginForm : Form
     {
-        private readonly (string Id, string Password, string Name, string Role)[] _builtinUsers =
-        {
-            ("admin", "admin123", "관리자", "ADMIN"),
-            ("user1", "user123", "일반 사용자", "USER")
-        };
 
         private Label lblTitle;
         private Label lblUserId;
@@ -144,25 +140,16 @@ namespace nutritionist
 
         private UserSession Authenticate(string userId, string password)
         {
-            foreach (var user in _builtinUsers)
-            {
-                if (string.Equals(user.Id, userId, StringComparison.OrdinalIgnoreCase) &&
-                    user.Password == password)
-                {
-                    return new UserSession(user.Id, user.Name, user.Role);
-                }
-            }
+         
 
             const string sql =
-                "SELECT USER_ID, USER_NAME, USER_ROLE " +
-                "FROM APP_USER " +
-                "WHERE USER_ID = :USER_ID AND USER_PASSWORD = :USER_PASSWORD";
+                "SELECT USERID, USERNAME, USERTYPE, PASSWORDHASH, PASSWORDSALT, STATUS " +
+                "FROM APPUSER WHERE USERID = :USER_ID";
 
             using (var conn = new OracleConnection(DatabaseConfig.ConnectionString))
             using (var cmd = new OracleCommand(sql, conn))
             {
                 cmd.Parameters.Add(new OracleParameter("USER_ID", userId));
-                cmd.Parameters.Add(new OracleParameter("USER_PASSWORD", password));
 
                 conn.Open();
                 using (var reader = cmd.ExecuteReader())
@@ -172,11 +159,101 @@ namespace nutritionist
                         return null;
                     }
 
-                    var id = reader["USER_ID"]?.ToString() ?? userId;
-                    var name = reader["USER_NAME"]?.ToString() ?? id;
-                    var role = reader["USER_ROLE"]?.ToString() ?? "USER";
+                    var status = reader["STATUS"]?.ToString() ?? "ACTIVE";
+                    if (!string.Equals(status, "ACTIVE", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return null;
+                    }
+
+                    var hash = reader["PASSWORDHASH"]?.ToString();
+                    var salt = reader["PASSWORDSALT"]?.ToString();
+                    MessageBox.Show(
+                        $"입력 비밀번호: {password}\n계산된 해시: {ComputeHashPreview(password, salt)}\nDB 해시: {hash}",
+                        "디버그",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    if (!VerifyPassword(password, hash, salt))
+                    {
+                        IncrementFailedLoginCount(conn, userId);
+                        return null;
+                    }
+
+                    ResetFailedLoginCount(conn, userId);
+
+                    var id = reader["USERID"]?.ToString() ?? userId;
+                    var name = reader["USERNAME"]?.ToString() ?? id;
+                    var role = reader["USERTYPE"]?.ToString() ?? "USER";
                     return new UserSession(id, name, role);
                 }
+            }
+        }
+
+        private static bool VerifyPassword(string password, string storedHash, string storedSalt)
+        {
+            if (string.IsNullOrWhiteSpace(password) ||
+                string.IsNullOrWhiteSpace(storedHash) ||
+                string.IsNullOrWhiteSpace(storedSalt))
+            {
+                return false;
+            }
+
+            try
+            {
+                var saltBytes = Convert.FromBase64String(storedSalt);
+                var computedBytes = DeriveHash(password, saltBytes);
+                var computed = Convert.ToBase64String(computedBytes);
+                return string.Equals(computed, storedHash, StringComparison.Ordinal);
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+        }
+
+        private static string ComputeHashPreview(string password, string storedSalt)
+        {
+            if (string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(storedSalt))
+            {
+                return string.Empty;
+            }
+
+            try
+            {
+                var saltBytes = Convert.FromBase64String(storedSalt);
+                var bytes = DeriveHash(password, saltBytes);
+                return Convert.ToBase64String(bytes);
+            }
+            catch (FormatException)
+            {
+                return string.Empty;
+            }
+        }
+
+        private static byte[] DeriveHash(string password, byte[] salt)
+        {
+            return new Rfc2898DeriveBytes(password, salt, 10000, HashAlgorithmName.SHA256)
+                .GetBytes(32);
+        }
+
+        private static void IncrementFailedLoginCount(OracleConnection connection, string userId)
+        {
+            using (var cmd = new OracleCommand(
+                       "UPDATE APPUSER SET FAILEDLOGINCOUNT = NVL(FAILEDLOGINCOUNT, 0) + 1 WHERE USERID = :USER_ID",
+                       connection))
+            {
+                cmd.Parameters.Add(new OracleParameter("USER_ID", userId));
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        private static void ResetFailedLoginCount(OracleConnection connection, string userId)
+        {
+            using (var cmd = new OracleCommand(
+                       "UPDATE APPUSER SET FAILEDLOGINCOUNT = 0, LASTLOGINAT = SYSDATE WHERE USERID = :USER_ID",
+                       connection))
+            {
+                cmd.Parameters.Add(new OracleParameter("USER_ID", userId));
+                cmd.ExecuteNonQuery();
             }
         }
     }

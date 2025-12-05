@@ -12,3 +12,16 @@ C:\Demo\Main\nutritionist\obj\Debug\nutritionist.exe
 C:\Demo\Main\nutritionist\obj\Debug\nutritionist.pdb
 C:\Demo\Main\nutritionist\obj\Debug\nutritionist.exe.config
 C:\Demo\Main\nutritionist\obj\Debug\nutritionist.AdminForm.resources
+D:\workspace\cs_db\Main\nutritionist\bin\Debug\nutritionist.exe.config
+D:\workspace\cs_db\Main\nutritionist\bin\Debug\nutritionist.exe
+D:\workspace\cs_db\Main\nutritionist\bin\Debug\nutritionist.pdb
+D:\workspace\cs_db\Main\nutritionist\bin\Debug\Oracle.DataAccess.dll
+D:\workspace\cs_db\Main\nutritionist\obj\Debug\nutritionist.csproj.AssemblyReference.cache
+D:\workspace\cs_db\Main\nutritionist\obj\Debug\nutritionist.AdminForm.resources
+D:\workspace\cs_db\Main\nutritionist\obj\Debug\nutritionist.Properties.Resources.resources
+D:\workspace\cs_db\Main\nutritionist\obj\Debug\nutritionist.csproj.GenerateResource.cache
+D:\workspace\cs_db\Main\nutritionist\obj\Debug\nutritionist.csproj.CoreCompileInputs.cache
+D:\workspace\cs_db\Main\nutritionist\obj\Debug\nutritio.21143F17.Up2Date
+D:\workspace\cs_db\Main\nutritionist\obj\Debug\nutritionist.exe
+D:\workspace\cs_db\Main\nutritionist\obj\Debug\nutritionist.pdb
+D:\workspace\cs_db\Main\nutritionist\obj\Debug\nutritionist.NutritionistForm.resources

@@ -32,7 +32,7 @@ namespace nutritionist
                 }
                 else
                 {
-                    Application.Run(new Form1(session));
+                    Application.Run(new NutritionistForm(session));
                 }
             }
         }
