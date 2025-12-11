@@ -31,6 +31,8 @@ namespace nutritionist
         private DataTable _rawMaterialTable;
         private DataTable _recipeTable;
         private readonly HashSet<string> _collapsedCategories = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        private DateTime _currentServeDate = DateTime.Today;
+        private bool _serveDateInitialized;
         private int _groupRowSerial = -1;
         private static readonly Dictionary<string, string> RawColumnHeaders = new Dictionary<string, string>
         {
@@ -106,6 +108,10 @@ namespace nutritionist
             {
                 txtRawSearch.KeyDown += TxtRawSearch_KeyDown;
             }
+            if (btnMarkServed != null)
+            {
+                btnMarkServed.Click += BtnMarkServed_Click;
+            }
 
             ConfigureAccessByRole();
             UpdateNavigationSelection();
@@ -123,6 +129,13 @@ namespace nutritionist
             ConfigureGrid(dgvRecipeNutrients);
             ConfigureGrid(dgvRecipeComponents);
             ConfigureGrid(dgvRawComponents);
+            ConfigureGrid(dgvTodayMeals);
+            ConfigureGrid(dgvTodayRawNeeds);
+            ConfigureGrid(dgvShortageRaw);
+            if (dgvRecipeComponents != null)
+            {
+                dgvRecipeComponents.AllowDrop = true;
+            }
             if (tvRawMaterials != null)
             {
                 tvRawMaterials.Visible = false;
@@ -131,6 +144,7 @@ namespace nutritionist
             if (dgvRecipes != null)
             {
                 dgvRecipes.CellClick += DgvRecipes_CellClick;
+                dgvRecipes.MouseDown += DgvRecipes_MouseDown;
             }
 
             if (btnRecipeSearch != null)
@@ -156,6 +170,11 @@ namespace nutritionist
             if (btnRegisterRecipe != null)
             {
                 btnRegisterRecipe.Click += BtnRegisterRecipe_Click;
+            }
+            if (dgvRecipeComponents != null)
+            {
+                dgvRecipeComponents.DragEnter += DgvRecipeComponents_DragEnter;
+                dgvRecipeComponents.DragDrop += DgvRecipeComponents_DragDrop;
             }
 
             if (splitContainerIngredients != null)
@@ -217,6 +236,25 @@ namespace nutritionist
             if (txtRecipeActive != null)
             {
                 txtRecipeActive.ReadOnly = true;
+            }
+
+            if (dgvMealRecipes != null)
+            {
+                dgvMealRecipes.MouseDown += DgvMealRecipes_MouseDown;
+                dgvMealRecipes.CellClick += DgvMealRecipes_CellClick;
+            }
+            if (dgvMealComponents != null)
+            {
+                dgvMealComponents.DragEnter += DgvMealComponents_DragEnter;
+                dgvMealComponents.DragDrop += DgvMealComponents_DragDrop;
+            }
+            if (dtpMealDate != null)
+            {
+                dtpMealDate.ValueChanged += InputMeal_Changed;
+            }
+            if (cmbMealType != null)
+            {
+                cmbMealType.SelectedIndexChanged += InputMeal_Changed;
             }
 
             AttachRawFilterEvents();
@@ -358,7 +396,11 @@ namespace nutritionist
         {
             try
             {
+                EnsureServeDateInitialized();
                 LoadSummary();
+                LoadTodayMeals();
+                LoadTodayRawNeeds();
+                LoadShortageList();
                 LoadRawMaterials();
                 LoadRecipesManagement();
                 LoadFinalMenus();
@@ -428,17 +470,75 @@ namespace nutritionist
             }
         }
 
+        private void EnsureServeDateInitialized()
+        {
+            if (_serveDateInitialized)
+            {
+                return;
+            }
+
+            _serveDateInitialized = true;
+            var today = DateTime.Today;
+            var sql = "SELECT NVL(MIN(MealDate), :P_TODAY) FROM Meal WHERE MealDate >= :P_TODAY";
+            var nextMealDate = ExecuteScalar(sql, new OracleParameter("P_TODAY", OracleDbType.Date) { Value = today });
+            var resolved = nextMealDate == DBNull.Value ? today : Convert.ToDateTime(nextMealDate);
+            SetServeDate(resolved);
+        }
+
+        private void SetServeDate(DateTime targetDate)
+        {
+            _currentServeDate = targetDate.Date;
+            if (lblCurrentServeDate != null)
+            {
+                lblCurrentServeDate.Text = _currentServeDate.ToString("yyyy-MM-dd");
+            }
+            if (txtStudentId != null)
+            {
+                txtStudentId.Text = _currentServeDate.ToString("yyyy-MM-dd");
+            }
+
+            var today = DateTime.Today;
+            var rawLabel = _currentServeDate == today
+                ? "오늘 필요한 원재료"
+                : $"{_currentServeDate:yyyy-MM-dd} 필요 원재료";
+            var mealLabel = _currentServeDate == today
+                ? "오늘의 식단"
+                : $"{_currentServeDate:yyyy-MM-dd} 식단";
+
+            if (grpTodayRaw != null)
+            {
+                grpTodayRaw.Text = rawLabel;
+            }
+
+            if (grpTodayMeals != null)
+            {
+                grpTodayMeals.Text = mealLabel;
+            }
+        }
+
+        private DateTime GetNextMealDate(DateTime currentDate)
+        {
+            var sql = "SELECT MIN(MealDate) FROM Meal WHERE MealDate > :P_DATE";
+            var next = ExecuteScalar(sql, new OracleParameter("P_DATE", OracleDbType.Date) { Value = currentDate.Date });
+            return next == DBNull.Value ? currentDate.Date : Convert.ToDateTime(next);
+        }
+
         private void LoadSummary()
         {
-            var totalRaw = ToInt(ExecuteScalar("SELECT COUNT(*) FROM RAWMATERIAL"));
-            var totalMealPlan = ToInt(ExecuteScalar("SELECT COUNT(*) FROM MEALPLAN"));
+            var todayMeals = ToInt(
+                ExecuteScalar("SELECT COUNT(*) FROM MEAL WHERE MealDate = :P_DATE",
+                    new OracleParameter("P_DATE", OracleDbType.Date) { Value = _currentServeDate }));
+            var pendingMealPlan = ToInt(
+                ExecuteScalar("SELECT COUNT(*) FROM MEALPLAN WHERE UPPER(STATUS) = :STATUS",
+                    new OracleParameter("STATUS", MealPlanStatusDraft)));
             var pendingPurchase = ToInt(
                 ExecuteScalar("SELECT COUNT(*) FROM PURCHASEREQUEST WHERE UPPER(STATUS) <> :STATUS",
                     new OracleParameter("STATUS", PurchaseStatusApproved)));
 
-            lblTotalStudentValue.Text = totalRaw.ToString();
-            lblTodayMealValue.Text = totalMealPlan.ToString();
+            lblTotalStudentValue.Text = todayMeals.ToString();
+            lblTodayMealValue.Text = pendingMealPlan.ToString();
             lblNotMealValue.Text = pendingPurchase.ToString();
+            SetServeDate(_currentServeDate);
         }
 
         private void LoadRawMaterials()
@@ -482,6 +582,86 @@ namespace nutritionist
             }
 
             ApplyRawMaterialView();
+        }
+
+        private void LoadTodayMeals()
+        {
+            if (dgvTodayMeals == null)
+            {
+                return;
+            }
+
+            const string sql =
+                "SELECT m.MealID, m.MealDate, m.MealType, mp.PlanName, " +
+                "       LISTAGG(f.MenuName, ', ') WITHIN GROUP (ORDER BY f.MenuName) AS Menus, " +
+                "       m.Notes " +
+                "FROM Meal m " +
+                "JOIN MealPlan mp ON m.MealPlanID = mp.MealPlanID " +
+                "LEFT JOIN MealComp mc ON m.MealID = mc.MealID " +
+                "LEFT JOIN FinalMenu f ON mc.FinalMenuID = f.FinalMenuID " +
+                "WHERE m.MealDate = :TARGETDATE " +
+                "GROUP BY m.MealID, m.MealDate, m.MealType, mp.PlanName, m.Notes " +
+                "ORDER BY m.MealDate, m.MealType";
+
+            dgvTodayMeals.DataSource = ExecuteDataTable(sql,
+                new OracleParameter("TARGETDATE", OracleDbType.Date) { Value = _currentServeDate });
+        }
+
+        private void LoadTodayRawNeeds()
+        {
+            if (dgvTodayRawNeeds == null)
+            {
+                return;
+            }
+
+            const string sql =
+                "WITH meal_base AS ( " +
+                "    SELECT mc.MealID, mc.FinalMenuID, mc.PortionCount " +
+                "    FROM Meal m JOIN MealComp mc ON m.MealID = mc.MealID " +
+                "    WHERE m.MealDate = :TARGETDATE " +
+                "), menu_raw AS ( " +
+                "    SELECT mb.MealID, " +
+                "           CASE WHEN mc.ComponentType = 'R' THEN mc.ComponentRawID ELSE ic.RawID END AS RawID, " +
+                "           CASE WHEN mc.ComponentType = 'R' THEN mc.QuantityPerServing * mb.PortionCount " +
+                "                ELSE (mc.QuantityPerServing / NULLIF(i.DefaultPortionGram, 0)) * ic.QuantityPerBatch * mb.PortionCount * (1 + NVL(ic.LossRatePct, 0) / 100) END AS NeedQty " +
+                "    FROM meal_base mb " +
+                "    JOIN MenuComp mc ON mb.FinalMenuID = mc.FinalMenuID " +
+                "    LEFT JOIN Ingredient i ON mc.ComponentIngredientID = i.IngredientID " +
+                "    LEFT JOIN IngredientComp ic ON mc.ComponentIngredientID = ic.IngredientID " +
+                "    WHERE (mc.ComponentType = 'R' AND mc.ComponentRawID IS NOT NULL) " +
+                "       OR (mc.ComponentType = 'I' AND mc.ComponentIngredientID IS NOT NULL) " +
+                ") " +
+                "SELECT r.RawName, NVL(MIN(c.CategoryName), '미분류') AS Category, r.PurchaseUnit, " +
+                "       ROUND(SUM(NVL(mr.NeedQty, 0)), 2) AS NeededQty " +
+                "FROM menu_raw mr " +
+                "JOIN RawMaterial r ON mr.RawID = r.RawID " +
+                "LEFT JOIN RawCategory c ON r.RawCategoryID = c.RawCategoryID " +
+                "GROUP BY r.RawID, r.RawName, r.PurchaseUnit " +
+                "ORDER BY NeededQty DESC, r.RawName";
+
+            dgvTodayRawNeeds.DataSource = ExecuteDataTable(sql,
+                new OracleParameter("TARGETDATE", OracleDbType.Date) { Value = _currentServeDate });
+        }
+
+        private void LoadShortageList()
+        {
+            if (dgvShortageRaw == null)
+            {
+                return;
+            }
+
+            const string sql =
+                "SELECT r.RawName, COUNT(*) AS PendingRequests, " +
+                "       MIN(pr.ExpectedDeliveryDate) AS EarliestEta, " +
+                "       MIN(pr.RequestedDate) AS FirstRequested " +
+                "FROM PurchaseRequest pr " +
+                "JOIN RawMaterial r ON pr.RawID = r.RawID " +
+                "WHERE UPPER(pr.Status) = :STATUS " +
+                "GROUP BY r.RawID, r.RawName " +
+                "ORDER BY EarliestEta NULLS LAST, PendingRequests DESC, r.RawName";
+
+            dgvShortageRaw.DataSource = ExecuteDataTable(sql,
+                new OracleParameter("STATUS", PurchaseStatusRequested));
         }
 
         private void LoadRawNutrientSummary()
@@ -674,6 +854,13 @@ namespace nutritionist
                 return;
             }
 
+            if (lblStudentId != null &&
+                lblStudentId.Text.IndexOf("기준 일자", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                txtStudentId.Text = _currentServeDate.ToString("yyyy-MM-dd");
+                return;
+            }
+
             if (row == null)
             {
                 txtStudentId.Text = "선택 없음";
@@ -712,6 +899,80 @@ namespace nutritionist
 
             _selectedRecipeId = ToInt(dataRow["FINALMENUID"]);
             DisplaySelectedRecipe(dataRow);
+        }
+
+        private void DgvRecipes_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (dgvRecipes == null)
+            {
+                return;
+            }
+
+            var hit = dgvRecipes.HitTest(e.X, e.Y);
+            if (hit.RowIndex < 0 || hit.RowIndex >= dgvRecipes.Rows.Count)
+            {
+                return;
+            }
+
+            var row = dgvRecipes.Rows[hit.RowIndex];
+            var dataRow = GetDataRowFromGrid(row);
+            if (dataRow == null)
+            {
+                return;
+            }
+
+            var finalMenuId = ToInt(dataRow["FINALMENUID"]);
+            if (finalMenuId <= 0)
+            {
+                return;
+            }
+
+            var name = dataRow["MENUNAME"]?.ToString() ?? string.Empty;
+            var data = new DataObject();
+            data.SetData(typeof(int), finalMenuId);
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                data.SetData(DataFormats.Text, name);
+            }
+
+            dgvRecipes.DoDragDrop(data, DragDropEffects.Copy);
+        }
+
+        private void DgvRecipeComponents_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = e.Data != null && e.Data.GetDataPresent(typeof(int))
+                ? DragDropEffects.Copy
+                : DragDropEffects.None;
+        }
+
+        private void DgvRecipeComponents_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data == null || !e.Data.GetDataPresent(typeof(int)))
+            {
+                return;
+            }
+
+            var finalMenuId = (int)e.Data.GetData(typeof(int));
+            FocusRecipeRow(finalMenuId);
+        }
+
+        private void FocusRecipeRow(int finalMenuId)
+        {
+            if (dgvRecipes?.Rows == null)
+            {
+                return;
+            }
+
+            var row = dgvRecipes.Rows.Cast<DataGridViewRow>()
+                .FirstOrDefault(r => ToInt(r.Cells["FINALMENUID"]?.Value) == finalMenuId);
+            if (row == null)
+            {
+                return;
+            }
+
+            row.Selected = true;
+            dgvRecipes.CurrentCell = row.Cells.Cast<DataGridViewCell>().FirstOrDefault();
+            SetSelectedRecipeFromRow(row);
         }
 
         private void DisplaySelectedRecipe(DataRow row)
@@ -771,12 +1032,14 @@ namespace nutritionist
             if (_selectedMealPlanId == null || dgvMealLogs.CurrentRow == null)
             {
                 txtMenuCode.Text = "선택 없음";
+                LoadMealRecipes();
                 return;
             }
 
             var name = dgvMealLogs.CurrentRow.Cells["PLANNAME"].Value?.ToString() ?? string.Empty;
             var status = dgvMealLogs.CurrentRow.Cells["STATUS"].Value?.ToString() ?? string.Empty;
             txtMenuCode.Text = $"{name} ({status})";
+            LoadMealRecipes();
         }
 
         private void DgvPurchaseRequests_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -810,6 +1073,22 @@ namespace nutritionist
             {
                 OpenMealPlanDialog();
             }
+        }
+
+        private void BtnMarkServed_Click(object sender, EventArgs e)
+        {
+            var nextDate = GetNextMealDate(_currentServeDate);
+            if (nextDate.Date == _currentServeDate.Date)
+            {
+                MessageBox.Show("다음 식단 일정이 없습니다.", "안내");
+                return;
+            }
+
+            SetServeDate(nextDate);
+            LoadSummary();
+            LoadTodayMeals();
+            LoadTodayRawNeeds();
+            LoadShortageList();
         }
 
         private void BtnCancelMeal_Click(object sender, EventArgs e)
@@ -1946,6 +2225,102 @@ namespace nutritionist
             }
 
             ApplyRawMaterialView();
+        }
+        private void LoadMealRecipes()
+        {
+            dgvMealRecipes.DataSource = null;
+            if (_selectedMealPlanId == null)
+            {
+                return;
+            }
+
+            var date = dtpMealDate.Value.Date;
+            var type = cmbMealType.SelectedItem?.ToString();
+            
+            if (string.IsNullOrEmpty(type)) return;
+
+            string dbType = type == "조식" ? "BREAKFAST" : type == "중식" ? "LUNCH" : "DINNER";
+
+            const string sql = 
+                "SELECT r.FinalMenuID, r.MenuCode, r.MenuName, r.MenuType, r.ServingSizeGram " +
+                "FROM Meal m " +
+                "JOIN MealComp mc ON m.MealID = mc.MealID " +
+                "JOIN FinalMenu r ON mc.FinalMenuID = r.FinalMenuID " +
+                "WHERE m.MealPlanID = :planId AND m.MealDate = :mDate AND m.MealType = :mType " +
+                "ORDER BY r.MenuName";
+
+            var dt = ExecuteDataTable(sql, 
+                new OracleParameter("planId", _selectedMealPlanId),
+                new OracleParameter("mDate", date),
+                new OracleParameter("mType", dbType));
+
+            dgvMealRecipes.DataSource = dt;
+            if (dgvMealRecipes.Columns["FinalMenuID"] != null) dgvMealRecipes.Columns["FinalMenuID"].Visible = false;
+        }
+
+        private void LoadMealComponents(int finalMenuId)
+        {
+             const string sql =
+                "SELECT i.IngredientName AS ItemName, '재료' AS ItemType, mc.QuantityPerServing, i.DefaultPortionGram AS StdQty " +
+                "FROM MenuComp mc " +
+                "JOIN Ingredient i ON mc.ComponentIngredientID = i.IngredientID " +
+                "WHERE mc.FinalMenuID = :id AND mc.ComponentType = 'I' " +
+                "UNION ALL " +
+                "SELECT r.RawName AS ItemName, '원재료' AS ItemType, mc.QuantityPerServing, r.BaseUnitQty AS StdQty " +
+                "FROM MenuComp mc " +
+                "JOIN RawMaterial r ON mc.ComponentRawID = r.RawID " +
+                "WHERE mc.FinalMenuID = :id AND mc.ComponentType = 'R'";
+            
+            var dt = ExecuteDataTable(sql, new OracleParameter("id", finalMenuId));
+            dgvMealComponents.DataSource = dt;
+        }
+
+        private void DgvMealRecipes_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                var hit = dgvMealRecipes.HitTest(e.X, e.Y);
+                if (hit.RowIndex >= 0 && dgvMealRecipes.Rows[hit.RowIndex].Cells["FinalMenuID"].Value != null)
+                {
+                    int menuId = Convert.ToInt32(dgvMealRecipes.Rows[hit.RowIndex].Cells["FinalMenuID"].Value);
+                    // Load immediately on click too
+                    LoadMealComponents(menuId);
+                    
+                    dgvMealRecipes.DoDragDrop(menuId, DragDropEffects.Copy);
+                }
+            }
+        }
+
+        private void DgvMealRecipes_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgvMealRecipes.Rows[e.RowIndex].Cells["FinalMenuID"].Value != null)
+            {
+                 int menuId = Convert.ToInt32(dgvMealRecipes.Rows[e.RowIndex].Cells["FinalMenuID"].Value);
+                 LoadMealComponents(menuId);
+            }
+        }
+
+        private void DgvMealComponents_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(int)))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+        }
+
+        private void DgvMealComponents_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(int)))
+            {
+                int menuId = (int)e.Data.GetData(typeof(int));
+                LoadMealComponents(menuId);
+            }
+        }
+
+        private void InputMeal_Changed(object sender, EventArgs e)
+        {
+            LoadMealRecipes();
+            dgvMealComponents.DataSource = null; // Clear detail when context changes
         }
     }
 }

@@ -38,29 +38,62 @@ namespace nutritionist
             this.panelWorkspace = new System.Windows.Forms.Panel();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.tabDashboard = new System.Windows.Forms.TabPage();
-            this.grpMealLogs = new System.Windows.Forms.GroupBox();
-            this.dgvMealLogs = new System.Windows.Forms.DataGridView();
-            this.grpAction = new System.Windows.Forms.GroupBox();
-            this.btnCancelMeal = new System.Windows.Forms.Button();
-            this.btnServeMeal = new System.Windows.Forms.Button();
-            this.txtMenuCode = new System.Windows.Forms.TextBox();
-            this.lblMenuCode = new System.Windows.Forms.Label();
-            this.txtStudentId = new System.Windows.Forms.TextBox();
-            this.lblStudentId = new System.Windows.Forms.Label();
-            this.grpMenus = new System.Windows.Forms.GroupBox();
-            this.dgvMenus = new System.Windows.Forms.DataGridView();
-            this.grpStudents = new System.Windows.Forms.GroupBox();
-            this.dgvStudents = new System.Windows.Forms.DataGridView();
+            this.layoutDashboard = new System.Windows.Forms.TableLayoutPanel();
             this.grpSummary = new System.Windows.Forms.GroupBox();
+            this.lblCurrentServeDate = new System.Windows.Forms.Label();
+            this.lblServeDateTitle = new System.Windows.Forms.Label();
             this.lblNotMealValue = new System.Windows.Forms.Label();
             this.lblNotMeal = new System.Windows.Forms.Label();
             this.lblTodayMealValue = new System.Windows.Forms.Label();
             this.lblTodayMeal = new System.Windows.Forms.Label();
             this.lblTotalStudentValue = new System.Windows.Forms.Label();
             this.lblTotalStudent = new System.Windows.Forms.Label();
+            this.grpTodayMeals = new System.Windows.Forms.GroupBox();
+            this.dgvTodayMeals = new System.Windows.Forms.DataGridView();
+            this.grpTodayRaw = new System.Windows.Forms.GroupBox();
+            this.dgvTodayRawNeeds = new System.Windows.Forms.DataGridView();
+            this.grpShortage = new System.Windows.Forms.GroupBox();
+            this.dgvShortageRaw = new System.Windows.Forms.DataGridView();
+            this.grpMealLogs = new System.Windows.Forms.GroupBox();
+            this.dgvMealLogs = new System.Windows.Forms.DataGridView();
+            this.grpAction = new System.Windows.Forms.GroupBox();
+            this.btnMarkServed = new System.Windows.Forms.Button();
+            this.btnCancelMeal = new System.Windows.Forms.Button();
+            this.btnServeMeal = new System.Windows.Forms.Button();
+            this.txtMenuCode = new System.Windows.Forms.TextBox();
+            this.lblMenuCode = new System.Windows.Forms.Label();
+            this.txtStudentId = new System.Windows.Forms.TextBox();
+            this.lblStudentId = new System.Windows.Forms.Label();
             this.tabManagement = new System.Windows.Forms.TabPage();
             this.tabControlManagement = new System.Windows.Forms.TabControl();
             this.tabRawMaterials = new System.Windows.Forms.TabPage();
+            this.splitContainerRawMaterials = new System.Windows.Forms.SplitContainer();
+            this.tvRawMaterials = new System.Windows.Forms.TreeView();
+            this.dgvRawMaterials = new System.Windows.Forms.DataGridView();
+            this.grpRawDetail = new System.Windows.Forms.GroupBox();
+            this.splitContainerRawDetail = new System.Windows.Forms.SplitContainer();
+            this.dgvRawNutrients = new System.Windows.Forms.DataGridView();
+            this.lblRawNutrients = new System.Windows.Forms.Label();
+            this.dgvRawComponents = new System.Windows.Forms.DataGridView();
+            this.lblRawComponents = new System.Windows.Forms.Label();
+            this.tableRawDetail = new System.Windows.Forms.TableLayoutPanel();
+            this.lblRawDetailName = new System.Windows.Forms.Label();
+            this.txtRawDetailName = new System.Windows.Forms.TextBox();
+            this.lblRawDetailCategory = new System.Windows.Forms.Label();
+            this.txtRawDetailCategory = new System.Windows.Forms.TextBox();
+            this.lblRawDetailUnit = new System.Windows.Forms.Label();
+            this.txtRawDetailUnit = new System.Windows.Forms.TextBox();
+            this.lblRawDetailBaseQty = new System.Windows.Forms.Label();
+            this.txtRawDetailBaseQty = new System.Windows.Forms.TextBox();
+            this.lblRawDetailStorage = new System.Windows.Forms.Label();
+            this.txtRawDetailStorage = new System.Windows.Forms.TextBox();
+            this.lblRawDetailShelfLife = new System.Windows.Forms.Label();
+            this.txtRawDetailShelfLife = new System.Windows.Forms.TextBox();
+            this.lblRawDetailActive = new System.Windows.Forms.Label();
+            this.txtRawDetailActive = new System.Windows.Forms.TextBox();
+            this.flowRawButtons = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnRawAdd = new System.Windows.Forms.Button();
+            this.btnRawRefresh = new System.Windows.Forms.Button();
             this.panelRawToolbar = new System.Windows.Forms.Panel();
             this.flowRawCalorieFilter = new System.Windows.Forms.FlowLayoutPanel();
             this.lblRawCalorie = new System.Windows.Forms.Label();
@@ -78,33 +111,6 @@ namespace nutritionist
             this.btnRawSearch = new System.Windows.Forms.Button();
             this.txtRawSearch = new System.Windows.Forms.TextBox();
             this.lblRawSearch = new System.Windows.Forms.Label();
-            this.splitContainerRawMaterials = new System.Windows.Forms.SplitContainer();
-            this.tvRawMaterials = new System.Windows.Forms.TreeView();
-            this.dgvRawMaterials = new System.Windows.Forms.DataGridView();
-            this.grpRawDetail = new System.Windows.Forms.GroupBox();
-            this.tableRawDetail = new System.Windows.Forms.TableLayoutPanel();
-            this.lblRawDetailName = new System.Windows.Forms.Label();
-            this.txtRawDetailName = new System.Windows.Forms.TextBox();
-            this.lblRawDetailCategory = new System.Windows.Forms.Label();
-            this.txtRawDetailCategory = new System.Windows.Forms.TextBox();
-            this.lblRawDetailUnit = new System.Windows.Forms.Label();
-            this.txtRawDetailUnit = new System.Windows.Forms.TextBox();
-            this.lblRawDetailBaseQty = new System.Windows.Forms.Label();
-            this.txtRawDetailBaseQty = new System.Windows.Forms.TextBox();
-            this.lblRawDetailStorage = new System.Windows.Forms.Label();
-            this.txtRawDetailStorage = new System.Windows.Forms.TextBox();
-            this.lblRawDetailShelfLife = new System.Windows.Forms.Label();
-            this.txtRawDetailShelfLife = new System.Windows.Forms.TextBox();
-            this.lblRawDetailActive = new System.Windows.Forms.Label();
-            this.txtRawDetailActive = new System.Windows.Forms.TextBox();
-            this.lblRawNutrients = new System.Windows.Forms.Label();
-            this.dgvRawNutrients = new System.Windows.Forms.DataGridView();
-            this.lblRawComponents = new System.Windows.Forms.Label();
-            this.dgvRawComponents = new System.Windows.Forms.DataGridView();
-            this.splitContainerRawDetail = new System.Windows.Forms.SplitContainer();
-            this.flowRawButtons = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnRawAdd = new System.Windows.Forms.Button();
-            this.btnRawRefresh = new System.Windows.Forms.Button();
             this.tabIngredients = new System.Windows.Forms.TabPage();
             this.splitContainerIngredients = new System.Windows.Forms.SplitContainer();
             this.dgvIngredients = new System.Windows.Forms.DataGridView();
@@ -132,6 +138,25 @@ namespace nutritionist
             this.txtNutrientUnit = new System.Windows.Forms.TextBox();
             this.btnSearchNutrient = new System.Windows.Forms.Button();
             this.tabRecipes = new System.Windows.Forms.TabPage();
+            this.splitContainerRecipes = new System.Windows.Forms.SplitContainer();
+            this.dgvRecipes = new System.Windows.Forms.DataGridView();
+            this.grpRecipeDetail = new System.Windows.Forms.GroupBox();
+            this.splitContainerRecipeDetail = new System.Windows.Forms.SplitContainer();
+            this.dgvRecipeNutrients = new System.Windows.Forms.DataGridView();
+            this.lblRecipeNutrients = new System.Windows.Forms.Label();
+            this.dgvRecipeComponents = new System.Windows.Forms.DataGridView();
+            this.lblRecipeComponents = new System.Windows.Forms.Label();
+            this.tableRecipeDetail = new System.Windows.Forms.TableLayoutPanel();
+            this.lblRecipeName = new System.Windows.Forms.Label();
+            this.txtRecipeName = new System.Windows.Forms.TextBox();
+            this.lblRecipeCode = new System.Windows.Forms.Label();
+            this.txtRecipeCode = new System.Windows.Forms.TextBox();
+            this.lblRecipeType = new System.Windows.Forms.Label();
+            this.txtRecipeType = new System.Windows.Forms.TextBox();
+            this.lblRecipeServing = new System.Windows.Forms.Label();
+            this.txtRecipeServing = new System.Windows.Forms.TextBox();
+            this.lblRecipeActive = new System.Windows.Forms.Label();
+            this.txtRecipeActive = new System.Windows.Forms.TextBox();
             this.panelRecipeToolbar = new System.Windows.Forms.Panel();
             this.flowRecipeCalorieFilter = new System.Windows.Forms.FlowLayoutPanel();
             this.lblRecipeCalorie = new System.Windows.Forms.Label();
@@ -148,28 +173,6 @@ namespace nutritionist
             this.btnRecipeSearch = new System.Windows.Forms.Button();
             this.txtRecipeSearch = new System.Windows.Forms.TextBox();
             this.lblRecipeSearch = new System.Windows.Forms.Label();
-            this.splitContainerRecipes = new System.Windows.Forms.SplitContainer();
-            this.dgvRecipes = new System.Windows.Forms.DataGridView();
-            this.grpRecipeDetail = new System.Windows.Forms.GroupBox();
-            this.tableRecipeDetail = new System.Windows.Forms.TableLayoutPanel();
-            this.lblRecipeName = new System.Windows.Forms.Label();
-            this.txtRecipeName = new System.Windows.Forms.TextBox();
-            this.lblRecipeCode = new System.Windows.Forms.Label();
-            this.txtRecipeCode = new System.Windows.Forms.TextBox();
-            this.lblRecipeType = new System.Windows.Forms.Label();
-            this.txtRecipeType = new System.Windows.Forms.TextBox();
-            this.lblRecipeServing = new System.Windows.Forms.Label();
-            this.txtRecipeServing = new System.Windows.Forms.TextBox();
-            this.lblRecipeActive = new System.Windows.Forms.Label();
-            this.txtRecipeActive = new System.Windows.Forms.TextBox();
-            this.splitContainerRecipeDetail = new System.Windows.Forms.SplitContainer();
-            this.dgvRecipeNutrients = new System.Windows.Forms.DataGridView();
-            this.lblRecipeNutrients = new System.Windows.Forms.Label();
-            this.dgvRecipeComponents = new System.Windows.Forms.DataGridView();
-            this.lblRecipeComponents = new System.Windows.Forms.Label();
-            this.flowRecipeButtons = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnRefreshRecipe = new System.Windows.Forms.Button();
-            this.btnRegisterRecipe = new System.Windows.Forms.Button();
             this.tabMealPlans = new System.Windows.Forms.TabPage();
             this.splitContainerMealPlans = new System.Windows.Forms.SplitContainer();
             this.dgvMealPlans = new System.Windows.Forms.DataGridView();
@@ -180,7 +183,15 @@ namespace nutritionist
             this.lblMealType = new System.Windows.Forms.Label();
             this.cmbMealType = new System.Windows.Forms.ComboBox();
             this.lblMealRecipes = new System.Windows.Forms.Label();
-            this.lstMealRecipes = new System.Windows.Forms.ListBox();
+            this.splitMealSub = new System.Windows.Forms.SplitContainer();
+            this.dgvMealRecipes = new System.Windows.Forms.DataGridView();
+            this.dgvMealComponents = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.splitMealSub)).BeginInit();
+            this.splitMealSub.Panel1.SuspendLayout();
+            this.splitMealSub.Panel2.SuspendLayout();
+            this.splitMealSub.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMealRecipes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMealComponents)).BeginInit();
             this.lblMealNotes = new System.Windows.Forms.Label();
             this.txtMealNotes = new System.Windows.Forms.TextBox();
             this.flowMealButtons = new System.Windows.Forms.FlowLayoutPanel();
@@ -250,40 +261,50 @@ namespace nutritionist
             this.panelNav = new System.Windows.Forms.Panel();
             this.btnNavManagement = new System.Windows.Forms.Button();
             this.btnNavDashboard = new System.Windows.Forms.Button();
+            this.grpMenus = new System.Windows.Forms.GroupBox();
+            this.dgvMenus = new System.Windows.Forms.DataGridView();
+            this.grpStudents = new System.Windows.Forms.GroupBox();
+            this.dgvStudents = new System.Windows.Forms.DataGridView();
+            this.flowRecipeButtons = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnRefreshRecipe = new System.Windows.Forms.Button();
+            this.btnRegisterRecipe = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             this.panelWorkspace.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.tabDashboard.SuspendLayout();
+            this.layoutDashboard.SuspendLayout();
+            this.grpSummary.SuspendLayout();
+            this.grpTodayMeals.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTodayMeals)).BeginInit();
+            this.grpTodayRaw.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTodayRawNeeds)).BeginInit();
+            this.grpShortage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvShortageRaw)).BeginInit();
             this.grpMealLogs.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMealLogs)).BeginInit();
             this.grpAction.SuspendLayout();
-            this.grpMenus.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvMenus)).BeginInit();
-            this.grpStudents.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvStudents)).BeginInit();
-            this.grpSummary.SuspendLayout();
             this.tabManagement.SuspendLayout();
             this.tabControlManagement.SuspendLayout();
             this.tabRawMaterials.SuspendLayout();
-            this.panelRawToolbar.SuspendLayout();
-            this.flowRawCalorieFilter.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudRawCalorieMin)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudRawCalorieMax)).BeginInit();
-            this.flowRawNutrientFilters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerRawMaterials)).BeginInit();
             this.splitContainerRawMaterials.Panel1.SuspendLayout();
             this.splitContainerRawMaterials.Panel2.SuspendLayout();
             this.splitContainerRawMaterials.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRawMaterials)).BeginInit();
             this.grpRawDetail.SuspendLayout();
-            this.tableRawDetail.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvRawNutrients)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvRawComponents)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerRawDetail)).BeginInit();
             this.splitContainerRawDetail.Panel1.SuspendLayout();
             this.splitContainerRawDetail.Panel2.SuspendLayout();
             this.splitContainerRawDetail.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRawNutrients)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRawComponents)).BeginInit();
+            this.tableRawDetail.SuspendLayout();
             this.flowRawButtons.SuspendLayout();
+            this.panelRawToolbar.SuspendLayout();
+            this.flowRawCalorieFilter.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudRawCalorieMin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudRawCalorieMax)).BeginInit();
+            this.flowRawNutrientFilters.SuspendLayout();
             this.tabIngredients.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerIngredients)).BeginInit();
             this.splitContainerIngredients.Panel1.SuspendLayout();
@@ -302,19 +323,24 @@ namespace nutritionist
             this.grpNutrientDetail.SuspendLayout();
             this.tableNutrientDetail.SuspendLayout();
             this.tabRecipes.SuspendLayout();
-            this.panelRecipeToolbar.SuspendLayout();
-            this.flowRecipeCalorieFilter.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudRecipeCalorieMin)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudRecipeCalorieMax)).BeginInit();
-            this.flowRecipeNutrientFilters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerRecipes)).BeginInit();
             this.splitContainerRecipes.Panel1.SuspendLayout();
             this.splitContainerRecipes.Panel2.SuspendLayout();
             this.splitContainerRecipes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRecipes)).BeginInit();
             this.grpRecipeDetail.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerRecipeDetail)).BeginInit();
+            this.splitContainerRecipeDetail.Panel1.SuspendLayout();
+            this.splitContainerRecipeDetail.Panel2.SuspendLayout();
+            this.splitContainerRecipeDetail.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRecipeNutrients)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRecipeComponents)).BeginInit();
             this.tableRecipeDetail.SuspendLayout();
-            this.flowRecipeButtons.SuspendLayout();
+            this.panelRecipeToolbar.SuspendLayout();
+            this.flowRecipeCalorieFilter.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudRecipeCalorieMin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudRecipeCalorieMax)).BeginInit();
+            this.flowRecipeNutrientFilters.SuspendLayout();
             this.tabMealPlans.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMealPlans)).BeginInit();
             this.splitContainerMealPlans.Panel1.SuspendLayout();
@@ -362,6 +388,11 @@ namespace nutritionist
             ((System.ComponentModel.ISupportInitialize)(this.nudEvaluationScore)).BeginInit();
             this.flowEvaluationButtons.SuspendLayout();
             this.panelNav.SuspendLayout();
+            this.grpMenus.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMenus)).BeginInit();
+            this.grpStudents.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvStudents)).BeginInit();
+            this.flowRecipeButtons.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -388,17 +419,17 @@ namespace nutritionist
             this.menuFile.Size = new System.Drawing.Size(43, 20);
             this.menuFile.Text = "메뉴";
             // 
-            // menuAddRaw
-            // 
-            this.menuAddRaw.Name = "menuAddRaw";
-            this.menuAddRaw.Size = new System.Drawing.Size(166, 22);
-            this.menuAddRaw.Text = "원재료 등록";
-            // 
             // menuReload
             // 
             this.menuReload.Name = "menuReload";
             this.menuReload.Size = new System.Drawing.Size(166, 22);
             this.menuReload.Text = "새로고침";
+            // 
+            // menuAddRaw
+            // 
+            this.menuAddRaw.Name = "menuAddRaw";
+            this.menuAddRaw.Size = new System.Drawing.Size(166, 22);
+            this.menuAddRaw.Text = "원재료 등록";
             // 
             // menuOpenAdmin
             // 
@@ -434,7 +465,7 @@ namespace nutritionist
             this.tabMain.Controls.Add(this.tabDashboard);
             this.tabMain.Controls.Add(this.tabManagement);
             this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabMain.Font = new System.Drawing.Font("Malgun Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.tabMain.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.tabMain.ItemSize = new System.Drawing.Size(0, 1);
             this.tabMain.Location = new System.Drawing.Point(220, 0);
             this.tabMain.Margin = new System.Windows.Forms.Padding(0, 0, 3, 2);
@@ -451,11 +482,7 @@ namespace nutritionist
             // tabDashboard
             // 
             this.tabDashboard.BackColor = System.Drawing.Color.White;
-            this.tabDashboard.Controls.Add(this.grpMealLogs);
-            this.tabDashboard.Controls.Add(this.grpAction);
-            this.tabDashboard.Controls.Add(this.grpMenus);
-            this.tabDashboard.Controls.Add(this.grpStudents);
-            this.tabDashboard.Controls.Add(this.grpSummary);
+            this.tabDashboard.Controls.Add(this.layoutDashboard);
             this.tabDashboard.Location = new System.Drawing.Point(4, 5);
             this.tabDashboard.Margin = new System.Windows.Forms.Padding(0, 0, 3, 2);
             this.tabDashboard.Name = "tabDashboard";
@@ -464,17 +491,231 @@ namespace nutritionist
             this.tabDashboard.TabIndex = 0;
             this.tabDashboard.Text = "메인 현황";
             // 
+            // layoutDashboard
+            // 
+            this.layoutDashboard.ColumnCount = 2;
+            this.layoutDashboard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.layoutDashboard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.layoutDashboard.Controls.Add(this.grpSummary, 0, 0);
+            this.layoutDashboard.Controls.Add(this.grpTodayMeals, 0, 1);
+            this.layoutDashboard.Controls.Add(this.grpTodayRaw, 1, 1);
+            this.layoutDashboard.Controls.Add(this.grpShortage, 0, 2);
+            this.layoutDashboard.Controls.Add(this.grpMealLogs, 1, 2);
+            this.layoutDashboard.Controls.Add(this.grpAction, 0, 3);
+            this.layoutDashboard.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.layoutDashboard.Location = new System.Drawing.Point(3, 2);
+            this.layoutDashboard.Margin = new System.Windows.Forms.Padding(0);
+            this.layoutDashboard.Name = "layoutDashboard";
+            this.layoutDashboard.RowCount = 4;
+            this.layoutDashboard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.layoutDashboard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 38F));
+            this.layoutDashboard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 38F));
+            this.layoutDashboard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+            this.layoutDashboard.Size = new System.Drawing.Size(948, 483);
+            this.layoutDashboard.TabIndex = 6;
+            // 
+            // grpSummary
+            // 
+            this.layoutDashboard.SetColumnSpan(this.grpSummary, 2);
+            this.grpSummary.Controls.Add(this.lblCurrentServeDate);
+            this.grpSummary.Controls.Add(this.lblServeDateTitle);
+            this.grpSummary.Controls.Add(this.lblNotMealValue);
+            this.grpSummary.Controls.Add(this.lblNotMeal);
+            this.grpSummary.Controls.Add(this.lblTodayMealValue);
+            this.grpSummary.Controls.Add(this.lblTodayMeal);
+            this.grpSummary.Controls.Add(this.lblTotalStudentValue);
+            this.grpSummary.Controls.Add(this.lblTotalStudent);
+            this.grpSummary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpSummary.Location = new System.Drawing.Point(3, 2);
+            this.grpSummary.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grpSummary.Name = "grpSummary";
+            this.grpSummary.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grpSummary.Size = new System.Drawing.Size(942, 76);
+            this.grpSummary.TabIndex = 1;
+            this.grpSummary.TabStop = false;
+            this.grpSummary.Text = "급식 현황";
+            // 
+            // lblCurrentServeDate
+            // 
+            this.lblCurrentServeDate.AutoSize = true;
+            this.lblCurrentServeDate.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold);
+            this.lblCurrentServeDate.Location = new System.Drawing.Point(98, 20);
+            this.lblCurrentServeDate.Name = "lblCurrentServeDate";
+            this.lblCurrentServeDate.Size = new System.Drawing.Size(95, 19);
+            this.lblCurrentServeDate.TabIndex = 7;
+            this.lblCurrentServeDate.Text = "yyyy-MM-dd";
+            // 
+            // lblServeDateTitle
+            // 
+            this.lblServeDateTitle.AutoSize = true;
+            this.lblServeDateTitle.Location = new System.Drawing.Point(18, 20);
+            this.lblServeDateTitle.Name = "lblServeDateTitle";
+            this.lblServeDateTitle.Size = new System.Drawing.Size(73, 19);
+            this.lblServeDateTitle.TabIndex = 6;
+            this.lblServeDateTitle.Text = "기준 일자:";
+            // 
+            // lblNotMealValue
+            // 
+            this.lblNotMealValue.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold);
+            this.lblNotMealValue.Location = new System.Drawing.Point(722, 39);
+            this.lblNotMealValue.Name = "lblNotMealValue";
+            this.lblNotMealValue.Size = new System.Drawing.Size(24, 23);
+            this.lblNotMealValue.TabIndex = 5;
+            this.lblNotMealValue.Text = "0";
+            this.lblNotMealValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblNotMeal
+            // 
+            this.lblNotMeal.AutoSize = true;
+            this.lblNotMeal.Location = new System.Drawing.Point(604, 41);
+            this.lblNotMeal.Name = "lblNotMeal";
+            this.lblNotMeal.Size = new System.Drawing.Size(120, 19);
+            this.lblNotMeal.TabIndex = 4;
+            this.lblNotMeal.Text = "발주 대기 원재료:";
+            // 
+            // lblTodayMealValue
+            // 
+            this.lblTodayMealValue.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold);
+            this.lblTodayMealValue.Location = new System.Drawing.Point(456, 40);
+            this.lblTodayMealValue.Name = "lblTodayMealValue";
+            this.lblTodayMealValue.Size = new System.Drawing.Size(40, 23);
+            this.lblTodayMealValue.TabIndex = 3;
+            this.lblTodayMealValue.Text = "0";
+            this.lblTodayMealValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblTodayMeal
+            // 
+            this.lblTodayMeal.AutoSize = true;
+            this.lblTodayMeal.Location = new System.Drawing.Point(346, 41);
+            this.lblTodayMeal.Name = "lblTodayMeal";
+            this.lblTodayMeal.Size = new System.Drawing.Size(111, 19);
+            this.lblTodayMeal.TabIndex = 2;
+            this.lblTodayMeal.Text = "승인 대기 식단 :";
+            // 
+            // lblTotalStudentValue
+            // 
+            this.lblTotalStudentValue.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold);
+            this.lblTotalStudentValue.Location = new System.Drawing.Point(239, 40);
+            this.lblTotalStudentValue.Name = "lblTotalStudentValue";
+            this.lblTotalStudentValue.Size = new System.Drawing.Size(40, 23);
+            this.lblTotalStudentValue.TabIndex = 1;
+            this.lblTotalStudentValue.Text = "0";
+            this.lblTotalStudentValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblTotalStudent
+            // 
+            this.lblTotalStudent.AutoSize = true;
+            this.lblTotalStudent.Location = new System.Drawing.Point(136, 41);
+            this.lblTotalStudent.Name = "lblTotalStudent";
+            this.lblTotalStudent.Size = new System.Drawing.Size(100, 19);
+            this.lblTotalStudent.TabIndex = 0;
+            this.lblTotalStudent.Text = "오늘 식단(건) :";
+            // 
+            // grpTodayMeals
+            // 
+            this.grpTodayMeals.Controls.Add(this.dgvTodayMeals);
+            this.grpTodayMeals.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpTodayMeals.Location = new System.Drawing.Point(3, 82);
+            this.grpTodayMeals.Margin = new System.Windows.Forms.Padding(3, 2, 6, 2);
+            this.grpTodayMeals.Name = "grpTodayMeals";
+            this.grpTodayMeals.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grpTodayMeals.Size = new System.Drawing.Size(465, 152);
+            this.grpTodayMeals.TabIndex = 1;
+            this.grpTodayMeals.TabStop = false;
+            this.grpTodayMeals.Text = "오늘의 식단";
+            // 
+            // dgvTodayMeals
+            // 
+            this.dgvTodayMeals.AllowUserToAddRows = false;
+            this.dgvTodayMeals.AllowUserToDeleteRows = false;
+            this.dgvTodayMeals.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvTodayMeals.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTodayMeals.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvTodayMeals.Location = new System.Drawing.Point(3, 20);
+            this.dgvTodayMeals.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dgvTodayMeals.MultiSelect = false;
+            this.dgvTodayMeals.Name = "dgvTodayMeals";
+            this.dgvTodayMeals.ReadOnly = true;
+            this.dgvTodayMeals.RowHeadersWidth = 51;
+            this.dgvTodayMeals.RowTemplate.Height = 27;
+            this.dgvTodayMeals.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvTodayMeals.Size = new System.Drawing.Size(459, 130);
+            this.dgvTodayMeals.TabIndex = 0;
+            // 
+            // grpTodayRaw
+            // 
+            this.grpTodayRaw.Controls.Add(this.dgvTodayRawNeeds);
+            this.grpTodayRaw.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpTodayRaw.Location = new System.Drawing.Point(480, 82);
+            this.grpTodayRaw.Margin = new System.Windows.Forms.Padding(6, 2, 3, 2);
+            this.grpTodayRaw.Name = "grpTodayRaw";
+            this.grpTodayRaw.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grpTodayRaw.Size = new System.Drawing.Size(465, 152);
+            this.grpTodayRaw.TabIndex = 2;
+            this.grpTodayRaw.TabStop = false;
+            this.grpTodayRaw.Text = "오늘 필요한 원재료";
+            // 
+            // dgvTodayRawNeeds
+            // 
+            this.dgvTodayRawNeeds.AllowUserToAddRows = false;
+            this.dgvTodayRawNeeds.AllowUserToDeleteRows = false;
+            this.dgvTodayRawNeeds.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvTodayRawNeeds.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTodayRawNeeds.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvTodayRawNeeds.Location = new System.Drawing.Point(3, 20);
+            this.dgvTodayRawNeeds.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dgvTodayRawNeeds.MultiSelect = false;
+            this.dgvTodayRawNeeds.Name = "dgvTodayRawNeeds";
+            this.dgvTodayRawNeeds.ReadOnly = true;
+            this.dgvTodayRawNeeds.RowHeadersWidth = 51;
+            this.dgvTodayRawNeeds.RowTemplate.Height = 27;
+            this.dgvTodayRawNeeds.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvTodayRawNeeds.Size = new System.Drawing.Size(459, 130);
+            this.dgvTodayRawNeeds.TabIndex = 0;
+            // 
+            // grpShortage
+            // 
+            this.grpShortage.Controls.Add(this.dgvShortageRaw);
+            this.grpShortage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpShortage.Location = new System.Drawing.Point(3, 238);
+            this.grpShortage.Margin = new System.Windows.Forms.Padding(3, 2, 6, 2);
+            this.grpShortage.Name = "grpShortage";
+            this.grpShortage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grpShortage.Size = new System.Drawing.Size(465, 152);
+            this.grpShortage.TabIndex = 3;
+            this.grpShortage.TabStop = false;
+            this.grpShortage.Text = "발주 대기 / 부족 원재료";
+            // 
+            // dgvShortageRaw
+            // 
+            this.dgvShortageRaw.AllowUserToAddRows = false;
+            this.dgvShortageRaw.AllowUserToDeleteRows = false;
+            this.dgvShortageRaw.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvShortageRaw.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvShortageRaw.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvShortageRaw.Location = new System.Drawing.Point(3, 20);
+            this.dgvShortageRaw.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dgvShortageRaw.MultiSelect = false;
+            this.dgvShortageRaw.Name = "dgvShortageRaw";
+            this.dgvShortageRaw.ReadOnly = true;
+            this.dgvShortageRaw.RowHeadersWidth = 51;
+            this.dgvShortageRaw.RowTemplate.Height = 27;
+            this.dgvShortageRaw.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvShortageRaw.Size = new System.Drawing.Size(459, 130);
+            this.dgvShortageRaw.TabIndex = 0;
+            // 
             // grpMealLogs
             // 
             this.grpMealLogs.Controls.Add(this.dgvMealLogs);
-            this.grpMealLogs.Location = new System.Drawing.Point(9, 296);
-            this.grpMealLogs.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grpMealLogs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpMealLogs.Location = new System.Drawing.Point(480, 238);
+            this.grpMealLogs.Margin = new System.Windows.Forms.Padding(6, 2, 3, 2);
             this.grpMealLogs.Name = "grpMealLogs";
             this.grpMealLogs.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpMealLogs.Size = new System.Drawing.Size(928, 168);
-            this.grpMealLogs.TabIndex = 5;
+            this.grpMealLogs.Size = new System.Drawing.Size(465, 152);
+            this.grpMealLogs.TabIndex = 4;
             this.grpMealLogs.TabStop = false;
-            this.grpMealLogs.Text = "식단 계획";
+            this.grpMealLogs.Text = "식단 계획 승인 현황";
             // 
             // dgvMealLogs
             // 
@@ -491,217 +732,96 @@ namespace nutritionist
             this.dgvMealLogs.RowHeadersWidth = 51;
             this.dgvMealLogs.RowTemplate.Height = 27;
             this.dgvMealLogs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMealLogs.Size = new System.Drawing.Size(922, 146);
+            this.dgvMealLogs.Size = new System.Drawing.Size(459, 130);
             this.dgvMealLogs.TabIndex = 0;
             // 
             // grpAction
             // 
+            this.layoutDashboard.SetColumnSpan(this.grpAction, 2);
+            this.grpAction.Controls.Add(this.btnMarkServed);
             this.grpAction.Controls.Add(this.btnCancelMeal);
             this.grpAction.Controls.Add(this.btnServeMeal);
             this.grpAction.Controls.Add(this.txtMenuCode);
             this.grpAction.Controls.Add(this.lblMenuCode);
             this.grpAction.Controls.Add(this.txtStudentId);
             this.grpAction.Controls.Add(this.lblStudentId);
-            this.grpAction.Location = new System.Drawing.Point(656, 92);
+            this.grpAction.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpAction.Location = new System.Drawing.Point(3, 394);
             this.grpAction.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpAction.Name = "grpAction";
             this.grpAction.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpAction.Size = new System.Drawing.Size(280, 184);
-            this.grpAction.TabIndex = 4;
+            this.grpAction.Size = new System.Drawing.Size(942, 87);
+            this.grpAction.TabIndex = 5;
             this.grpAction.TabStop = false;
             this.grpAction.Text = "업무 작업";
             // 
+            // btnMarkServed
+            // 
+            this.btnMarkServed.Location = new System.Drawing.Point(808, 18);
+            this.btnMarkServed.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnMarkServed.Name = "btnMarkServed";
+            this.btnMarkServed.Size = new System.Drawing.Size(104, 30);
+            this.btnMarkServed.TabIndex = 6;
+            this.btnMarkServed.Text = "배식 완료 →";
+            this.btnMarkServed.UseVisualStyleBackColor = true;
+            // 
             // btnCancelMeal
             // 
-            this.btnCancelMeal.Location = new System.Drawing.Point(149, 104);
+            this.btnCancelMeal.Location = new System.Drawing.Point(532, 18);
             this.btnCancelMeal.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCancelMeal.Name = "btnCancelMeal";
-            this.btnCancelMeal.Size = new System.Drawing.Size(96, 32);
+            this.btnCancelMeal.Size = new System.Drawing.Size(132, 30);
             this.btnCancelMeal.TabIndex = 5;
-            this.btnCancelMeal.Text = "발주 요청 등록";
+            this.btnCancelMeal.Text = "발주 승인/등록";
             this.btnCancelMeal.UseVisualStyleBackColor = true;
             // 
             // btnServeMeal
             // 
-            this.btnServeMeal.Location = new System.Drawing.Point(26, 104);
+            this.btnServeMeal.Location = new System.Drawing.Point(381, 18);
             this.btnServeMeal.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnServeMeal.Name = "btnServeMeal";
-            this.btnServeMeal.Size = new System.Drawing.Size(96, 32);
+            this.btnServeMeal.Size = new System.Drawing.Size(132, 30);
             this.btnServeMeal.TabIndex = 4;
-            this.btnServeMeal.Text = "식단 계획 등록";
+            this.btnServeMeal.Text = "식단 승인/등록";
             this.btnServeMeal.UseVisualStyleBackColor = true;
             // 
             // txtMenuCode
             // 
-            this.txtMenuCode.Location = new System.Drawing.Point(105, 60);
+            this.txtMenuCode.Location = new System.Drawing.Point(240, 20);
             this.txtMenuCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtMenuCode.Name = "txtMenuCode";
             this.txtMenuCode.ReadOnly = true;
-            this.txtMenuCode.Size = new System.Drawing.Size(149, 25);
+            this.txtMenuCode.Size = new System.Drawing.Size(130, 25);
             this.txtMenuCode.TabIndex = 3;
             this.txtMenuCode.TabStop = false;
             // 
             // lblMenuCode
             // 
             this.lblMenuCode.AutoSize = true;
-            this.lblMenuCode.Location = new System.Drawing.Point(13, 64);
+            this.lblMenuCode.Location = new System.Drawing.Point(158, 23);
             this.lblMenuCode.Name = "lblMenuCode";
-            this.lblMenuCode.Size = new System.Drawing.Size(106, 19);
+            this.lblMenuCode.Size = new System.Drawing.Size(73, 19);
             this.lblMenuCode.TabIndex = 2;
-            this.lblMenuCode.Text = "선택 식단 계획:";
+            this.lblMenuCode.Text = "식단 계획:";
             // 
             // txtStudentId
             // 
-            this.txtStudentId.Location = new System.Drawing.Point(105, 28);
+            this.txtStudentId.Location = new System.Drawing.Point(90, 20);
             this.txtStudentId.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtStudentId.Name = "txtStudentId";
             this.txtStudentId.ReadOnly = true;
-            this.txtStudentId.Size = new System.Drawing.Size(149, 25);
+            this.txtStudentId.Size = new System.Drawing.Size(60, 25);
             this.txtStudentId.TabIndex = 1;
             this.txtStudentId.TabStop = false;
             // 
             // lblStudentId
             // 
             this.lblStudentId.AutoSize = true;
-            this.lblStudentId.Location = new System.Drawing.Point(13, 32);
+            this.lblStudentId.Location = new System.Drawing.Point(10, 23);
             this.lblStudentId.Name = "lblStudentId";
-            this.lblStudentId.Size = new System.Drawing.Size(87, 19);
+            this.lblStudentId.Size = new System.Drawing.Size(73, 19);
             this.lblStudentId.TabIndex = 0;
-            this.lblStudentId.Text = "선택 원재료:";
-            // 
-            // grpMenus
-            // 
-            this.grpMenus.Controls.Add(this.dgvMenus);
-            this.grpMenus.Location = new System.Drawing.Point(376, 92);
-            this.grpMenus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpMenus.Name = "grpMenus";
-            this.grpMenus.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpMenus.Size = new System.Drawing.Size(262, 184);
-            this.grpMenus.TabIndex = 3;
-            this.grpMenus.TabStop = false;
-            this.grpMenus.Text = "최종 메뉴";
-            // 
-            // dgvMenus
-            // 
-            this.dgvMenus.AllowUserToAddRows = false;
-            this.dgvMenus.AllowUserToDeleteRows = false;
-            this.dgvMenus.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvMenus.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMenus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvMenus.Location = new System.Drawing.Point(3, 20);
-            this.dgvMenus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dgvMenus.MultiSelect = false;
-            this.dgvMenus.Name = "dgvMenus";
-            this.dgvMenus.ReadOnly = true;
-            this.dgvMenus.RowHeadersWidth = 51;
-            this.dgvMenus.RowTemplate.Height = 27;
-            this.dgvMenus.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMenus.Size = new System.Drawing.Size(256, 162);
-            this.dgvMenus.TabIndex = 0;
-            // 
-            // grpStudents
-            // 
-            this.grpStudents.Controls.Add(this.dgvStudents);
-            this.grpStudents.Location = new System.Drawing.Point(9, 92);
-            this.grpStudents.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpStudents.Name = "grpStudents";
-            this.grpStudents.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpStudents.Size = new System.Drawing.Size(350, 184);
-            this.grpStudents.TabIndex = 2;
-            this.grpStudents.TabStop = false;
-            this.grpStudents.Text = "원재료 목록";
-            // 
-            // dgvStudents
-            // 
-            this.dgvStudents.AllowUserToAddRows = false;
-            this.dgvStudents.AllowUserToDeleteRows = false;
-            this.dgvStudents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvStudents.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvStudents.Location = new System.Drawing.Point(3, 20);
-            this.dgvStudents.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dgvStudents.MultiSelect = false;
-            this.dgvStudents.Name = "dgvStudents";
-            this.dgvStudents.ReadOnly = true;
-            this.dgvStudents.RowHeadersWidth = 51;
-            this.dgvStudents.RowTemplate.Height = 27;
-            this.dgvStudents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvStudents.Size = new System.Drawing.Size(344, 162);
-            this.dgvStudents.TabIndex = 0;
-            // 
-            // grpSummary
-            // 
-            this.grpSummary.Controls.Add(this.lblNotMealValue);
-            this.grpSummary.Controls.Add(this.lblNotMeal);
-            this.grpSummary.Controls.Add(this.lblTodayMealValue);
-            this.grpSummary.Controls.Add(this.lblTodayMeal);
-            this.grpSummary.Controls.Add(this.lblTotalStudentValue);
-            this.grpSummary.Controls.Add(this.lblTotalStudent);
-            this.grpSummary.Location = new System.Drawing.Point(9, 8);
-            this.grpSummary.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpSummary.Name = "grpSummary";
-            this.grpSummary.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpSummary.Size = new System.Drawing.Size(928, 72);
-            this.grpSummary.TabIndex = 1;
-            this.grpSummary.TabStop = false;
-            this.grpSummary.Text = "급식 현황";
-            // 
-            // lblNotMealValue
-            // 
-            this.lblNotMealValue.AutoSize = true;
-            this.lblNotMealValue.Font = new System.Drawing.Font("Malgun Gothic", 10F, System.Drawing.FontStyle.Bold);
-            this.lblNotMealValue.Location = new System.Drawing.Point(542, 32);
-            this.lblNotMealValue.Name = "lblNotMealValue";
-            this.lblNotMealValue.Size = new System.Drawing.Size(17, 19);
-            this.lblNotMealValue.TabIndex = 5;
-            this.lblNotMealValue.Text = "0";
-            // 
-            // lblNotMeal
-            // 
-            this.lblNotMeal.AutoSize = true;
-            this.lblNotMeal.Location = new System.Drawing.Point(438, 35);
-            this.lblNotMeal.Name = "lblNotMeal";
-            this.lblNotMeal.Size = new System.Drawing.Size(78, 19);
-            this.lblNotMeal.TabIndex = 4;
-            this.lblNotMeal.Text = "대기 발주 :";
-            // 
-            // lblTodayMealValue
-            // 
-            this.lblTodayMealValue.AutoSize = true;
-            this.lblTodayMealValue.Font = new System.Drawing.Font("Malgun Gothic", 10F, System.Drawing.FontStyle.Bold);
-            this.lblTodayMealValue.Location = new System.Drawing.Point(315, 32);
-            this.lblTodayMealValue.Name = "lblTodayMealValue";
-            this.lblTodayMealValue.Size = new System.Drawing.Size(17, 19);
-            this.lblTodayMealValue.TabIndex = 3;
-            this.lblTodayMealValue.Text = "0";
-            // 
-            // lblTodayMeal
-            // 
-            this.lblTodayMeal.AutoSize = true;
-            this.lblTodayMeal.Location = new System.Drawing.Point(219, 35);
-            this.lblTodayMeal.Name = "lblTodayMeal";
-            this.lblTodayMeal.Size = new System.Drawing.Size(78, 19);
-            this.lblTodayMeal.TabIndex = 2;
-            this.lblTodayMeal.Text = "등록 식단 :";
-            // 
-            // lblTotalStudentValue
-            // 
-            this.lblTotalStudentValue.AutoSize = true;
-            this.lblTotalStudentValue.Font = new System.Drawing.Font("Malgun Gothic", 10F, System.Drawing.FontStyle.Bold);
-            this.lblTotalStudentValue.Location = new System.Drawing.Point(96, 32);
-            this.lblTotalStudentValue.Name = "lblTotalStudentValue";
-            this.lblTotalStudentValue.Size = new System.Drawing.Size(17, 19);
-            this.lblTotalStudentValue.TabIndex = 1;
-            this.lblTotalStudentValue.Text = "0";
-            // 
-            // lblTotalStudent
-            // 
-            this.lblTotalStudent.AutoSize = true;
-            this.lblTotalStudent.Location = new System.Drawing.Point(18, 35);
-            this.lblTotalStudent.Name = "lblTotalStudent";
-            this.lblTotalStudent.Size = new System.Drawing.Size(92, 19);
-            this.lblTotalStudent.TabIndex = 0;
-            this.lblTotalStudent.Text = "등록 원재료 :";
+            this.lblStudentId.Text = "기준 일자:";
             // 
             // tabManagement
             // 
@@ -750,7 +870,7 @@ namespace nutritionist
             // splitContainerRawMaterials
             // 
             this.splitContainerRawMaterials.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerRawMaterials.Location = new System.Drawing.Point(3, 48);
+            this.splitContainerRawMaterials.Location = new System.Drawing.Point(3, 98);
             this.splitContainerRawMaterials.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.splitContainerRawMaterials.Name = "splitContainerRawMaterials";
             // 
@@ -762,9 +882,19 @@ namespace nutritionist
             // splitContainerRawMaterials.Panel2
             // 
             this.splitContainerRawMaterials.Panel2.Controls.Add(this.grpRawDetail);
-            this.splitContainerRawMaterials.Size = new System.Drawing.Size(934, 403);
+            this.splitContainerRawMaterials.Size = new System.Drawing.Size(934, 353);
             this.splitContainerRawMaterials.SplitterDistance = 472;
             this.splitContainerRawMaterials.TabIndex = 1;
+            // 
+            // tvRawMaterials
+            // 
+            this.tvRawMaterials.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tvRawMaterials.HideSelection = false;
+            this.tvRawMaterials.Location = new System.Drawing.Point(0, 0);
+            this.tvRawMaterials.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tvRawMaterials.Name = "tvRawMaterials";
+            this.tvRawMaterials.Size = new System.Drawing.Size(472, 353);
+            this.tvRawMaterials.TabIndex = 1;
             // 
             // dgvRawMaterials
             // 
@@ -776,18 +906,8 @@ namespace nutritionist
             this.dgvRawMaterials.Name = "dgvRawMaterials";
             this.dgvRawMaterials.RowHeadersWidth = 51;
             this.dgvRawMaterials.RowTemplate.Height = 27;
-            this.dgvRawMaterials.Size = new System.Drawing.Size(472, 401);
+            this.dgvRawMaterials.Size = new System.Drawing.Size(472, 353);
             this.dgvRawMaterials.TabIndex = 0;
-            // 
-            // tvRawMaterials
-            // 
-            this.tvRawMaterials.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tvRawMaterials.HideSelection = false;
-            this.tvRawMaterials.Location = new System.Drawing.Point(0, 0);
-            this.tvRawMaterials.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tvRawMaterials.Name = "tvRawMaterials";
-            this.tvRawMaterials.Size = new System.Drawing.Size(472, 401);
-            this.tvRawMaterials.TabIndex = 1;
             // 
             // grpRawDetail
             // 
@@ -799,10 +919,91 @@ namespace nutritionist
             this.grpRawDetail.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpRawDetail.Name = "grpRawDetail";
             this.grpRawDetail.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpRawDetail.Size = new System.Drawing.Size(458, 403);
+            this.grpRawDetail.Size = new System.Drawing.Size(458, 353);
             this.grpRawDetail.TabIndex = 0;
             this.grpRawDetail.TabStop = false;
             this.grpRawDetail.Text = "상세 정보";
+            // 
+            // splitContainerRawDetail
+            // 
+            this.splitContainerRawDetail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerRawDetail.Location = new System.Drawing.Point(3, 272);
+            this.splitContainerRawDetail.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.splitContainerRawDetail.Name = "splitContainerRawDetail";
+            this.splitContainerRawDetail.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainerRawDetail.Panel1
+            // 
+            this.splitContainerRawDetail.Panel1.Controls.Add(this.dgvRawNutrients);
+            this.splitContainerRawDetail.Panel1.Controls.Add(this.lblRawNutrients);
+            // 
+            // splitContainerRawDetail.Panel2
+            // 
+            this.splitContainerRawDetail.Panel2.Controls.Add(this.dgvRawComponents);
+            this.splitContainerRawDetail.Panel2.Controls.Add(this.lblRawComponents);
+            this.splitContainerRawDetail.Size = new System.Drawing.Size(452, 16);
+            this.splitContainerRawDetail.SplitterDistance = 34;
+            this.splitContainerRawDetail.TabIndex = 18;
+            // 
+            // dgvRawNutrients
+            // 
+            this.dgvRawNutrients.AllowUserToAddRows = false;
+            this.dgvRawNutrients.AllowUserToDeleteRows = false;
+            this.dgvRawNutrients.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvRawNutrients.BackgroundColor = System.Drawing.Color.White;
+            this.dgvRawNutrients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRawNutrients.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvRawNutrients.Location = new System.Drawing.Point(0, 30);
+            this.dgvRawNutrients.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dgvRawNutrients.MultiSelect = false;
+            this.dgvRawNutrients.Name = "dgvRawNutrients";
+            this.dgvRawNutrients.ReadOnly = true;
+            this.dgvRawNutrients.RowHeadersVisible = false;
+            this.dgvRawNutrients.RowHeadersWidth = 51;
+            this.dgvRawNutrients.RowTemplate.Height = 27;
+            this.dgvRawNutrients.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvRawNutrients.Size = new System.Drawing.Size(452, 4);
+            this.dgvRawNutrients.TabIndex = 15;
+            // 
+            // lblRawNutrients
+            // 
+            this.lblRawNutrients.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblRawNutrients.Location = new System.Drawing.Point(0, 0);
+            this.lblRawNutrients.Name = "lblRawNutrients";
+            this.lblRawNutrients.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.lblRawNutrients.Size = new System.Drawing.Size(452, 30);
+            this.lblRawNutrients.TabIndex = 14;
+            this.lblRawNutrients.Text = "영양소 정보";
+            // 
+            // dgvRawComponents
+            // 
+            this.dgvRawComponents.AllowUserToAddRows = false;
+            this.dgvRawComponents.AllowUserToDeleteRows = false;
+            this.dgvRawComponents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvRawComponents.BackgroundColor = System.Drawing.Color.White;
+            this.dgvRawComponents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRawComponents.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvRawComponents.Location = new System.Drawing.Point(0, 30);
+            this.dgvRawComponents.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dgvRawComponents.MultiSelect = false;
+            this.dgvRawComponents.Name = "dgvRawComponents";
+            this.dgvRawComponents.ReadOnly = true;
+            this.dgvRawComponents.RowHeadersVisible = false;
+            this.dgvRawComponents.RowHeadersWidth = 51;
+            this.dgvRawComponents.RowTemplate.Height = 27;
+            this.dgvRawComponents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvRawComponents.Size = new System.Drawing.Size(452, 2);
+            this.dgvRawComponents.TabIndex = 17;
+            // 
+            // lblRawComponents
+            // 
+            this.lblRawComponents.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblRawComponents.Location = new System.Drawing.Point(0, 0);
+            this.lblRawComponents.Name = "lblRawComponents";
+            this.lblRawComponents.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.lblRawComponents.Size = new System.Drawing.Size(452, 30);
+            this.lblRawComponents.TabIndex = 16;
+            this.lblRawComponents.Text = "포함 원재료";
             // 
             // tableRawDetail
             // 
@@ -837,27 +1038,6 @@ namespace nutritionist
             this.tableRawDetail.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
             this.tableRawDetail.Size = new System.Drawing.Size(452, 252);
             this.tableRawDetail.TabIndex = 0;
-            // 
-            // splitContainerRawDetail
-            // 
-            this.splitContainerRawDetail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerRawDetail.Location = new System.Drawing.Point(3, 272);
-            this.splitContainerRawDetail.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.splitContainerRawDetail.Name = "splitContainerRawDetail";
-            this.splitContainerRawDetail.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainerRawDetail.Panel1
-            // 
-            this.splitContainerRawDetail.Panel1.Controls.Add(this.dgvRawNutrients);
-            this.splitContainerRawDetail.Panel1.Controls.Add(this.lblRawNutrients);
-            // 
-            // splitContainerRawDetail.Panel2
-            // 
-            this.splitContainerRawDetail.Panel2.Controls.Add(this.dgvRawComponents);
-            this.splitContainerRawDetail.Panel2.Controls.Add(this.lblRawComponents);
-            this.splitContainerRawDetail.Size = new System.Drawing.Size(452, 131);
-            this.splitContainerRawDetail.SplitterDistance = 65;
-            this.splitContainerRawDetail.TabIndex = 18;
             // 
             // lblRawDetailName
             // 
@@ -999,75 +1179,13 @@ namespace nutritionist
             this.txtRawDetailActive.Size = new System.Drawing.Size(326, 25);
             this.txtRawDetailActive.TabIndex = 13;
             // 
-            // lblRawNutrients
-            // 
-            // lblRawNutrients
-            // 
-            this.lblRawNutrients.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblRawNutrients.Location = new System.Drawing.Point(0, 0);
-            this.lblRawNutrients.Name = "lblRawNutrients";
-            this.lblRawNutrients.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
-            this.lblRawNutrients.Size = new System.Drawing.Size(452, 30);
-            this.lblRawNutrients.TabIndex = 14;
-            this.lblRawNutrients.Text = "영양소 정보";
-            // 
-            // dgvRawNutrients
-            // 
-            this.dgvRawNutrients.AllowUserToAddRows = false;
-            this.dgvRawNutrients.AllowUserToDeleteRows = false;
-            this.dgvRawNutrients.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvRawNutrients.BackgroundColor = System.Drawing.Color.White;
-            this.dgvRawNutrients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRawNutrients.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvRawNutrients.Location = new System.Drawing.Point(0, 30);
-            this.dgvRawNutrients.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dgvRawNutrients.MultiSelect = false;
-            this.dgvRawNutrients.Name = "dgvRawNutrients";
-            this.dgvRawNutrients.ReadOnly = true;
-            this.dgvRawNutrients.RowHeadersVisible = false;
-            this.dgvRawNutrients.RowHeadersWidth = 51;
-            this.dgvRawNutrients.RowTemplate.Height = 27;
-            this.dgvRawNutrients.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvRawNutrients.Size = new System.Drawing.Size(452, 158);
-            this.dgvRawNutrients.TabIndex = 15;
-            // 
-            // lblRawComponents
-            // 
-            this.lblRawComponents.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblRawComponents.Location = new System.Drawing.Point(0, 0);
-            this.lblRawComponents.Name = "lblRawComponents";
-            this.lblRawComponents.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
-            this.lblRawComponents.Size = new System.Drawing.Size(452, 30);
-            this.lblRawComponents.TabIndex = 16;
-            this.lblRawComponents.Text = "포함 원재료";
-            // 
-            // dgvRawComponents
-            // 
-            this.dgvRawComponents.AllowUserToAddRows = false;
-            this.dgvRawComponents.AllowUserToDeleteRows = false;
-            this.dgvRawComponents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvRawComponents.BackgroundColor = System.Drawing.Color.White;
-            this.dgvRawComponents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRawComponents.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvRawComponents.Location = new System.Drawing.Point(0, 30);
-            this.dgvRawComponents.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dgvRawComponents.MultiSelect = false;
-            this.dgvRawComponents.Name = "dgvRawComponents";
-            this.dgvRawComponents.ReadOnly = true;
-            this.dgvRawComponents.RowHeadersVisible = false;
-            this.dgvRawComponents.RowHeadersWidth = 51;
-            this.dgvRawComponents.RowTemplate.Height = 27;
-            this.dgvRawComponents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvRawComponents.Size = new System.Drawing.Size(452, 145);
-            this.dgvRawComponents.TabIndex = 17;
-            // 
             // flowRawButtons
             // 
             this.flowRawButtons.Controls.Add(this.btnRawAdd);
             this.flowRawButtons.Controls.Add(this.btnRawRefresh);
             this.flowRawButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.flowRawButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowRawButtons.Location = new System.Drawing.Point(3, 336);
+            this.flowRawButtons.Location = new System.Drawing.Point(3, 288);
             this.flowRawButtons.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.flowRawButtons.Name = "flowRawButtons";
             this.flowRawButtons.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
@@ -1076,7 +1194,7 @@ namespace nutritionist
             // 
             // btnRawAdd
             // 
-            this.btnRawAdd.Location = new System.Drawing.Point(240, 6);
+            this.btnRawAdd.Location = new System.Drawing.Point(345, 6);
             this.btnRawAdd.Margin = new System.Windows.Forms.Padding(9, 2, 0, 2);
             this.btnRawAdd.Name = "btnRawAdd";
             this.btnRawAdd.Size = new System.Drawing.Size(107, 28);
@@ -1086,7 +1204,7 @@ namespace nutritionist
             // 
             // btnRawRefresh
             // 
-            this.btnRawRefresh.Location = new System.Drawing.Point(356, 6);
+            this.btnRawRefresh.Location = new System.Drawing.Point(249, 6);
             this.btnRawRefresh.Margin = new System.Windows.Forms.Padding(9, 2, 0, 2);
             this.btnRawRefresh.Name = "btnRawRefresh";
             this.btnRawRefresh.Size = new System.Drawing.Size(87, 28);
@@ -1110,64 +1228,6 @@ namespace nutritionist
             this.panelRawToolbar.Size = new System.Drawing.Size(934, 96);
             this.panelRawToolbar.TabIndex = 0;
             // 
-            // flowRawNutrientFilters
-            // 
-            this.flowRawNutrientFilters.AutoSize = true;
-            this.flowRawNutrientFilters.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowRawNutrientFilters.Controls.Add(this.lblRawNutrientFilter);
-            this.flowRawNutrientFilters.Controls.Add(this.chkRawNutrientProtein);
-            this.flowRawNutrientFilters.Controls.Add(this.chkRawNutrientFat);
-            this.flowRawNutrientFilters.Controls.Add(this.chkRawNutrientCarb);
-            this.flowRawNutrientFilters.Location = new System.Drawing.Point(8, 40);
-            this.flowRawNutrientFilters.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.flowRawNutrientFilters.Name = "flowRawNutrientFilters";
-            this.flowRawNutrientFilters.Size = new System.Drawing.Size(293, 31);
-            this.flowRawNutrientFilters.TabIndex = 5;
-            this.flowRawNutrientFilters.WrapContents = false;
-            // 
-            // lblRawNutrientFilter
-            // 
-            this.lblRawNutrientFilter.AutoSize = true;
-            this.lblRawNutrientFilter.Location = new System.Drawing.Point(3, 0);
-            this.lblRawNutrientFilter.Margin = new System.Windows.Forms.Padding(3, 0, 6, 0);
-            this.lblRawNutrientFilter.Name = "lblRawNutrientFilter";
-            this.lblRawNutrientFilter.Size = new System.Drawing.Size(59, 19);
-            this.lblRawNutrientFilter.TabIndex = 0;
-            this.lblRawNutrientFilter.Text = "영양소";
-            // 
-            // chkRawNutrientProtein
-            // 
-            this.chkRawNutrientProtein.AutoSize = true;
-            this.chkRawNutrientProtein.Location = new System.Drawing.Point(71, 3);
-            this.chkRawNutrientProtein.Name = "chkRawNutrientProtein";
-            this.chkRawNutrientProtein.Size = new System.Drawing.Size(74, 23);
-            this.chkRawNutrientProtein.TabIndex = 1;
-            this.chkRawNutrientProtein.Text = "단백질";
-            this.chkRawNutrientProtein.UseVisualStyleBackColor = true;
-            this.chkRawNutrientProtein.Tag = "PROT";
-            // 
-            // chkRawNutrientFat
-            // 
-            this.chkRawNutrientFat.AutoSize = true;
-            this.chkRawNutrientFat.Location = new System.Drawing.Point(151, 3);
-            this.chkRawNutrientFat.Name = "chkRawNutrientFat";
-            this.chkRawNutrientFat.Size = new System.Drawing.Size(59, 23);
-            this.chkRawNutrientFat.TabIndex = 2;
-            this.chkRawNutrientFat.Text = "지방";
-            this.chkRawNutrientFat.UseVisualStyleBackColor = true;
-            this.chkRawNutrientFat.Tag = "FAT";
-            // 
-            // chkRawNutrientCarb
-            // 
-            this.chkRawNutrientCarb.AutoSize = true;
-            this.chkRawNutrientCarb.Location = new System.Drawing.Point(216, 3);
-            this.chkRawNutrientCarb.Name = "chkRawNutrientCarb";
-            this.chkRawNutrientCarb.Size = new System.Drawing.Size(74, 23);
-            this.chkRawNutrientCarb.TabIndex = 3;
-            this.chkRawNutrientCarb.Text = "탄수화물";
-            this.chkRawNutrientCarb.UseVisualStyleBackColor = true;
-            this.chkRawNutrientCarb.Tag = "CARB";
-            // 
             // flowRawCalorieFilter
             // 
             this.flowRawCalorieFilter.AutoSize = true;
@@ -1180,7 +1240,7 @@ namespace nutritionist
             this.flowRawCalorieFilter.Location = new System.Drawing.Point(8, 70);
             this.flowRawCalorieFilter.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.flowRawCalorieFilter.Name = "flowRawCalorieFilter";
-            this.flowRawCalorieFilter.Size = new System.Drawing.Size(303, 26);
+            this.flowRawCalorieFilter.Size = new System.Drawing.Size(345, 29);
             this.flowRawCalorieFilter.TabIndex = 6;
             // 
             // lblRawCalorie
@@ -1189,13 +1249,13 @@ namespace nutritionist
             this.lblRawCalorie.Location = new System.Drawing.Point(3, 0);
             this.lblRawCalorie.Margin = new System.Windows.Forms.Padding(3, 0, 6, 0);
             this.lblRawCalorie.Name = "lblRawCalorie";
-            this.lblRawCalorie.Size = new System.Drawing.Size(66, 19);
+            this.lblRawCalorie.Size = new System.Drawing.Size(69, 19);
             this.lblRawCalorie.TabIndex = 0;
             this.lblRawCalorie.Text = "열량(kcal)";
             // 
             // nudRawCalorieMin
             // 
-            this.nudRawCalorieMin.Location = new System.Drawing.Point(78, 2);
+            this.nudRawCalorieMin.Location = new System.Drawing.Point(81, 2);
             this.nudRawCalorieMin.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.nudRawCalorieMin.Maximum = new decimal(new int[] {
             10000,
@@ -1209,16 +1269,16 @@ namespace nutritionist
             // lblRawCalorieSeparator
             // 
             this.lblRawCalorieSeparator.AutoSize = true;
-            this.lblRawCalorieSeparator.Location = new System.Drawing.Point(154, 0);
+            this.lblRawCalorieSeparator.Location = new System.Drawing.Point(157, 0);
             this.lblRawCalorieSeparator.Margin = new System.Windows.Forms.Padding(3, 0, 6, 0);
             this.lblRawCalorieSeparator.Name = "lblRawCalorieSeparator";
-            this.lblRawCalorieSeparator.Size = new System.Drawing.Size(22, 19);
+            this.lblRawCalorieSeparator.Size = new System.Drawing.Size(19, 19);
             this.lblRawCalorieSeparator.TabIndex = 2;
             this.lblRawCalorieSeparator.Text = "~";
             // 
             // nudRawCalorieMax
             // 
-            this.nudRawCalorieMax.Location = new System.Drawing.Point(182, 2);
+            this.nudRawCalorieMax.Location = new System.Drawing.Point(185, 2);
             this.nudRawCalorieMax.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.nudRawCalorieMax.Maximum = new decimal(new int[] {
             10000,
@@ -1232,38 +1292,81 @@ namespace nutritionist
             // lblRawCalorieUnit
             // 
             this.lblRawCalorieUnit.AutoSize = true;
-            this.lblRawCalorieUnit.Location = new System.Drawing.Point(258, 0);
+            this.lblRawCalorieUnit.Location = new System.Drawing.Point(261, 0);
             this.lblRawCalorieUnit.Name = "lblRawCalorieUnit";
-            this.lblRawCalorieUnit.Size = new System.Drawing.Size(85, 19);
+            this.lblRawCalorieUnit.Size = new System.Drawing.Size(81, 19);
             this.lblRawCalorieUnit.TabIndex = 4;
             this.lblRawCalorieUnit.Text = "기준(1단위)";
             // 
-            // lblRawSearch
+            // flowRawNutrientFilters
             // 
-            this.lblRawSearch.AutoSize = true;
-            this.lblRawSearch.Location = new System.Drawing.Point(8, 13);
-            this.lblRawSearch.Name = "lblRawSearch";
-            this.lblRawSearch.Size = new System.Drawing.Size(78, 19);
-            this.lblRawSearch.TabIndex = 0;
-            this.lblRawSearch.Text = "원재료명";
+            this.flowRawNutrientFilters.AutoSize = true;
+            this.flowRawNutrientFilters.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowRawNutrientFilters.Controls.Add(this.lblRawNutrientFilter);
+            this.flowRawNutrientFilters.Controls.Add(this.chkRawNutrientProtein);
+            this.flowRawNutrientFilters.Controls.Add(this.chkRawNutrientFat);
+            this.flowRawNutrientFilters.Controls.Add(this.chkRawNutrientCarb);
+            this.flowRawNutrientFilters.Location = new System.Drawing.Point(8, 40);
+            this.flowRawNutrientFilters.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.flowRawNutrientFilters.Name = "flowRawNutrientFilters";
+            this.flowRawNutrientFilters.Size = new System.Drawing.Size(288, 29);
+            this.flowRawNutrientFilters.TabIndex = 5;
+            this.flowRawNutrientFilters.WrapContents = false;
             // 
-            // txtRawSearch
+            // lblRawNutrientFilter
             // 
-            this.txtRawSearch.Location = new System.Drawing.Point(88, 10);
-            this.txtRawSearch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtRawSearch.Name = "txtRawSearch";
-            this.txtRawSearch.Size = new System.Drawing.Size(220, 25);
-            this.txtRawSearch.TabIndex = 1;
+            this.lblRawNutrientFilter.AutoSize = true;
+            this.lblRawNutrientFilter.Location = new System.Drawing.Point(3, 0);
+            this.lblRawNutrientFilter.Margin = new System.Windows.Forms.Padding(3, 0, 6, 0);
+            this.lblRawNutrientFilter.Name = "lblRawNutrientFilter";
+            this.lblRawNutrientFilter.Size = new System.Drawing.Size(51, 19);
+            this.lblRawNutrientFilter.TabIndex = 0;
+            this.lblRawNutrientFilter.Text = "영양소";
             // 
-            // btnRawSearch
+            // chkRawNutrientProtein
             // 
-            this.btnRawSearch.Location = new System.Drawing.Point(315, 9);
-            this.btnRawSearch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnRawSearch.Name = "btnRawSearch";
-            this.btnRawSearch.Size = new System.Drawing.Size(68, 28);
-            this.btnRawSearch.TabIndex = 2;
-            this.btnRawSearch.Text = "검색";
-            this.btnRawSearch.UseVisualStyleBackColor = true;
+            this.chkRawNutrientProtein.AutoSize = true;
+            this.chkRawNutrientProtein.Location = new System.Drawing.Point(63, 3);
+            this.chkRawNutrientProtein.Name = "chkRawNutrientProtein";
+            this.chkRawNutrientProtein.Size = new System.Drawing.Size(70, 23);
+            this.chkRawNutrientProtein.TabIndex = 1;
+            this.chkRawNutrientProtein.Tag = "PROT";
+            this.chkRawNutrientProtein.Text = "단백질";
+            this.chkRawNutrientProtein.UseVisualStyleBackColor = true;
+            // 
+            // chkRawNutrientFat
+            // 
+            this.chkRawNutrientFat.AutoSize = true;
+            this.chkRawNutrientFat.Location = new System.Drawing.Point(139, 3);
+            this.chkRawNutrientFat.Name = "chkRawNutrientFat";
+            this.chkRawNutrientFat.Size = new System.Drawing.Size(56, 23);
+            this.chkRawNutrientFat.TabIndex = 2;
+            this.chkRawNutrientFat.Tag = "FAT";
+            this.chkRawNutrientFat.Text = "지방";
+            this.chkRawNutrientFat.UseVisualStyleBackColor = true;
+            // 
+            // chkRawNutrientCarb
+            // 
+            this.chkRawNutrientCarb.AutoSize = true;
+            this.chkRawNutrientCarb.Location = new System.Drawing.Point(201, 3);
+            this.chkRawNutrientCarb.Name = "chkRawNutrientCarb";
+            this.chkRawNutrientCarb.Size = new System.Drawing.Size(84, 23);
+            this.chkRawNutrientCarb.TabIndex = 3;
+            this.chkRawNutrientCarb.Tag = "CARB";
+            this.chkRawNutrientCarb.Text = "탄수화물";
+            this.chkRawNutrientCarb.UseVisualStyleBackColor = true;
+            // 
+            // chkRawGroup
+            // 
+            this.chkRawGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkRawGroup.AutoSize = true;
+            this.chkRawGroup.Location = new System.Drawing.Point(761, 12);
+            this.chkRawGroup.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkRawGroup.Name = "chkRawGroup";
+            this.chkRawGroup.Size = new System.Drawing.Size(117, 23);
+            this.chkRawGroup.TabIndex = 4;
+            this.chkRawGroup.Text = "카테고리 묶기";
+            this.chkRawGroup.UseVisualStyleBackColor = true;
             // 
             // btnRawClear
             // 
@@ -1275,17 +1378,32 @@ namespace nutritionist
             this.btnRawClear.Text = "초기화";
             this.btnRawClear.UseVisualStyleBackColor = true;
             // 
-            // chkRawGroup
+            // btnRawSearch
             // 
-            this.chkRawGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkRawGroup.AutoSize = true;
-            this.chkRawGroup.Location = new System.Drawing.Point(746, 12);
-            this.chkRawGroup.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.chkRawGroup.Name = "chkRawGroup";
-            this.chkRawGroup.Size = new System.Drawing.Size(132, 23);
-            this.chkRawGroup.TabIndex = 4;
-            this.chkRawGroup.Text = "카테고리 묶기";
-            this.chkRawGroup.UseVisualStyleBackColor = true;
+            this.btnRawSearch.Location = new System.Drawing.Point(315, 9);
+            this.btnRawSearch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnRawSearch.Name = "btnRawSearch";
+            this.btnRawSearch.Size = new System.Drawing.Size(68, 28);
+            this.btnRawSearch.TabIndex = 2;
+            this.btnRawSearch.Text = "검색";
+            this.btnRawSearch.UseVisualStyleBackColor = true;
+            // 
+            // txtRawSearch
+            // 
+            this.txtRawSearch.Location = new System.Drawing.Point(88, 10);
+            this.txtRawSearch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtRawSearch.Name = "txtRawSearch";
+            this.txtRawSearch.Size = new System.Drawing.Size(220, 25);
+            this.txtRawSearch.TabIndex = 1;
+            // 
+            // lblRawSearch
+            // 
+            this.lblRawSearch.AutoSize = true;
+            this.lblRawSearch.Location = new System.Drawing.Point(8, 13);
+            this.lblRawSearch.Name = "lblRawSearch";
+            this.lblRawSearch.Size = new System.Drawing.Size(65, 19);
+            this.lblRawSearch.TabIndex = 0;
+            this.lblRawSearch.Text = "원재료명";
             // 
             // tabIngredients
             // 
@@ -1621,190 +1739,10 @@ namespace nutritionist
             this.tabRecipes.Text = "요리 관리";
             this.tabRecipes.UseVisualStyleBackColor = true;
             // 
-// panelRecipeToolbar
-            // 
-            this.panelRecipeToolbar.Controls.Add(this.flowRecipeCalorieFilter);
-            this.panelRecipeToolbar.Controls.Add(this.flowRecipeNutrientFilters);
-            this.panelRecipeToolbar.Controls.Add(this.btnRecipeClear);
-            this.panelRecipeToolbar.Controls.Add(this.btnRecipeSearch);
-            this.panelRecipeToolbar.Controls.Add(this.txtRecipeSearch);
-            this.panelRecipeToolbar.Controls.Add(this.lblRecipeSearch);
-            this.panelRecipeToolbar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelRecipeToolbar.Location = new System.Drawing.Point(3, 2);
-            this.panelRecipeToolbar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panelRecipeToolbar.Name = "panelRecipeToolbar";
-            this.panelRecipeToolbar.Size = new System.Drawing.Size(934, 94);
-            this.panelRecipeToolbar.TabIndex = 0;
-            // 
-            // lblRecipeSearch
-            // 
-            this.lblRecipeSearch.AutoSize = true;
-            this.lblRecipeSearch.Location = new System.Drawing.Point(8, 13);
-            this.lblRecipeSearch.Name = "lblRecipeSearch";
-            this.lblRecipeSearch.Size = new System.Drawing.Size(92, 15);
-            this.lblRecipeSearch.TabIndex = 0;
-            this.lblRecipeSearch.Text = "메뉴명 / 코드";
-            // 
-            // txtRecipeSearch
-            // 
-            this.txtRecipeSearch.Location = new System.Drawing.Point(106, 10);
-            this.txtRecipeSearch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtRecipeSearch.Name = "txtRecipeSearch";
-            this.txtRecipeSearch.Size = new System.Drawing.Size(240, 23);
-            this.txtRecipeSearch.TabIndex = 1;
-            // 
-            // btnRecipeSearch
-            // 
-            this.btnRecipeSearch.Location = new System.Drawing.Point(352, 9);
-            this.btnRecipeSearch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnRecipeSearch.Name = "btnRecipeSearch";
-            this.btnRecipeSearch.Size = new System.Drawing.Size(72, 26);
-            this.btnRecipeSearch.TabIndex = 2;
-            this.btnRecipeSearch.Text = "검색";
-            this.btnRecipeSearch.UseVisualStyleBackColor = true;
-            // 
-            // btnRecipeClear
-            // 
-            this.btnRecipeClear.Location = new System.Drawing.Point(430, 9);
-            this.btnRecipeClear.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnRecipeClear.Name = "btnRecipeClear";
-            this.btnRecipeClear.Size = new System.Drawing.Size(72, 26);
-            this.btnRecipeClear.TabIndex = 3;
-            this.btnRecipeClear.Text = "초기화";
-            this.btnRecipeClear.UseVisualStyleBackColor = true;
-            // 
-            // flowRecipeNutrientFilters
-            // 
-            this.flowRecipeNutrientFilters.AutoSize = true;
-            this.flowRecipeNutrientFilters.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowRecipeNutrientFilters.Controls.Add(this.lblRecipeNutrientFilter);
-            this.flowRecipeNutrientFilters.Controls.Add(this.chkRecipeNutrientProtein);
-            this.flowRecipeNutrientFilters.Controls.Add(this.chkRecipeNutrientFat);
-            this.flowRecipeNutrientFilters.Controls.Add(this.chkRecipeNutrientCarb);
-            this.flowRecipeNutrientFilters.Location = new System.Drawing.Point(8, 40);
-            this.flowRecipeNutrientFilters.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.flowRecipeNutrientFilters.Name = "flowRecipeNutrientFilters";
-            this.flowRecipeNutrientFilters.Size = new System.Drawing.Size(293, 31);
-            this.flowRecipeNutrientFilters.TabIndex = 4;
-            this.flowRecipeNutrientFilters.WrapContents = false;
-            // 
-            // lblRecipeNutrientFilter
-            // 
-            this.lblRecipeNutrientFilter.AutoSize = true;
-            this.lblRecipeNutrientFilter.Location = new System.Drawing.Point(3, 0);
-            this.lblRecipeNutrientFilter.Margin = new System.Windows.Forms.Padding(3, 0, 6, 0);
-            this.lblRecipeNutrientFilter.Name = "lblRecipeNutrientFilter";
-            this.lblRecipeNutrientFilter.Size = new System.Drawing.Size(59, 19);
-            this.lblRecipeNutrientFilter.TabIndex = 0;
-            this.lblRecipeNutrientFilter.Text = "영양소";
-            // 
-            // chkRecipeNutrientProtein
-            // 
-            this.chkRecipeNutrientProtein.AutoSize = true;
-            this.chkRecipeNutrientProtein.Location = new System.Drawing.Point(71, 3);
-            this.chkRecipeNutrientProtein.Name = "chkRecipeNutrientProtein";
-            this.chkRecipeNutrientProtein.Size = new System.Drawing.Size(74, 23);
-            this.chkRecipeNutrientProtein.TabIndex = 1;
-            this.chkRecipeNutrientProtein.Text = "단백질";
-            this.chkRecipeNutrientProtein.UseVisualStyleBackColor = true;
-            this.chkRecipeNutrientProtein.Tag = "PROT";
-            // 
-            // chkRecipeNutrientFat
-            // 
-            this.chkRecipeNutrientFat.AutoSize = true;
-            this.chkRecipeNutrientFat.Location = new System.Drawing.Point(151, 3);
-            this.chkRecipeNutrientFat.Name = "chkRecipeNutrientFat";
-            this.chkRecipeNutrientFat.Size = new System.Drawing.Size(59, 23);
-            this.chkRecipeNutrientFat.TabIndex = 2;
-            this.chkRecipeNutrientFat.Text = "지방";
-            this.chkRecipeNutrientFat.UseVisualStyleBackColor = true;
-            this.chkRecipeNutrientFat.Tag = "FAT";
-            // 
-            // chkRecipeNutrientCarb
-            // 
-            this.chkRecipeNutrientCarb.AutoSize = true;
-            this.chkRecipeNutrientCarb.Location = new System.Drawing.Point(216, 3);
-            this.chkRecipeNutrientCarb.Name = "chkRecipeNutrientCarb";
-            this.chkRecipeNutrientCarb.Size = new System.Drawing.Size(74, 23);
-            this.chkRecipeNutrientCarb.TabIndex = 3;
-            this.chkRecipeNutrientCarb.Text = "탄수화물";
-            this.chkRecipeNutrientCarb.UseVisualStyleBackColor = true;
-            this.chkRecipeNutrientCarb.Tag = "CARB";
-            // 
-            // flowRecipeCalorieFilter
-            // 
-            this.flowRecipeCalorieFilter.AutoSize = true;
-            this.flowRecipeCalorieFilter.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowRecipeCalorieFilter.Controls.Add(this.lblRecipeCalorie);
-            this.flowRecipeCalorieFilter.Controls.Add(this.nudRecipeCalorieMin);
-            this.flowRecipeCalorieFilter.Controls.Add(this.lblRecipeCalorieSeparator);
-            this.flowRecipeCalorieFilter.Controls.Add(this.nudRecipeCalorieMax);
-            this.flowRecipeCalorieFilter.Controls.Add(this.lblRecipeCalorieUnit);
-            this.flowRecipeCalorieFilter.Location = new System.Drawing.Point(8, 70);
-            this.flowRecipeCalorieFilter.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.flowRecipeCalorieFilter.Name = "flowRecipeCalorieFilter";
-            this.flowRecipeCalorieFilter.Size = new System.Drawing.Size(303, 26);
-            this.flowRecipeCalorieFilter.TabIndex = 5;
-            // 
-            // lblRecipeCalorie
-            // 
-            this.lblRecipeCalorie.AutoSize = true;
-            this.lblRecipeCalorie.Location = new System.Drawing.Point(3, 0);
-            this.lblRecipeCalorie.Margin = new System.Windows.Forms.Padding(3, 0, 6, 0);
-            this.lblRecipeCalorie.Name = "lblRecipeCalorie";
-            this.lblRecipeCalorie.Size = new System.Drawing.Size(66, 19);
-            this.lblRecipeCalorie.TabIndex = 0;
-            this.lblRecipeCalorie.Text = "열량(kcal)";
-            // 
-            // nudRecipeCalorieMin
-            // 
-            this.nudRecipeCalorieMin.Location = new System.Drawing.Point(78, 2);
-            this.nudRecipeCalorieMin.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.nudRecipeCalorieMin.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.nudRecipeCalorieMin.Name = "nudRecipeCalorieMin";
-            this.nudRecipeCalorieMin.Size = new System.Drawing.Size(70, 25);
-            this.nudRecipeCalorieMin.TabIndex = 1;
-            // 
-            // lblRecipeCalorieSeparator
-            // 
-            this.lblRecipeCalorieSeparator.AutoSize = true;
-            this.lblRecipeCalorieSeparator.Location = new System.Drawing.Point(154, 0);
-            this.lblRecipeCalorieSeparator.Margin = new System.Windows.Forms.Padding(3, 0, 6, 0);
-            this.lblRecipeCalorieSeparator.Name = "lblRecipeCalorieSeparator";
-            this.lblRecipeCalorieSeparator.Size = new System.Drawing.Size(22, 19);
-            this.lblRecipeCalorieSeparator.TabIndex = 2;
-            this.lblRecipeCalorieSeparator.Text = "~";
-            // 
-            // nudRecipeCalorieMax
-            // 
-            this.nudRecipeCalorieMax.Location = new System.Drawing.Point(182, 2);
-            this.nudRecipeCalorieMax.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.nudRecipeCalorieMax.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.nudRecipeCalorieMax.Name = "nudRecipeCalorieMax";
-            this.nudRecipeCalorieMax.Size = new System.Drawing.Size(70, 25);
-            this.nudRecipeCalorieMax.TabIndex = 3;
-            // 
-            // lblRecipeCalorieUnit
-            // 
-            this.lblRecipeCalorieUnit.AutoSize = true;
-            this.lblRecipeCalorieUnit.Location = new System.Drawing.Point(258, 0);
-            this.lblRecipeCalorieUnit.Name = "lblRecipeCalorieUnit";
-            this.lblRecipeCalorieUnit.Size = new System.Drawing.Size(85, 19);
-            this.lblRecipeCalorieUnit.TabIndex = 4;
-            this.lblRecipeCalorieUnit.Text = "기준(1인분)";
-            // 
             // splitContainerRecipes
             // 
             this.splitContainerRecipes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerRecipes.Location = new System.Drawing.Point(3, 48);
+            this.splitContainerRecipes.Location = new System.Drawing.Point(3, 96);
             this.splitContainerRecipes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.splitContainerRecipes.Name = "splitContainerRecipes";
             // 
@@ -1815,7 +1753,7 @@ namespace nutritionist
             // splitContainerRecipes.Panel2
             // 
             this.splitContainerRecipes.Panel2.Controls.Add(this.grpRecipeDetail);
-            this.splitContainerRecipes.Size = new System.Drawing.Size(934, 403);
+            this.splitContainerRecipes.Size = new System.Drawing.Size(934, 355);
             this.splitContainerRecipes.SplitterDistance = 472;
             this.splitContainerRecipes.TabIndex = 0;
             // 
@@ -1829,7 +1767,7 @@ namespace nutritionist
             this.dgvRecipes.Name = "dgvRecipes";
             this.dgvRecipes.RowHeadersWidth = 51;
             this.dgvRecipes.RowTemplate.Height = 27;
-            this.dgvRecipes.Size = new System.Drawing.Size(472, 449);
+            this.dgvRecipes.Size = new System.Drawing.Size(472, 355);
             this.dgvRecipes.TabIndex = 0;
             // 
             // grpRecipeDetail
@@ -1841,10 +1779,91 @@ namespace nutritionist
             this.grpRecipeDetail.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpRecipeDetail.Name = "grpRecipeDetail";
             this.grpRecipeDetail.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpRecipeDetail.Size = new System.Drawing.Size(458, 403);
+            this.grpRecipeDetail.Size = new System.Drawing.Size(458, 355);
             this.grpRecipeDetail.TabIndex = 0;
             this.grpRecipeDetail.TabStop = false;
             this.grpRecipeDetail.Text = "요리 정보";
+            // 
+            // splitContainerRecipeDetail
+            // 
+            this.splitContainerRecipeDetail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerRecipeDetail.Location = new System.Drawing.Point(3, 200);
+            this.splitContainerRecipeDetail.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.splitContainerRecipeDetail.Name = "splitContainerRecipeDetail";
+            this.splitContainerRecipeDetail.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainerRecipeDetail.Panel1
+            // 
+            this.splitContainerRecipeDetail.Panel1.Controls.Add(this.dgvRecipeNutrients);
+            this.splitContainerRecipeDetail.Panel1.Controls.Add(this.lblRecipeNutrients);
+            // 
+            // splitContainerRecipeDetail.Panel2
+            // 
+            this.splitContainerRecipeDetail.Panel2.Controls.Add(this.dgvRecipeComponents);
+            this.splitContainerRecipeDetail.Panel2.Controls.Add(this.lblRecipeComponents);
+            this.splitContainerRecipeDetail.Size = new System.Drawing.Size(452, 153);
+            this.splitContainerRecipeDetail.SplitterDistance = 76;
+            this.splitContainerRecipeDetail.TabIndex = 1;
+            // 
+            // dgvRecipeNutrients
+            // 
+            this.dgvRecipeNutrients.AllowUserToAddRows = false;
+            this.dgvRecipeNutrients.AllowUserToDeleteRows = false;
+            this.dgvRecipeNutrients.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvRecipeNutrients.BackgroundColor = System.Drawing.Color.White;
+            this.dgvRecipeNutrients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRecipeNutrients.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvRecipeNutrients.Location = new System.Drawing.Point(0, 30);
+            this.dgvRecipeNutrients.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dgvRecipeNutrients.MultiSelect = false;
+            this.dgvRecipeNutrients.Name = "dgvRecipeNutrients";
+            this.dgvRecipeNutrients.ReadOnly = true;
+            this.dgvRecipeNutrients.RowHeadersVisible = false;
+            this.dgvRecipeNutrients.RowHeadersWidth = 51;
+            this.dgvRecipeNutrients.RowTemplate.Height = 27;
+            this.dgvRecipeNutrients.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvRecipeNutrients.Size = new System.Drawing.Size(452, 46);
+            this.dgvRecipeNutrients.TabIndex = 1;
+            // 
+            // lblRecipeNutrients
+            // 
+            this.lblRecipeNutrients.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblRecipeNutrients.Location = new System.Drawing.Point(0, 0);
+            this.lblRecipeNutrients.Name = "lblRecipeNutrients";
+            this.lblRecipeNutrients.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.lblRecipeNutrients.Size = new System.Drawing.Size(452, 30);
+            this.lblRecipeNutrients.TabIndex = 0;
+            this.lblRecipeNutrients.Text = "영양소 정보";
+            // 
+            // dgvRecipeComponents
+            // 
+            this.dgvRecipeComponents.AllowUserToAddRows = false;
+            this.dgvRecipeComponents.AllowUserToDeleteRows = false;
+            this.dgvRecipeComponents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvRecipeComponents.BackgroundColor = System.Drawing.Color.White;
+            this.dgvRecipeComponents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRecipeComponents.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvRecipeComponents.Location = new System.Drawing.Point(0, 30);
+            this.dgvRecipeComponents.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dgvRecipeComponents.MultiSelect = false;
+            this.dgvRecipeComponents.Name = "dgvRecipeComponents";
+            this.dgvRecipeComponents.ReadOnly = true;
+            this.dgvRecipeComponents.RowHeadersVisible = false;
+            this.dgvRecipeComponents.RowHeadersWidth = 51;
+            this.dgvRecipeComponents.RowTemplate.Height = 27;
+            this.dgvRecipeComponents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvRecipeComponents.Size = new System.Drawing.Size(452, 43);
+            this.dgvRecipeComponents.TabIndex = 1;
+            // 
+            // lblRecipeComponents
+            // 
+            this.lblRecipeComponents.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblRecipeComponents.Location = new System.Drawing.Point(0, 0);
+            this.lblRecipeComponents.Name = "lblRecipeComponents";
+            this.lblRecipeComponents.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.lblRecipeComponents.Size = new System.Drawing.Size(452, 30);
+            this.lblRecipeComponents.TabIndex = 0;
+            this.lblRecipeComponents.Text = "포함 원재료";
             // 
             // tableRecipeDetail
             // 
@@ -1974,121 +1993,187 @@ namespace nutritionist
             this.txtRecipeActive.Size = new System.Drawing.Size(336, 25);
             this.txtRecipeActive.TabIndex = 9;
             // 
-            // splitContainerRecipeDetail
+            // panelRecipeToolbar
             // 
-            this.splitContainerRecipeDetail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerRecipeDetail.Location = new System.Drawing.Point(3, 200);
-            this.splitContainerRecipeDetail.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.splitContainerRecipeDetail.Name = "splitContainerRecipeDetail";
-            this.splitContainerRecipeDetail.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.panelRecipeToolbar.Controls.Add(this.flowRecipeCalorieFilter);
+            this.panelRecipeToolbar.Controls.Add(this.flowRecipeNutrientFilters);
+            this.panelRecipeToolbar.Controls.Add(this.btnRecipeClear);
+            this.panelRecipeToolbar.Controls.Add(this.btnRecipeSearch);
+            this.panelRecipeToolbar.Controls.Add(this.txtRecipeSearch);
+            this.panelRecipeToolbar.Controls.Add(this.lblRecipeSearch);
+            this.panelRecipeToolbar.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelRecipeToolbar.Location = new System.Drawing.Point(3, 2);
+            this.panelRecipeToolbar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panelRecipeToolbar.Name = "panelRecipeToolbar";
+            this.panelRecipeToolbar.Size = new System.Drawing.Size(934, 94);
+            this.panelRecipeToolbar.TabIndex = 0;
             // 
-            // splitContainerRecipeDetail.Panel1
+            // flowRecipeCalorieFilter
             // 
-            this.splitContainerRecipeDetail.Panel1.Controls.Add(this.dgvRecipeNutrients);
-            this.splitContainerRecipeDetail.Panel1.Controls.Add(this.lblRecipeNutrients);
+            this.flowRecipeCalorieFilter.AutoSize = true;
+            this.flowRecipeCalorieFilter.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowRecipeCalorieFilter.Controls.Add(this.lblRecipeCalorie);
+            this.flowRecipeCalorieFilter.Controls.Add(this.nudRecipeCalorieMin);
+            this.flowRecipeCalorieFilter.Controls.Add(this.lblRecipeCalorieSeparator);
+            this.flowRecipeCalorieFilter.Controls.Add(this.nudRecipeCalorieMax);
+            this.flowRecipeCalorieFilter.Controls.Add(this.lblRecipeCalorieUnit);
+            this.flowRecipeCalorieFilter.Location = new System.Drawing.Point(8, 70);
+            this.flowRecipeCalorieFilter.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.flowRecipeCalorieFilter.Name = "flowRecipeCalorieFilter";
+            this.flowRecipeCalorieFilter.Size = new System.Drawing.Size(345, 29);
+            this.flowRecipeCalorieFilter.TabIndex = 5;
             // 
-            // splitContainerRecipeDetail.Panel2
+            // lblRecipeCalorie
             // 
-            this.splitContainerRecipeDetail.Panel2.Controls.Add(this.dgvRecipeComponents);
-            this.splitContainerRecipeDetail.Panel2.Controls.Add(this.lblRecipeComponents);
-            this.splitContainerRecipeDetail.Size = new System.Drawing.Size(452, 141);
-            this.splitContainerRecipeDetail.SplitterDistance = 70;
-            this.splitContainerRecipeDetail.TabIndex = 1;
+            this.lblRecipeCalorie.AutoSize = true;
+            this.lblRecipeCalorie.Location = new System.Drawing.Point(3, 0);
+            this.lblRecipeCalorie.Margin = new System.Windows.Forms.Padding(3, 0, 6, 0);
+            this.lblRecipeCalorie.Name = "lblRecipeCalorie";
+            this.lblRecipeCalorie.Size = new System.Drawing.Size(69, 19);
+            this.lblRecipeCalorie.TabIndex = 0;
+            this.lblRecipeCalorie.Text = "열량(kcal)";
             // 
-            // dgvRecipeNutrients
+            // nudRecipeCalorieMin
             // 
-            this.dgvRecipeNutrients.AllowUserToAddRows = false;
-            this.dgvRecipeNutrients.AllowUserToDeleteRows = false;
-            this.dgvRecipeNutrients.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvRecipeNutrients.BackgroundColor = System.Drawing.Color.White;
-            this.dgvRecipeNutrients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRecipeNutrients.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvRecipeNutrients.Location = new System.Drawing.Point(0, 30);
-            this.dgvRecipeNutrients.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dgvRecipeNutrients.MultiSelect = false;
-            this.dgvRecipeNutrients.Name = "dgvRecipeNutrients";
-            this.dgvRecipeNutrients.ReadOnly = true;
-            this.dgvRecipeNutrients.RowHeadersVisible = false;
-            this.dgvRecipeNutrients.RowHeadersWidth = 51;
-            this.dgvRecipeNutrients.RowTemplate.Height = 27;
-            this.dgvRecipeNutrients.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvRecipeNutrients.Size = new System.Drawing.Size(452, 40);
-            this.dgvRecipeNutrients.TabIndex = 1;
+            this.nudRecipeCalorieMin.Location = new System.Drawing.Point(81, 2);
+            this.nudRecipeCalorieMin.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.nudRecipeCalorieMin.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.nudRecipeCalorieMin.Name = "nudRecipeCalorieMin";
+            this.nudRecipeCalorieMin.Size = new System.Drawing.Size(70, 25);
+            this.nudRecipeCalorieMin.TabIndex = 1;
             // 
-            // lblRecipeNutrients
+            // lblRecipeCalorieSeparator
             // 
-            this.lblRecipeNutrients.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblRecipeNutrients.Location = new System.Drawing.Point(0, 0);
-            this.lblRecipeNutrients.Name = "lblRecipeNutrients";
-            this.lblRecipeNutrients.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
-            this.lblRecipeNutrients.Size = new System.Drawing.Size(452, 30);
-            this.lblRecipeNutrients.TabIndex = 0;
-            this.lblRecipeNutrients.Text = "영양소 정보";
+            this.lblRecipeCalorieSeparator.AutoSize = true;
+            this.lblRecipeCalorieSeparator.Location = new System.Drawing.Point(157, 0);
+            this.lblRecipeCalorieSeparator.Margin = new System.Windows.Forms.Padding(3, 0, 6, 0);
+            this.lblRecipeCalorieSeparator.Name = "lblRecipeCalorieSeparator";
+            this.lblRecipeCalorieSeparator.Size = new System.Drawing.Size(19, 19);
+            this.lblRecipeCalorieSeparator.TabIndex = 2;
+            this.lblRecipeCalorieSeparator.Text = "~";
             // 
-            // dgvRecipeComponents
+            // nudRecipeCalorieMax
             // 
-            this.dgvRecipeComponents.AllowUserToAddRows = false;
-            this.dgvRecipeComponents.AllowUserToDeleteRows = false;
-            this.dgvRecipeComponents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvRecipeComponents.BackgroundColor = System.Drawing.Color.White;
-            this.dgvRecipeComponents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRecipeComponents.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvRecipeComponents.Location = new System.Drawing.Point(0, 30);
-            this.dgvRecipeComponents.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dgvRecipeComponents.MultiSelect = false;
-            this.dgvRecipeComponents.Name = "dgvRecipeComponents";
-            this.dgvRecipeComponents.ReadOnly = true;
-            this.dgvRecipeComponents.RowHeadersVisible = false;
-            this.dgvRecipeComponents.RowHeadersWidth = 51;
-            this.dgvRecipeComponents.RowTemplate.Height = 27;
-            this.dgvRecipeComponents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvRecipeComponents.Size = new System.Drawing.Size(452, 65);
-            this.dgvRecipeComponents.TabIndex = 1;
+            this.nudRecipeCalorieMax.Location = new System.Drawing.Point(185, 2);
+            this.nudRecipeCalorieMax.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.nudRecipeCalorieMax.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.nudRecipeCalorieMax.Name = "nudRecipeCalorieMax";
+            this.nudRecipeCalorieMax.Size = new System.Drawing.Size(70, 25);
+            this.nudRecipeCalorieMax.TabIndex = 3;
             // 
-            // lblRecipeComponents
+            // lblRecipeCalorieUnit
             // 
-            this.lblRecipeComponents.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblRecipeComponents.Location = new System.Drawing.Point(0, 0);
-            this.lblRecipeComponents.Name = "lblRecipeComponents";
-            this.lblRecipeComponents.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
-            this.lblRecipeComponents.Size = new System.Drawing.Size(452, 30);
-            this.lblRecipeComponents.TabIndex = 0;
-            this.lblRecipeComponents.Text = "포함 원재료";
+            this.lblRecipeCalorieUnit.AutoSize = true;
+            this.lblRecipeCalorieUnit.Location = new System.Drawing.Point(261, 0);
+            this.lblRecipeCalorieUnit.Name = "lblRecipeCalorieUnit";
+            this.lblRecipeCalorieUnit.Size = new System.Drawing.Size(81, 19);
+            this.lblRecipeCalorieUnit.TabIndex = 4;
+            this.lblRecipeCalorieUnit.Text = "기준(1인분)";
             // 
-            // flowRecipeButtons
+            // flowRecipeNutrientFilters
             // 
-            this.flowRecipeButtons.Controls.Add(this.btnRefreshRecipe);
-            this.flowRecipeButtons.Controls.Add(this.btnRegisterRecipe);
-            this.flowRecipeButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowRecipeButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowRecipeButtons.Location = new System.Drawing.Point(3, 341);
-            this.flowRecipeButtons.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.flowRecipeButtons.Name = "flowRecipeButtons";
-            this.flowRecipeButtons.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
-            this.flowRecipeButtons.Size = new System.Drawing.Size(452, 60);
-            this.flowRecipeButtons.TabIndex = 2;
+            this.flowRecipeNutrientFilters.AutoSize = true;
+            this.flowRecipeNutrientFilters.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowRecipeNutrientFilters.Controls.Add(this.lblRecipeNutrientFilter);
+            this.flowRecipeNutrientFilters.Controls.Add(this.chkRecipeNutrientProtein);
+            this.flowRecipeNutrientFilters.Controls.Add(this.chkRecipeNutrientFat);
+            this.flowRecipeNutrientFilters.Controls.Add(this.chkRecipeNutrientCarb);
+            this.flowRecipeNutrientFilters.Location = new System.Drawing.Point(8, 40);
+            this.flowRecipeNutrientFilters.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.flowRecipeNutrientFilters.Name = "flowRecipeNutrientFilters";
+            this.flowRecipeNutrientFilters.Size = new System.Drawing.Size(288, 29);
+            this.flowRecipeNutrientFilters.TabIndex = 4;
+            this.flowRecipeNutrientFilters.WrapContents = false;
             // 
-            // btnRefreshRecipe
+            // lblRecipeNutrientFilter
             // 
-            this.btnRefreshRecipe.Location = new System.Drawing.Point(356, 6);
-            this.btnRefreshRecipe.Margin = new System.Windows.Forms.Padding(9, 2, 0, 2);
-            this.btnRefreshRecipe.Name = "btnRefreshRecipe";
-            this.btnRefreshRecipe.Size = new System.Drawing.Size(96, 28);
-            this.btnRefreshRecipe.TabIndex = 0;
-            this.btnRefreshRecipe.Text = "새로 고침";
-            this.btnRefreshRecipe.UseVisualStyleBackColor = true;
+            this.lblRecipeNutrientFilter.AutoSize = true;
+            this.lblRecipeNutrientFilter.Location = new System.Drawing.Point(3, 0);
+            this.lblRecipeNutrientFilter.Margin = new System.Windows.Forms.Padding(3, 0, 6, 0);
+            this.lblRecipeNutrientFilter.Name = "lblRecipeNutrientFilter";
+            this.lblRecipeNutrientFilter.Size = new System.Drawing.Size(51, 19);
+            this.lblRecipeNutrientFilter.TabIndex = 0;
+            this.lblRecipeNutrientFilter.Text = "영양소";
             // 
-            // btnRegisterRecipe
+            // chkRecipeNutrientProtein
             // 
-            this.btnRegisterRecipe.Location = new System.Drawing.Point(251, 6);
-            this.btnRegisterRecipe.Margin = new System.Windows.Forms.Padding(9, 2, 0, 2);
-            this.btnRegisterRecipe.Name = "btnRegisterRecipe";
-            this.btnRegisterRecipe.Size = new System.Drawing.Size(96, 28);
-            this.btnRegisterRecipe.TabIndex = 1;
-            this.btnRegisterRecipe.Text = "메뉴 등록";
-            this.btnRegisterRecipe.UseVisualStyleBackColor = true;
+            this.chkRecipeNutrientProtein.AutoSize = true;
+            this.chkRecipeNutrientProtein.Location = new System.Drawing.Point(63, 3);
+            this.chkRecipeNutrientProtein.Name = "chkRecipeNutrientProtein";
+            this.chkRecipeNutrientProtein.Size = new System.Drawing.Size(70, 23);
+            this.chkRecipeNutrientProtein.TabIndex = 1;
+            this.chkRecipeNutrientProtein.Tag = "PROT";
+            this.chkRecipeNutrientProtein.Text = "단백질";
+            this.chkRecipeNutrientProtein.UseVisualStyleBackColor = true;
             // 
-// tabMealPlans
+            // chkRecipeNutrientFat
+            // 
+            this.chkRecipeNutrientFat.AutoSize = true;
+            this.chkRecipeNutrientFat.Location = new System.Drawing.Point(139, 3);
+            this.chkRecipeNutrientFat.Name = "chkRecipeNutrientFat";
+            this.chkRecipeNutrientFat.Size = new System.Drawing.Size(56, 23);
+            this.chkRecipeNutrientFat.TabIndex = 2;
+            this.chkRecipeNutrientFat.Tag = "FAT";
+            this.chkRecipeNutrientFat.Text = "지방";
+            this.chkRecipeNutrientFat.UseVisualStyleBackColor = true;
+            // 
+            // chkRecipeNutrientCarb
+            // 
+            this.chkRecipeNutrientCarb.AutoSize = true;
+            this.chkRecipeNutrientCarb.Location = new System.Drawing.Point(201, 3);
+            this.chkRecipeNutrientCarb.Name = "chkRecipeNutrientCarb";
+            this.chkRecipeNutrientCarb.Size = new System.Drawing.Size(84, 23);
+            this.chkRecipeNutrientCarb.TabIndex = 3;
+            this.chkRecipeNutrientCarb.Tag = "CARB";
+            this.chkRecipeNutrientCarb.Text = "탄수화물";
+            this.chkRecipeNutrientCarb.UseVisualStyleBackColor = true;
+            // 
+            // btnRecipeClear
+            // 
+            this.btnRecipeClear.Location = new System.Drawing.Point(430, 9);
+            this.btnRecipeClear.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnRecipeClear.Name = "btnRecipeClear";
+            this.btnRecipeClear.Size = new System.Drawing.Size(72, 26);
+            this.btnRecipeClear.TabIndex = 3;
+            this.btnRecipeClear.Text = "초기화";
+            this.btnRecipeClear.UseVisualStyleBackColor = true;
+            // 
+            // btnRecipeSearch
+            // 
+            this.btnRecipeSearch.Location = new System.Drawing.Point(352, 9);
+            this.btnRecipeSearch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnRecipeSearch.Name = "btnRecipeSearch";
+            this.btnRecipeSearch.Size = new System.Drawing.Size(72, 26);
+            this.btnRecipeSearch.TabIndex = 2;
+            this.btnRecipeSearch.Text = "검색";
+            this.btnRecipeSearch.UseVisualStyleBackColor = true;
+            // 
+            // txtRecipeSearch
+            // 
+            this.txtRecipeSearch.Location = new System.Drawing.Point(106, 10);
+            this.txtRecipeSearch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtRecipeSearch.Name = "txtRecipeSearch";
+            this.txtRecipeSearch.Size = new System.Drawing.Size(240, 25);
+            this.txtRecipeSearch.TabIndex = 1;
+            // 
+            // lblRecipeSearch
+            // 
+            this.lblRecipeSearch.AutoSize = true;
+            this.lblRecipeSearch.Location = new System.Drawing.Point(8, 13);
+            this.lblRecipeSearch.Name = "lblRecipeSearch";
+            this.lblRecipeSearch.Size = new System.Drawing.Size(95, 19);
+            this.lblRecipeSearch.TabIndex = 0;
+            this.lblRecipeSearch.Text = "메뉴명 / 코드";
+            // 
+            // tabMealPlans
             // 
             this.tabMealPlans.Controls.Add(this.splitContainerMealPlans);
             this.tabMealPlans.Location = new System.Drawing.Point(4, 26);
@@ -2154,7 +2239,7 @@ namespace nutritionist
             this.tableMealPlanDetail.Controls.Add(this.lblMealType, 0, 1);
             this.tableMealPlanDetail.Controls.Add(this.cmbMealType, 1, 1);
             this.tableMealPlanDetail.Controls.Add(this.lblMealRecipes, 0, 2);
-            this.tableMealPlanDetail.Controls.Add(this.lstMealRecipes, 1, 2);
+            this.tableMealPlanDetail.Controls.Add(this.splitMealSub, 1, 2);
             this.tableMealPlanDetail.Controls.Add(this.lblMealNotes, 0, 3);
             this.tableMealPlanDetail.Controls.Add(this.txtMealNotes, 1, 3);
             this.tableMealPlanDetail.Controls.Add(this.flowMealButtons, 0, 4);
@@ -2224,16 +2309,51 @@ namespace nutritionist
             this.lblMealRecipes.Text = "요리 구성";
             this.lblMealRecipes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lstMealRecipes
+            // splitMealSub
             // 
-            this.lstMealRecipes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstMealRecipes.FormattingEnabled = true;
-            this.lstMealRecipes.ItemHeight = 17;
-            this.lstMealRecipes.Location = new System.Drawing.Point(108, 66);
-            this.lstMealRecipes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.lstMealRecipes.Name = "lstMealRecipes";
-            this.lstMealRecipes.Size = new System.Drawing.Size(341, 156);
-            this.lstMealRecipes.TabIndex = 5;
+            this.splitMealSub.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitMealSub.Location = new System.Drawing.Point(108, 66);
+            this.splitMealSub.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.splitMealSub.Name = "splitMealSub";
+            this.splitMealSub.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitMealSub.Panel1
+            // 
+            this.splitMealSub.Panel1.Controls.Add(this.dgvMealRecipes);
+            // 
+            // splitMealSub.Panel2
+            // 
+            this.splitMealSub.Panel2.Controls.Add(this.dgvMealComponents);
+            this.splitMealSub.Size = new System.Drawing.Size(341, 156);
+            this.splitMealSub.SplitterDistance = 78;
+            this.splitMealSub.TabIndex = 5;
+            // 
+            // dgvMealRecipes
+            // 
+            this.dgvMealRecipes.BackgroundColor = System.Drawing.Color.White;
+            this.dgvMealRecipes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMealRecipes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvMealRecipes.Location = new System.Drawing.Point(0, 0);
+            this.dgvMealRecipes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dgvMealRecipes.Name = "dgvMealRecipes";
+            this.dgvMealRecipes.RowHeadersWidth = 51;
+            this.dgvMealRecipes.RowTemplate.Height = 27;
+            this.dgvMealRecipes.Size = new System.Drawing.Size(341, 78);
+            this.dgvMealRecipes.TabIndex = 0;
+            // 
+            // dgvMealComponents
+            // 
+            this.dgvMealComponents.AllowDrop = true;
+            this.dgvMealComponents.BackgroundColor = System.Drawing.Color.White;
+            this.dgvMealComponents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMealComponents.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvMealComponents.Location = new System.Drawing.Point(0, 0);
+            this.dgvMealComponents.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dgvMealComponents.Name = "dgvMealComponents";
+            this.dgvMealComponents.RowHeadersWidth = 51;
+            this.dgvMealComponents.RowTemplate.Height = 27;
+            this.dgvMealComponents.Size = new System.Drawing.Size(341, 74);
+            this.dgvMealComponents.TabIndex = 0;
             // 
             // lblMealNotes
             // 
@@ -3077,7 +3197,7 @@ namespace nutritionist
             this.btnNavManagement.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(88)))), ((int)(((byte)(109)))));
             this.btnNavManagement.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(79)))), ((int)(((byte)(99)))));
             this.btnNavManagement.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNavManagement.Font = new System.Drawing.Font("Malgun Gothic", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnNavManagement.Font = new System.Drawing.Font("맑은 고딕", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnNavManagement.ForeColor = System.Drawing.Color.White;
             this.btnNavManagement.Location = new System.Drawing.Point(15, 90);
             this.btnNavManagement.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
@@ -3098,7 +3218,7 @@ namespace nutritionist
             this.btnNavDashboard.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(88)))), ((int)(((byte)(109)))));
             this.btnNavDashboard.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(79)))), ((int)(((byte)(99)))));
             this.btnNavDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNavDashboard.Font = new System.Drawing.Font("Malgun Gothic", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnNavDashboard.Font = new System.Drawing.Font("맑은 고딕", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnNavDashboard.ForeColor = System.Drawing.Color.White;
             this.btnNavDashboard.Location = new System.Drawing.Point(15, 20);
             this.btnNavDashboard.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
@@ -3110,6 +3230,99 @@ namespace nutritionist
             this.btnNavDashboard.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnNavDashboard.UseVisualStyleBackColor = false;
             this.btnNavDashboard.Click += new System.EventHandler(this.BtnNavDashboard_Click);
+            // 
+            // grpMenus
+            // 
+            this.grpMenus.Controls.Add(this.dgvMenus);
+            this.grpMenus.Location = new System.Drawing.Point(376, 92);
+            this.grpMenus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grpMenus.Name = "grpMenus";
+            this.grpMenus.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grpMenus.Size = new System.Drawing.Size(262, 184);
+            this.grpMenus.TabIndex = 3;
+            this.grpMenus.TabStop = false;
+            this.grpMenus.Text = "최종 메뉴";
+            // 
+            // dgvMenus
+            // 
+            this.dgvMenus.AllowUserToAddRows = false;
+            this.dgvMenus.AllowUserToDeleteRows = false;
+            this.dgvMenus.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvMenus.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMenus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvMenus.Location = new System.Drawing.Point(3, 16);
+            this.dgvMenus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dgvMenus.MultiSelect = false;
+            this.dgvMenus.Name = "dgvMenus";
+            this.dgvMenus.ReadOnly = true;
+            this.dgvMenus.RowHeadersWidth = 51;
+            this.dgvMenus.RowTemplate.Height = 27;
+            this.dgvMenus.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvMenus.Size = new System.Drawing.Size(256, 166);
+            this.dgvMenus.TabIndex = 0;
+            // 
+            // grpStudents
+            // 
+            this.grpStudents.Controls.Add(this.dgvStudents);
+            this.grpStudents.Location = new System.Drawing.Point(9, 92);
+            this.grpStudents.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grpStudents.Name = "grpStudents";
+            this.grpStudents.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grpStudents.Size = new System.Drawing.Size(350, 184);
+            this.grpStudents.TabIndex = 2;
+            this.grpStudents.TabStop = false;
+            this.grpStudents.Text = "원재료 목록";
+            // 
+            // dgvStudents
+            // 
+            this.dgvStudents.AllowUserToAddRows = false;
+            this.dgvStudents.AllowUserToDeleteRows = false;
+            this.dgvStudents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvStudents.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvStudents.Location = new System.Drawing.Point(3, 16);
+            this.dgvStudents.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dgvStudents.MultiSelect = false;
+            this.dgvStudents.Name = "dgvStudents";
+            this.dgvStudents.ReadOnly = true;
+            this.dgvStudents.RowHeadersWidth = 51;
+            this.dgvStudents.RowTemplate.Height = 27;
+            this.dgvStudents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvStudents.Size = new System.Drawing.Size(344, 166);
+            this.dgvStudents.TabIndex = 0;
+            // 
+            // flowRecipeButtons
+            // 
+            this.flowRecipeButtons.Controls.Add(this.btnRefreshRecipe);
+            this.flowRecipeButtons.Controls.Add(this.btnRegisterRecipe);
+            this.flowRecipeButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.flowRecipeButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flowRecipeButtons.Location = new System.Drawing.Point(3, 341);
+            this.flowRecipeButtons.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.flowRecipeButtons.Name = "flowRecipeButtons";
+            this.flowRecipeButtons.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
+            this.flowRecipeButtons.Size = new System.Drawing.Size(452, 60);
+            this.flowRecipeButtons.TabIndex = 2;
+            // 
+            // btnRefreshRecipe
+            // 
+            this.btnRefreshRecipe.Location = new System.Drawing.Point(356, 6);
+            this.btnRefreshRecipe.Margin = new System.Windows.Forms.Padding(9, 2, 0, 2);
+            this.btnRefreshRecipe.Name = "btnRefreshRecipe";
+            this.btnRefreshRecipe.Size = new System.Drawing.Size(96, 28);
+            this.btnRefreshRecipe.TabIndex = 0;
+            this.btnRefreshRecipe.Text = "새로 고침";
+            this.btnRefreshRecipe.UseVisualStyleBackColor = true;
+            // 
+            // btnRegisterRecipe
+            // 
+            this.btnRegisterRecipe.Location = new System.Drawing.Point(251, 6);
+            this.btnRegisterRecipe.Margin = new System.Windows.Forms.Padding(9, 2, 0, 2);
+            this.btnRegisterRecipe.Name = "btnRegisterRecipe";
+            this.btnRegisterRecipe.Size = new System.Drawing.Size(96, 28);
+            this.btnRegisterRecipe.TabIndex = 1;
+            this.btnRegisterRecipe.Text = "메뉴 등록";
+            this.btnRegisterRecipe.UseVisualStyleBackColor = true;
             // 
             // NutritionistForm
             // 
@@ -3129,33 +3342,36 @@ namespace nutritionist
             this.panelWorkspace.ResumeLayout(false);
             this.tabMain.ResumeLayout(false);
             this.tabDashboard.ResumeLayout(false);
+            this.layoutDashboard.ResumeLayout(false);
+            this.grpSummary.ResumeLayout(false);
+            this.grpSummary.PerformLayout();
+            this.grpTodayMeals.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTodayMeals)).EndInit();
+            this.grpTodayRaw.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTodayRawNeeds)).EndInit();
+            this.grpShortage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvShortageRaw)).EndInit();
             this.grpMealLogs.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvMealLogs)).EndInit();
             this.grpAction.ResumeLayout(false);
             this.grpAction.PerformLayout();
-            this.grpMenus.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvMenus)).EndInit();
-            this.grpStudents.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvStudents)).EndInit();
-            this.grpSummary.ResumeLayout(false);
-            this.grpSummary.PerformLayout();
             this.tabManagement.ResumeLayout(false);
             this.tabControlManagement.ResumeLayout(false);
             this.tabRawMaterials.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerRawMaterials)).EndInit();
             this.splitContainerRawMaterials.Panel1.ResumeLayout(false);
             this.splitContainerRawMaterials.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerRawMaterials)).EndInit();
             this.splitContainerRawMaterials.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRawMaterials)).EndInit();
             this.grpRawDetail.ResumeLayout(false);
-            this.tableRawDetail.ResumeLayout(false);
-            this.tableRawDetail.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvRawNutrients)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvRawComponents)).EndInit();
             this.splitContainerRawDetail.Panel1.ResumeLayout(false);
             this.splitContainerRawDetail.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerRawDetail)).EndInit();
             this.splitContainerRawDetail.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRawNutrients)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRawComponents)).EndInit();
+            this.tableRawDetail.ResumeLayout(false);
+            this.tableRawDetail.PerformLayout();
             this.flowRawButtons.ResumeLayout(false);
             this.panelRawToolbar.ResumeLayout(false);
             this.panelRawToolbar.PerformLayout();
@@ -3184,6 +3400,21 @@ namespace nutritionist
             this.grpNutrientDetail.ResumeLayout(false);
             this.tableNutrientDetail.ResumeLayout(false);
             this.tableNutrientDetail.PerformLayout();
+            this.tabRecipes.ResumeLayout(false);
+            this.splitContainerRecipes.Panel1.ResumeLayout(false);
+            this.splitContainerRecipes.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerRecipes)).EndInit();
+            this.splitContainerRecipes.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRecipes)).EndInit();
+            this.grpRecipeDetail.ResumeLayout(false);
+            this.splitContainerRecipeDetail.Panel1.ResumeLayout(false);
+            this.splitContainerRecipeDetail.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerRecipeDetail)).EndInit();
+            this.splitContainerRecipeDetail.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRecipeNutrients)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRecipeComponents)).EndInit();
+            this.tableRecipeDetail.ResumeLayout(false);
+            this.tableRecipeDetail.PerformLayout();
             this.panelRecipeToolbar.ResumeLayout(false);
             this.panelRecipeToolbar.PerformLayout();
             this.flowRecipeCalorieFilter.ResumeLayout(false);
@@ -3192,19 +3423,6 @@ namespace nutritionist
             ((System.ComponentModel.ISupportInitialize)(this.nudRecipeCalorieMax)).EndInit();
             this.flowRecipeNutrientFilters.ResumeLayout(false);
             this.flowRecipeNutrientFilters.PerformLayout();
-            this.tabRecipes.ResumeLayout(false);
-            this.splitContainerRecipes.Panel1.ResumeLayout(false);
-            this.splitContainerRecipes.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerRecipes)).EndInit();
-            this.splitContainerRecipes.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvRecipes)).EndInit();
-            this.grpRecipeDetail.ResumeLayout(false);
-            this.tableRecipeDetail.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerRecipeDetail)).EndInit();
-            this.splitContainerRecipeDetail.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvRecipeNutrients)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvRecipeComponents)).EndInit();
-            this.flowRecipeButtons.ResumeLayout(false);
             this.tabMealPlans.ResumeLayout(false);
             this.splitContainerMealPlans.Panel1.ResumeLayout(false);
             this.splitContainerMealPlans.Panel2.ResumeLayout(false);
@@ -3257,6 +3475,17 @@ namespace nutritionist
             ((System.ComponentModel.ISupportInitialize)(this.nudEvaluationScore)).EndInit();
             this.flowEvaluationButtons.ResumeLayout(false);
             this.panelNav.ResumeLayout(false);
+            this.grpMenus.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMenus)).EndInit();
+            this.grpStudents.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvStudents)).EndInit();
+            this.flowRecipeButtons.ResumeLayout(false);
+            this.splitMealSub.Panel1.ResumeLayout(false);
+            this.splitMealSub.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitMealSub)).EndInit();
+            this.splitMealSub.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMealRecipes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMealComponents)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3419,7 +3648,9 @@ namespace nutritionist
         private System.Windows.Forms.Label lblMealType;
         private System.Windows.Forms.ComboBox cmbMealType;
         private System.Windows.Forms.Label lblMealRecipes;
-        private System.Windows.Forms.ListBox lstMealRecipes;
+        private System.Windows.Forms.SplitContainer splitMealSub;
+        private System.Windows.Forms.DataGridView dgvMealRecipes;
+        private System.Windows.Forms.DataGridView dgvMealComponents;
         private System.Windows.Forms.Label lblMealNotes;
         private System.Windows.Forms.TextBox txtMealNotes;
         private System.Windows.Forms.FlowLayoutPanel flowMealButtons;
@@ -3486,5 +3717,15 @@ namespace nutritionist
         private System.Windows.Forms.FlowLayoutPanel flowEvaluationButtons;
         private System.Windows.Forms.Button btnRegisterEvaluation;
         private System.Windows.Forms.Button btnRefreshEvaluation;
+        private System.Windows.Forms.GroupBox grpTodayMeals;
+        private System.Windows.Forms.DataGridView dgvTodayMeals;
+        private System.Windows.Forms.GroupBox grpTodayRaw;
+        private System.Windows.Forms.DataGridView dgvTodayRawNeeds;
+        private System.Windows.Forms.GroupBox grpShortage;
+        private System.Windows.Forms.DataGridView dgvShortageRaw;
+        private System.Windows.Forms.Label lblServeDateTitle;
+        private System.Windows.Forms.Label lblCurrentServeDate;
+        private System.Windows.Forms.Button btnMarkServed;
+        private System.Windows.Forms.TableLayoutPanel layoutDashboard;
     }
 }
