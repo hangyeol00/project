@@ -12,6 +12,7 @@ namespace nutritionist
         private readonly ComboBox _cmbCategory;
         private readonly TextBox _txtUnit;
         private readonly NumericUpDown _nudBaseQty;
+        private readonly NumericUpDown _nudUnitGram;
         private readonly ComboBox _cmbStorage;
         private readonly NumericUpDown _nudShelfLife;
         private readonly CheckBox _chkActive;
@@ -28,7 +29,7 @@ namespace nutritionist
             MaximizeBox = false;
             MinimizeBox = false;
             StartPosition = FormStartPosition.CenterParent;
-            ClientSize = new Size(420, 320);
+            ClientSize = new Size(420, 360);
 
             var lblName = new Label
             {
@@ -78,7 +79,7 @@ namespace nutritionist
             {
                 AutoSize = true,
                 Location = new Point(20, 140),
-                Text = "1단위(g)"
+                Text = "발주 기준량"
             };
             _nudBaseQty = new NumericUpDown
             {
@@ -91,15 +92,32 @@ namespace nutritionist
             };
             _nudBaseQty.Value = 1000M;
 
-            var lblStorage = new Label
+            var lblUnitGram = new Label
             {
                 AutoSize = true,
                 Location = new Point(20, 180),
+                Text = "1단위(g)"
+            };
+            _nudUnitGram = new NumericUpDown
+            {
+                Location = new Point(120, 176),
+                Width = 120,
+                DecimalPlaces = 3,
+                Increment = 10M,
+                Maximum = 1000000,
+                Minimum = 0
+            };
+            _nudUnitGram.Value = 1000M;
+
+            var lblStorage = new Label
+            {
+                AutoSize = true,
+                Location = new Point(20, 220),
                 Text = "보관 방식"
             };
             _cmbStorage = new ComboBox
             {
-                Location = new Point(120, 176),
+                Location = new Point(120, 216),
                 Width = 120,
                 DropDownStyle = ComboBoxStyle.DropDown
             };
@@ -114,12 +132,12 @@ namespace nutritionist
             var lblShelfLife = new Label
             {
                 AutoSize = true,
-                Location = new Point(20, 220),
+                Location = new Point(20, 260),
                 Text = "유통기한(일)"
             };
             _nudShelfLife = new NumericUpDown
             {
-                Location = new Point(120, 216),
+                Location = new Point(120, 256),
                 Width = 120,
                 Maximum = 3650,
                 Minimum = 0
@@ -128,7 +146,7 @@ namespace nutritionist
             _chkActive = new CheckBox
             {
                 Text = "사용 중",
-                Location = new Point(260, 216),
+                Location = new Point(260, 256),
                 Checked = true,
                 AutoSize = true
             };
@@ -136,7 +154,7 @@ namespace nutritionist
             _btnOk = new Button
             {
                 Text = "등록",
-                Location = new Point(200, 260),
+                Location = new Point(200, 300),
                 Width = 80
             };
             _btnOk.Click += BtnOk_Click;
@@ -144,7 +162,7 @@ namespace nutritionist
             _btnCancel = new Button
             {
                 Text = "취소",
-                Location = new Point(300, 260),
+                Location = new Point(300, 300),
                 Width = 80,
                 DialogResult = DialogResult.Cancel
             };
@@ -155,6 +173,7 @@ namespace nutritionist
                 lblCategory, _cmbCategory,
                 lblUnit, _txtUnit,
                 lblBaseQty, _nudBaseQty,
+                lblUnitGram, _nudUnitGram,
                 lblStorage, _cmbStorage,
                 lblShelfLife, _nudShelfLife,
                 _chkActive,
@@ -199,6 +218,7 @@ namespace nutritionist
                 RawCategoryId = ((RawCategoryOption)_cmbCategory.SelectedItem).CategoryId,
                 PurchaseUnit = unit.ToUpperInvariant(),
                 BaseUnitQty = _nudBaseQty.Value,
+                UnitGramQty = _nudUnitGram.Value > 0 ? (decimal?)_nudUnitGram.Value : null,
                 StorageType = string.IsNullOrWhiteSpace(_cmbStorage.Text) ? null : _cmbStorage.Text.Trim(),
                 ShelfLifeDays = _nudShelfLife.Value > 0 ? (int?)_nudShelfLife.Value : null,
                 ActiveFlag = _chkActive.Checked
@@ -215,6 +235,7 @@ namespace nutritionist
         public int RawCategoryId { get; set; }
         public string PurchaseUnit { get; set; }
         public decimal BaseUnitQty { get; set; }
+        public decimal? UnitGramQty { get; set; }
         public string StorageType { get; set; }
         public int? ShelfLifeDays { get; set; }
         public bool ActiveFlag { get; set; }

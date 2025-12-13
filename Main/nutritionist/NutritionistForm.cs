@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using System.Drawing;
 using Oracle.DataAccess.Client;
+using nutritionist.Tabs;
+using nutritionist.Tabs.Management;
 
 namespace nutritionist
 {
@@ -24,14 +27,36 @@ namespace nutritionist
 
         private readonly UserSession _session;
         private readonly List<RawMaterialOption> _rawMaterials = new List<RawMaterialOption>();
+        private readonly List<FinalMenuOption> _finalMenuOptions = new List<FinalMenuOption>();
+        private readonly BindingList<FinalMenuOption> _filteredMenuOptions = new BindingList<FinalMenuOption>();
+        private readonly BindingList<FinalMenuOption> _selectedMealMenus = new BindingList<FinalMenuOption>();
+        private readonly Dictionary<int, List<FinalMenuOption>> _mealPlanSelections = new Dictionary<int, List<FinalMenuOption>>();
         private readonly Dictionary<int, HashSet<string>> _rawNutrientCodes = new Dictionary<int, HashSet<string>>();
         private readonly Dictionary<int, decimal> _rawCalorieMap = new Dictionary<int, decimal>();
         private readonly Dictionary<int, HashSet<string>> _recipeNutrientCodes = new Dictionary<int, HashSet<string>>();
         private readonly Dictionary<int, decimal> _recipeCalorieMap = new Dictionary<int, decimal>();
+        private readonly Dictionary<int, Dictionary<string, decimal>> _menuNutrientAmounts = new Dictionary<int, Dictionary<string, decimal>>();
+        private readonly BindingList<NutrientSummaryRow> _nutrientSummary = new BindingList<NutrientSummaryRow>();
+        private readonly Dictionary<int, HashSet<int>> _menuTagMap = new Dictionary<int, HashSet<int>>();
+        private readonly Dictionary<int, string> _tagNameLookup = new Dictionary<int, string>();
+        private readonly List<MenuTagOption> _availableMenuTags = new List<MenuTagOption>();
+        private readonly List<MenuSortOption> _menuSortOptions = new List<MenuSortOption>();
+        private ContextMenuStrip _recipeComponentMenu;
+        private ToolStripMenuItem _menuRecipeViewRaw;
+        private readonly List<NutrientTarget> _nutrientTargets = new List<NutrientTarget>
+        {
+            new NutrientTarget("칼로리", "kcal", CalorieNutrientCode, 700m),
+            new NutrientTarget("단백질", "g", "PROT", 25m),
+            new NutrientTarget("지방", "g", "FAT", 20m),
+            new NutrientTarget("탄수화물", "g", "CARB", 90m),
+            new NutrientTarget("칼슘", "mg", "CA", 200m)
+        };
         private DataTable _rawMaterialTable;
         private DataTable _recipeTable;
         private readonly HashSet<string> _collapsedCategories = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         private int _groupRowSerial = -1;
+        private bool _suppressMenuFilter;
+        private bool _suppressMealBoardUpdate;
         private static readonly Dictionary<string, string> RawColumnHeaders = new Dictionary<string, string>
         {
             { "ITEMTYPE", "구분" },
@@ -39,6 +64,7 @@ namespace nutritionist
             { "CATEGORYNAME", "분류" },
             { "PURCHASEUNIT", "단위" },
             { "BASEUNITQTY", "기준량" },
+            { "UNITGRAMQTY", "1단위(g)" },
             { "STORAGETYPE", "보관 방식" },
             { "SHELFLIFEDAYS", "유통기한(일)" },
             { "ACTIVEFLAG", "사용 여부" }
@@ -51,11 +77,127 @@ namespace nutritionist
             { "SERVINGSIZEGRAM", "1인 제공량(g)" },
             { "ACTIVEFLAG", "사용 여부" }
         };
+        private const int DefaultMealPortion = 100;
 
         private int? _selectedRawMaterialId;
         private int? _selectedMealPlanId;
         private int? _selectedPurchaseRequestId;
         private int? _selectedRecipeId;
+
+        private NutritionDashboardControl Dashboard => dashboardTabControl;
+        private GroupBox grpMealLogs => Dashboard?.grpMealLogs;
+        private DataGridView dgvMealLogs => Dashboard?.dgvMealLogs;
+        private GroupBox grpAction => Dashboard?.grpAction;
+        private Button btnCancelMeal => Dashboard?.btnCancelMeal;
+        private Button btnServeMeal => Dashboard?.btnServeMeal;
+        private TextBox txtMenuCode => Dashboard?.txtMenuCode;
+        private Label lblMenuCode => Dashboard?.lblMenuCode;
+        private TextBox txtStudentId => Dashboard?.txtStudentId;
+        private Label lblStudentId => Dashboard?.lblStudentId;
+        private GroupBox grpMenus => Dashboard?.grpMenus;
+        private DataGridView dgvMenus => Dashboard?.dgvMenus;
+        private GroupBox grpStudents => Dashboard?.grpStudents;
+        private DataGridView dgvStudents => Dashboard?.dgvStudents;
+        private GroupBox grpSummary => Dashboard?.grpSummary;
+        private Label lblNotMealValue => Dashboard?.lblNotMealValue;
+        private Label lblNotMeal => Dashboard?.lblNotMeal;
+        private Label lblTodayMealValue => Dashboard?.lblTodayMealValue;
+        private Label lblTodayMeal => Dashboard?.lblTodayMeal;
+        private Label lblTotalStudentValue => Dashboard?.lblTotalStudentValue;
+        private Label lblTotalStudent => Dashboard?.lblTotalStudent;
+        private RawMaterialsTabPage RawMaterialsTab => rawMaterialsTabPage;
+        private Panel panelRawToolbar => RawMaterialsTab?.panelRawToolbar;
+        private FlowLayoutPanel flowRawCalorieFilter => RawMaterialsTab?.flowRawCalorieFilter;
+        private Label lblRawCalorie => RawMaterialsTab?.lblRawCalorie;
+        private NumericUpDown nudRawCalorieMin => RawMaterialsTab?.nudRawCalorieMin;
+        private Label lblRawCalorieSeparator => RawMaterialsTab?.lblRawCalorieSeparator;
+        private NumericUpDown nudRawCalorieMax => RawMaterialsTab?.nudRawCalorieMax;
+        private Label lblRawCalorieUnit => RawMaterialsTab?.lblRawCalorieUnit;
+        private FlowLayoutPanel flowRawNutrientFilters => RawMaterialsTab?.flowRawNutrientFilters;
+        private Label lblRawNutrientFilter => RawMaterialsTab?.lblRawNutrientFilter;
+        private CheckBox chkRawNutrientProtein => RawMaterialsTab?.chkRawNutrientProtein;
+        private CheckBox chkRawNutrientFat => RawMaterialsTab?.chkRawNutrientFat;
+        private CheckBox chkRawNutrientCarb => RawMaterialsTab?.chkRawNutrientCarb;
+        private CheckBox chkRawGroup => RawMaterialsTab?.chkRawGroup;
+        private Button btnRawClear => RawMaterialsTab?.btnRawClear;
+        private Button btnRawSearch => RawMaterialsTab?.btnRawSearch;
+        private TextBox txtRawSearch => RawMaterialsTab?.txtRawSearch;
+        private Label lblRawSearch => RawMaterialsTab?.lblRawSearch;
+        private SplitContainer splitContainerRawMaterials => RawMaterialsTab?.splitContainerRawMaterials;
+        private TreeView tvRawMaterials => RawMaterialsTab?.tvRawMaterials;
+        private DataGridView dgvRawMaterials => RawMaterialsTab?.dgvRawMaterials;
+        private GroupBox grpRawDetail => RawMaterialsTab?.grpRawDetail;
+        private TableLayoutPanel tableRawDetail => RawMaterialsTab?.tableRawDetail;
+        private Label lblRawDetailName => RawMaterialsTab?.lblRawDetailName;
+        private TextBox txtRawDetailName => RawMaterialsTab?.txtRawDetailName;
+        private Label lblRawDetailCategory => RawMaterialsTab?.lblRawDetailCategory;
+        private TextBox txtRawDetailCategory => RawMaterialsTab?.txtRawDetailCategory;
+        private Label lblRawDetailUnit => RawMaterialsTab?.lblRawDetailUnit;
+        private TextBox txtRawDetailUnit => RawMaterialsTab?.txtRawDetailUnit;
+        private Label lblRawDetailBaseQty => RawMaterialsTab?.lblRawDetailBaseQty;
+        private TextBox txtRawDetailBaseQty => RawMaterialsTab?.txtRawDetailBaseQty;
+        private Label lblRawDetailUnitGram => RawMaterialsTab?.lblRawDetailUnitGram;
+        private TextBox txtRawDetailUnitGram => RawMaterialsTab?.txtRawDetailUnitGram;
+        private Label lblRawDetailStorage => RawMaterialsTab?.lblRawDetailStorage;
+        private TextBox txtRawDetailStorage => RawMaterialsTab?.txtRawDetailStorage;
+        private Label lblRawDetailShelfLife => RawMaterialsTab?.lblRawDetailShelfLife;
+        private TextBox txtRawDetailShelfLife => RawMaterialsTab?.txtRawDetailShelfLife;
+        private Label lblRawDetailActive => RawMaterialsTab?.lblRawDetailActive;
+        private TextBox txtRawDetailActive => RawMaterialsTab?.txtRawDetailActive;
+        private Label lblRawNutrients => RawMaterialsTab?.lblRawNutrients;
+        private DataGridView dgvRawNutrients => RawMaterialsTab?.dgvRawNutrients;
+        private Label lblRawComponents => RawMaterialsTab?.lblRawComponents;
+        private DataGridView dgvRawComponents => RawMaterialsTab?.dgvRawComponents;
+        private SplitContainer splitContainerRawDetail => RawMaterialsTab?.splitContainerRawDetail;
+        private FlowLayoutPanel flowRawButtons => RawMaterialsTab?.flowRawButtons;
+        private Button btnRawAdd => RawMaterialsTab?.btnRawAdd;
+        private Button btnRawRefresh => RawMaterialsTab?.btnRawRefresh;
+        private IngredientsTabPage IngredientsTab => ingredientsTabPage;
+        private DataGridView dgvIngredients => IngredientsTab?.dgvIngredients;
+        private SplitContainer splitContainerIngredients => IngredientsTab?.splitContainerIngredients;
+        private NutrientsTabPage NutrientsTab => nutrientsTabPage;
+        private SplitContainer splitContainerNutrients => NutrientsTab?.splitContainerNutrients;
+        private RecipesTabPage RecipesTab => recipesTabPage;
+        private Panel panelRecipeToolbar => RecipesTab?.panelRecipeToolbar;
+        private FlowLayoutPanel flowRecipeCalorieFilter => RecipesTab?.flowRecipeCalorieFilter;
+        private NumericUpDown nudRecipeCalorieMin => RecipesTab?.nudRecipeCalorieMin;
+        private NumericUpDown nudRecipeCalorieMax => RecipesTab?.nudRecipeCalorieMax;
+        private FlowLayoutPanel flowRecipeNutrientFilters => RecipesTab?.flowRecipeNutrientFilters;
+        private CheckBox chkRecipeNutrientProtein => RecipesTab?.chkRecipeNutrientProtein;
+        private CheckBox chkRecipeNutrientFat => RecipesTab?.chkRecipeNutrientFat;
+        private CheckBox chkRecipeNutrientCarb => RecipesTab?.chkRecipeNutrientCarb;
+        private Button btnRecipeSearch => RecipesTab?.btnRecipeSearch;
+        private Button btnRecipeClear => RecipesTab?.btnRecipeClear;
+        private TextBox txtRecipeSearch => RecipesTab?.txtRecipeSearch;
+        private Button btnRefreshRecipe => RecipesTab?.btnRefreshRecipe;
+        private Button btnRegisterRecipe => RecipesTab?.btnRegisterRecipe;
+        private SplitContainer splitContainerRecipes => RecipesTab?.splitContainerRecipes;
+        private DataGridView dgvRecipes => RecipesTab?.dgvRecipes;
+        private GroupBox grpRecipeDetail => RecipesTab?.grpRecipeDetail;
+        private TableLayoutPanel tableRecipeDetail => RecipesTab?.tableRecipeDetail;
+        private TextBox txtRecipeName => RecipesTab?.txtRecipeName;
+        private TextBox txtRecipeCode => RecipesTab?.txtRecipeCode;
+        private TextBox txtRecipeType => RecipesTab?.txtRecipeType;
+        private TextBox txtRecipeServing => RecipesTab?.txtRecipeServing;
+        private TextBox txtRecipeActive => RecipesTab?.txtRecipeActive;
+        private SplitContainer splitContainerRecipeDetail => RecipesTab?.splitContainerRecipeDetail;
+        private DataGridView dgvRecipeComponents => RecipesTab?.dgvRecipeComponents;
+        private DataGridView dgvRecipeNutrients => RecipesTab?.dgvRecipeNutrients;
+        private FlowLayoutPanel flowRecipeButtons => RecipesTab?.flowRecipeButtons;
+        private MealPlansTabPage MealPlansTab => mealPlansTabPage;
+        private SplitContainer splitContainerMealPlans => MealPlansTab?.splitContainerMealPlans;
+        private DataGridView dgvMealPlans => MealPlansTab?.dgvMealPlans;
+        private DateTimePicker dtpMealDate => MealPlansTab?.dtpMealDate;
+        private TextBox txtMealNotes => MealPlansTab?.txtMealNotes;
+        private CheckedListBox clbMenuTags => MealPlansTab?.clbMenuTags;
+        private ComboBox cmbMenuTypeFilter => MealPlansTab?.cmbMenuTypeFilter;
+        private ComboBox cmbMenuSort => MealPlansTab?.cmbMenuSort;
+        private Button btnResetMenuFilter => MealPlansTab?.btnResetMenuFilter;
+        private Button btnRegisterMealPlan => MealPlansTab?.btnRegisterMealPlan;
+        private ListBox lstAvailableMenus => MealPlansTab?.lstAvailableMenus;
+        private ListView lvMealBoard => MealPlansTab?.lvMealBoard;
+        private DataGridView dgvMealNutrition => MealPlansTab?.dgvMealNutrition;
+        private DataGridViewTextBoxColumn colNutrientStatus => MealPlansTab?.colNutrientStatus;
 
         public NutritionistForm() : this(null)
         {
@@ -66,6 +208,7 @@ namespace nutritionist
             _session = session;
             InitializeComponent();
             InitializeLayout();
+            RestrictNutritionistTabs();
 
             Load += NutritionistForm_Load;
             menuReload.Click += MenuReload_Click;
@@ -77,6 +220,10 @@ namespace nutritionist
             dgvIngredients.CellClick += DgvPurchaseRequests_CellClick;
             btnServeMeal.Click += BtnServeMeal_Click;
             btnCancelMeal.Click += BtnCancelMeal_Click;
+            if (btnRegisterMealPlan != null)
+            {
+                btnRegisterMealPlan.Click += BtnRegisterMealPlan_Click;
+            }
             if (dgvRawMaterials != null)
             {
                 dgvRawMaterials.CellClick += DgvRawMaterials_CellClick;
@@ -123,6 +270,7 @@ namespace nutritionist
             ConfigureGrid(dgvRecipeNutrients);
             ConfigureGrid(dgvRecipeComponents);
             ConfigureGrid(dgvRawComponents);
+            InitializeRecipeComponentContextMenu();
             if (tvRawMaterials != null)
             {
                 tvRawMaterials.Visible = false;
@@ -219,8 +367,67 @@ namespace nutritionist
                 txtRecipeActive.ReadOnly = true;
             }
 
+            _selectedMealMenus.ListChanged += SelectedMealMenus_ListChanged;
+            if (lstAvailableMenus != null)
+            {
+                lstAvailableMenus.DisplayMember = nameof(FinalMenuOption.DisplayName);
+                lstAvailableMenus.DataSource = _filteredMenuOptions;
+                lstAvailableMenus.MouseDown += LstAvailableMenus_MouseDown;
+            }
+
+            if (lvMealBoard != null)
+            {
+                lvMealBoard.AllowDrop = true;
+                lvMealBoard.DragEnter += MealBoard_DragEnter;
+                lvMealBoard.DragDrop += MealBoard_DragDrop;
+                lvMealBoard.DoubleClick += MealBoard_DoubleClick;
+            }
+
+            if (cmbMenuTypeFilter != null)
+            {
+                cmbMenuTypeFilter.SelectedIndexChanged += CmbMenuTypeFilter_SelectedIndexChanged;
+            }
+
+            if (cmbMenuSort != null)
+            {
+                cmbMenuSort.SelectedIndexChanged += CmbMenuSort_SelectedIndexChanged;
+            }
+
+            if (btnResetMenuFilter != null)
+            {
+                btnResetMenuFilter.Click += BtnResetMenuFilter_Click;
+            }
+
+            if (clbMenuTags != null)
+            {
+                clbMenuTags.ItemCheck += ClbMenuTags_ItemCheck;
+            }
+
+            if (dgvMealNutrition != null)
+            {
+                dgvMealNutrition.AutoGenerateColumns = false;
+                dgvMealNutrition.DataSource = _nutrientSummary;
+                dgvMealNutrition.CellFormatting += DgvMealNutrition_CellFormatting;
+            }
+
             AttachRawFilterEvents();
             AttachRecipeFilterEvents();
+        }
+
+        private void InitializeRecipeComponentContextMenu()
+        {
+            if (dgvRecipeComponents == null)
+            {
+                return;
+            }
+
+            _recipeComponentMenu = new ContextMenuStrip();
+            _menuRecipeViewRaw = new ToolStripMenuItem("재료관리에서 보기");
+            _menuRecipeViewRaw.Click += MenuRecipeViewRaw_Click;
+            _recipeComponentMenu.Items.Add(_menuRecipeViewRaw);
+            _recipeComponentMenu.Opening += RecipeComponentMenu_Opening;
+            dgvRecipeComponents.ContextMenuStrip = _recipeComponentMenu;
+            dgvRecipeComponents.CellMouseDown += DgvRecipeComponents_CellMouseDown;
         }
 
         private static void ConfigureGrid(DataGridView grid)
@@ -234,6 +441,24 @@ namespace nutritionist
             grid.MultiSelect = false;
             grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+        private static DataGridViewColumn GetColumn(DataGridView grid, string columnName)
+        {
+            if (grid == null || string.IsNullOrWhiteSpace(columnName))
+            {
+                return null;
+            }
+
+            foreach (DataGridViewColumn column in grid.Columns)
+            {
+                if (string.Equals(column.Name, columnName, StringComparison.OrdinalIgnoreCase))
+                {
+                    return column;
+                }
+            }
+
+            return null;
         }
 
         private void AttachRawFilterEvents()
@@ -317,6 +542,28 @@ namespace nutritionist
             menuOpenAdmin.Visible = isAdmin;
             btnServeMeal.Text = isAdmin ? "식단 승인" : "식단 계획 등록";
             btnCancelMeal.Text = isAdmin ? "발주 승인" : "발주 요청 등록";
+        }
+
+        private void RestrictNutritionistTabs()
+        {
+            RemoveManagementTab(tabNutrients);
+            RemoveManagementTab(tabUsers);
+            RemoveManagementTab(tabAllergies);
+            RemoveManagementTab(tabAllergyRelations);
+        }
+
+        private void RemoveManagementTab(TabPage tabPage)
+        {
+            if (tabControlManagement == null || tabPage == null)
+            {
+                return;
+            }
+
+            if (tabControlManagement.TabPages.Contains(tabPage))
+            {
+                tabControlManagement.TabPages.Remove(tabPage);
+                tabPage.Dispose();
+            }
         }
 
         private void NutritionistForm_Load(object sender, EventArgs e)
@@ -444,12 +691,12 @@ namespace nutritionist
         private void LoadRawMaterials()
         {
             const string sql =
-                "SELECT 'RAW' AS ITEMTYPE, r.RawID AS RAWID, r.RawName, c.CategoryName, r.PurchaseUnit, r.BaseUnitQty, " +
+                "SELECT 'RAW' AS ITEMTYPE, r.RawID AS RAWID, r.RawName, c.CategoryName, r.PurchaseUnit, r.BaseUnitQty, r.UnitGramQty, " +
                 "       r.StorageType, r.ShelfLifeDays, r.ActiveFlag, NULL AS IngredientType, NULL AS BatchYieldGram, NULL AS DefaultPortionGram " +
                 "FROM RawMaterial r LEFT JOIN RawCategory c ON r.RawCategoryID = c.RawCategoryID " +
                 "UNION ALL " +
                 "SELECT 'ING' AS ITEMTYPE, i.IngredientID AS RAWID, i.IngredientName AS RAWNAME, i.Type AS CategoryName, '조합' AS PurchaseUnit, " +
-                "       i.BatchYieldGram AS BaseUnitQty, NULL AS StorageType, NULL AS ShelfLifeDays, i.ActiveFlag, i.Type AS IngredientType, " +
+                "       i.BatchYieldGram AS BaseUnitQty, NULL AS UnitGramQty, NULL AS StorageType, NULL AS ShelfLifeDays, i.ActiveFlag, i.Type AS IngredientType, " +
                 "       i.BatchYieldGram, i.DefaultPortionGram " +
                 "FROM Ingredient i " +
                 "ORDER BY RawName";
@@ -536,6 +783,7 @@ namespace nutritionist
         {
             _recipeNutrientCodes.Clear();
             _recipeCalorieMap.Clear();
+            _menuNutrientAmounts.Clear();
 
             const string sql =
                 "WITH base_component AS ( " +
@@ -555,7 +803,7 @@ namespace nutritionist
                 "    WHERE bc.ComponentType = 'I' AND bc.ComponentIngredientID IS NOT NULL AND i.BatchYieldGram IS NOT NULL AND i.BatchYieldGram > 0 " +
                 ") " +
                 "SELECT rc.FinalMenuID, n.NutrientCode, " +
-                "       CAST(SUM(NVL(rn.AmountPerBase / NULLIF(r.BaseUnitQty, 0), 0) * NVL(rc.QuantityGram, 0)) AS NUMBER(18,6)) AS NUTRIENTAMOUNT " +
+                "       CAST(SUM(NVL(rn.AmountPerBase, 0) * NVL(rc.QuantityGram, 0)) AS NUMBER(18,6)) AS NUTRIENTAMOUNT " +
                 "FROM raw_component rc " +
                 "JOIN RawMaterial r ON rc.RawID = r.RawID " +
                 "JOIN RawNutrient rn ON rn.RawID = r.RawID " +
@@ -581,12 +829,18 @@ namespace nutritionist
                 var codeSet = GetOrCreateNutrientSet(_recipeNutrientCodes, menuId);
                 codeSet.Add(code);
 
+                var amountMap = GetOrCreateNutrientAmountMap(menuId);
+                amountMap[code] = row["NUTRIENTAMOUNT"] == DBNull.Value
+                    ? 0m
+                    : Convert.ToDecimal(row["NUTRIENTAMOUNT"]);
+
                 if (string.Equals(code, CalorieNutrientCode, StringComparison.OrdinalIgnoreCase) &&
                     row["NUTRIENTAMOUNT"] != DBNull.Value)
                 {
                     _recipeCalorieMap[menuId] = Convert.ToDecimal(row["NUTRIENTAMOUNT"]);
                 }
             }
+            UpdateNutritionSummary();
         }
 
         private void LoadFinalMenus()
@@ -594,7 +848,151 @@ namespace nutritionist
             const string sql =
                 "SELECT FinalMenuID, MenuCode, MenuName, MenuType, ServingSizeGram, ActiveFlag " +
                 "FROM FinalMenu ORDER BY MenuName";
-            dgvMenus.DataSource = ExecuteDataTable(sql);
+            var table = ExecuteDataTable(sql);
+            dgvMenus.DataSource = table;
+
+            _finalMenuOptions.Clear();
+            foreach (DataRow row in table.Rows)
+            {
+                _finalMenuOptions.Add(new FinalMenuOption(
+                    ToInt(row["FINALMENUID"]),
+                    row["MENUCODE"]?.ToString(),
+                    row["MENUNAME"]?.ToString() ?? string.Empty,
+                    row["MENUTYPE"]?.ToString()));
+            }
+            PopulateMenuTypeFilter();
+            PopulateMenuSortOptions();
+            LoadMenuTags();
+            ApplyMenuFilter(true);
+        }
+
+        private void PopulateMenuTypeFilter()
+        {
+            if (cmbMenuTypeFilter == null)
+            {
+                return;
+            }
+
+            var previous = cmbMenuTypeFilter.SelectedItem?.ToString();
+            _suppressMenuFilter = true;
+            cmbMenuTypeFilter.Items.Clear();
+            cmbMenuTypeFilter.Items.Add("전체");
+            var types = _finalMenuOptions
+                .Select(option => option.MenuType)
+                .Where(type => !string.IsNullOrWhiteSpace(type))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .OrderBy(type => type);
+
+            foreach (var type in types)
+            {
+                cmbMenuTypeFilter.Items.Add(type);
+            }
+
+            var targetIndex = 0;
+            if (!string.IsNullOrWhiteSpace(previous))
+            {
+                var found = cmbMenuTypeFilter.Items.IndexOf(previous);
+                if (found >= 0)
+                {
+                    targetIndex = found;
+                }
+            }
+
+            cmbMenuTypeFilter.SelectedIndex = targetIndex;
+            _suppressMenuFilter = false;
+        }
+
+        private void PopulateMenuSortOptions()
+        {
+            if (cmbMenuSort == null)
+            {
+                return;
+            }
+
+            _menuSortOptions.Clear();
+            _menuSortOptions.Add(MenuSortOption.CreateDefault("정렬 없음"));
+            foreach (var target in _nutrientTargets)
+            {
+                _menuSortOptions.Add(MenuSortOption.Create($"{target.DisplayName} 높은순", target.Code, true));
+                _menuSortOptions.Add(MenuSortOption.Create($"{target.DisplayName} 낮은순", target.Code, false));
+            }
+
+            _suppressMenuFilter = true;
+            cmbMenuSort.DisplayMember = nameof(MenuSortOption.DisplayName);
+            cmbMenuSort.DataSource = null;
+            cmbMenuSort.Items.Clear();
+            foreach (var option in _menuSortOptions)
+            {
+                cmbMenuSort.Items.Add(option);
+            }
+
+            if (cmbMenuSort.Items.Count > 0)
+            {
+                cmbMenuSort.SelectedIndex = 0;
+            }
+
+            _suppressMenuFilter = false;
+        }
+
+        private void LoadMenuTags()
+        {
+            _availableMenuTags.Clear();
+            _menuTagMap.Clear();
+            _tagNameLookup.Clear();
+
+            const string tagSql =
+                "SELECT mt.MenuTagID AS MENUTAGID, mt.TagName, mt.TagType " +
+                "FROM MenuTag mt WHERE NVL(mt.ActiveFlag, 'Y') = 'Y' " +
+                "ORDER BY mt.TagType, mt.TagName";
+            var tagTable = ExecuteDataTable(tagSql);
+            foreach (DataRow row in tagTable.Rows)
+            {
+                var tagId = ToInt(row["MENUTAGID"]);
+                if (tagId <= 0)
+                {
+                    continue;
+                }
+
+                var name = row["TAGNAME"]?.ToString() ?? string.Empty;
+                var type = row["TAGTYPE"]?.ToString();
+                var option = new MenuTagOption(tagId, name, type);
+                _availableMenuTags.Add(option);
+                _tagNameLookup[tagId] = name;
+            }
+
+            if (clbMenuTags != null)
+            {
+                _suppressMenuFilter = true;
+                clbMenuTags.Items.Clear();
+                foreach (var option in _availableMenuTags)
+                {
+                    clbMenuTags.Items.Add(option, false);
+                }
+                _suppressMenuFilter = false;
+            }
+
+            const string mapSql =
+                "SELECT mm.FinalMenuID AS FINALMENUID, mm.MenuTagID AS MENUTAGID FROM MenuTagMap mm";
+            var mapTable = ExecuteDataTable(mapSql);
+            foreach (DataRow row in mapTable.Rows)
+            {
+                var menuId = ToInt(row["FINALMENUID"]);
+                var tagId = ToInt(row["MENUTAGID"]);
+                if (menuId <= 0 || tagId <= 0)
+                {
+                    continue;
+                }
+
+                if (!_menuTagMap.TryGetValue(menuId, out var set))
+                {
+                    set = new HashSet<int>();
+                    _menuTagMap[menuId] = set;
+                }
+
+                set.Add(tagId);
+            }
+
+            RefreshMealBoard();
         }
 
         private void LoadMealPlans()
@@ -640,6 +1038,210 @@ namespace nutritionist
             {
                 _selectedPurchaseRequestId = null;
             }
+        }
+
+        private string GetSelectedMenuType()
+        {
+            var selected = cmbMenuTypeFilter?.SelectedItem?.ToString();
+            if (string.IsNullOrWhiteSpace(selected) || string.Equals(selected, "전체", StringComparison.OrdinalIgnoreCase))
+            {
+                return null;
+            }
+
+            return selected;
+        }
+
+        private List<int> GetSelectedTagIds()
+        {
+            var selected = new List<int>();
+            if (clbMenuTags == null)
+            {
+                return selected;
+            }
+
+            foreach (var item in clbMenuTags.CheckedItems)
+            {
+                if (item is MenuTagOption option)
+                {
+                    selected.Add(option.TagId);
+                }
+            }
+
+            return selected;
+        }
+
+        private void ApplyMenuFilter(bool resetSelection = false)
+        {
+            if (lstAvailableMenus == null)
+            {
+                return;
+            }
+
+            var selectedType = GetSelectedMenuType();
+            var selectedTags = GetSelectedTagIds();
+
+            var matched = new List<FinalMenuOption>();
+            foreach (var option in _finalMenuOptions)
+            {
+                if (!string.IsNullOrWhiteSpace(selectedType) &&
+                    !string.Equals(option.MenuType, selectedType, StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                if (selectedTags.Count > 0)
+                {
+                    if (!_menuTagMap.TryGetValue(option.FinalMenuId, out var tagSet) ||
+                        !selectedTags.All(tagSet.Contains))
+                    {
+                        continue;
+                    }
+                }
+
+                matched.Add(option);
+            }
+
+            var ordered = SortMenuOptions(matched);
+            _filteredMenuOptions.RaiseListChangedEvents = false;
+            _filteredMenuOptions.Clear();
+            foreach (var option in ordered)
+            {
+                _filteredMenuOptions.Add(option);
+            }
+            _filteredMenuOptions.RaiseListChangedEvents = true;
+            _filteredMenuOptions.ResetBindings();
+
+            if (resetSelection && _filteredMenuOptions.Count > 0)
+            {
+                lstAvailableMenus.SelectedIndex = 0;
+            }
+        }
+
+        private List<FinalMenuOption> SortMenuOptions(IEnumerable<FinalMenuOption> options)
+        {
+            var optionList = options?.ToList() ?? new List<FinalMenuOption>();
+            if (optionList.Count == 0)
+            {
+                return optionList;
+            }
+
+            var sortOption = GetSelectedMenuSortOption();
+            var comparer = StringComparer.CurrentCultureIgnoreCase;
+
+            if (sortOption == null || sortOption.IsDefault)
+            {
+                return optionList
+                    .OrderBy(option => option.MenuName, comparer)
+                    .ToList();
+            }
+
+            Func<FinalMenuOption, decimal> selector = menu => GetMenuNutrientAmount(menu.FinalMenuId, sortOption.NutrientCode);
+            var ordered = sortOption.Descending
+                ? optionList.OrderByDescending(selector).ThenBy(menu => menu.MenuName, comparer)
+                : optionList.OrderBy(selector).ThenBy(menu => menu.MenuName, comparer);
+
+            return ordered.ToList();
+        }
+
+        private MenuSortOption GetSelectedMenuSortOption()
+        {
+            return cmbMenuSort?.SelectedItem as MenuSortOption;
+        }
+
+        private decimal GetMenuNutrientAmount(int menuId, string nutrientCode)
+        {
+            if (menuId <= 0 || string.IsNullOrWhiteSpace(nutrientCode))
+            {
+                return 0m;
+            }
+
+            if (_menuNutrientAmounts.TryGetValue(menuId, out var nutrientMap) &&
+                nutrientMap != null &&
+                nutrientMap.TryGetValue(nutrientCode, out var amount))
+            {
+                return amount;
+            }
+
+            return 0m;
+        }
+
+        private void CmbMenuTypeFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_suppressMenuFilter)
+            {
+                return;
+            }
+
+            ApplyMenuFilter();
+        }
+
+        private void CmbMenuSort_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_suppressMenuFilter)
+            {
+                return;
+            }
+
+            ApplyMenuFilter();
+        }
+
+        private void BtnResetMenuFilter_Click(object sender, EventArgs e)
+        {
+            if (cmbMenuTypeFilter != null && cmbMenuTypeFilter.Items.Count > 0)
+            {
+                _suppressMenuFilter = true;
+                cmbMenuTypeFilter.SelectedIndex = 0;
+                _suppressMenuFilter = false;
+            }
+
+            if (clbMenuTags != null)
+            {
+                _suppressMenuFilter = true;
+                for (var i = 0; i < clbMenuTags.Items.Count; i++)
+                {
+                    clbMenuTags.SetItemChecked(i, false);
+                }
+                _suppressMenuFilter = false;
+            }
+
+            if (cmbMenuSort != null && cmbMenuSort.Items.Count > 0)
+            {
+                _suppressMenuFilter = true;
+                cmbMenuSort.SelectedIndex = 0;
+                _suppressMenuFilter = false;
+            }
+
+            ApplyMenuFilter();
+        }
+
+        private void ClbMenuTags_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (_suppressMenuFilter)
+            {
+                return;
+            }
+
+            BeginInvoke(new Action(() => ApplyMenuFilter()));
+        }
+
+        private void DgvMealNutrition_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgvMealNutrition == null ||
+                e.RowIndex < 0 ||
+                dgvMealNutrition.Columns[e.ColumnIndex] != colNutrientStatus)
+            {
+                return;
+            }
+
+            var row = dgvMealNutrition.Rows[e.RowIndex].DataBoundItem as NutrientSummaryRow;
+            if (row == null)
+            {
+                return;
+            }
+
+            var color = GetCompletionColor(row.CompletionRatio);
+            e.CellStyle.ForeColor = color;
+            e.CellStyle.SelectionForeColor = color;
         }
 
         private void DgvStudents_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -755,6 +1357,7 @@ namespace nutritionist
 
         private void SetSelectedMealPlanFromRow(DataGridViewRow row)
         {
+            SaveMealRecipesForCurrentPlan();
             if (row?.Cells["MEALPLANID"].Value == null)
             {
                 _selectedMealPlanId = null;
@@ -768,6 +1371,7 @@ namespace nutritionist
 
         private void DisplaySelectedMealPlan()
         {
+            LoadMealRecipesForCurrentPlan();
             if (_selectedMealPlanId == null || dgvMealLogs.CurrentRow == null)
             {
                 txtMenuCode.Text = "선택 없음";
@@ -824,6 +1428,23 @@ namespace nutritionist
             }
         }
 
+        private void BtnRegisterMealPlan_Click(object sender, EventArgs e)
+        {
+            if (!EnsureDietitianAccess())
+            {
+                return;
+            }
+
+            try
+            {
+                RegisterMealForCurrentPlan();
+            }
+            catch (OracleException ex)
+            {
+                MessageBox.Show($"식단 등록 중 오류가 발생했습니다.\n{ex.Message}", "DB 오류");
+            }
+        }
+
         private void OpenMealPlanDialog()
         {
             if (!EnsureDietitianAccess())
@@ -866,6 +1487,235 @@ namespace nutritionist
                 new OracleParameter("CREATEDBY", _session?.UserId ?? "SYSTEM"));
         }
 
+        private void RegisterMealForCurrentPlan()
+        {
+            if (_selectedMealPlanId == null)
+            {
+                MessageBox.Show("식단 계획을 선택해 주세요.", "안내");
+                return;
+            }
+
+            if (_selectedMealMenus.Count == 0)
+            {
+                MessageBox.Show("식단 보드에 메뉴를 추가해 주세요.", "안내");
+                return;
+            }
+
+            var mealDate = dtpMealDate?.Value.Date ?? DateTime.Today;
+            if (!IsMealDateWithinSelectedPlan(mealDate, out var planStart, out var planEnd))
+            {
+                var startText = planStart?.ToString("yyyy-MM-dd") ?? "-";
+                var endText = planEnd?.ToString("yyyy-MM-dd") ?? "-";
+                MessageBox.Show($"선택한 날짜가 식단 계획 기간({startText} ~ {endText})을 벗어났습니다.", "안내");
+                return;
+            }
+
+            var notes = txtMealNotes?.Text?.Trim();
+            PersistMeal(mealDate, notes);
+        }
+
+        private bool IsMealDateWithinSelectedPlan(DateTime mealDate, out DateTime? planStart, out DateTime? planEnd)
+        {
+            planStart = null;
+            planEnd = null;
+
+            var row = GetCurrentMealPlanRow();
+            if (row == null)
+            {
+                return true;
+            }
+
+            planStart = ToNullableDate(row.Cells["PERIODSTART"]?.Value);
+            planEnd = ToNullableDate(row.Cells["PERIODEND"]?.Value);
+
+            if (planStart.HasValue && mealDate.Date < planStart.Value.Date)
+            {
+                return false;
+            }
+
+            if (planEnd.HasValue && mealDate.Date > planEnd.Value.Date)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private DataGridViewRow GetCurrentMealPlanRow()
+        {
+            if (_selectedMealPlanId == null || dgvMealLogs == null)
+            {
+                return null;
+            }
+
+            foreach (DataGridViewRow row in dgvMealLogs.Rows)
+            {
+                if (row.Cells["MEALPLANID"]?.Value == null)
+                {
+                    continue;
+                }
+
+                if (ToInt(row.Cells["MEALPLANID"].Value) == _selectedMealPlanId)
+                {
+                    return row;
+                }
+            }
+
+            return null;
+        }
+
+        private static DateTime? ToNullableDate(object value)
+        {
+            if (value == null || value == DBNull.Value)
+            {
+                return null;
+            }
+
+            return Convert.ToDateTime(value);
+        }
+
+        private void PersistMeal(DateTime mealDate, string notes)
+        {
+            if (_selectedMealPlanId == null)
+            {
+                return;
+            }
+
+            using (var conn = new OracleConnection(DatabaseConfig.ConnectionString))
+            {
+                conn.Open();
+                using (var transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        var planId = _selectedMealPlanId.Value;
+                        var existingMealId = GetExistingMealId(conn, transaction, planId, mealDate);
+                        int mealId;
+                        if (existingMealId > 0)
+                        {
+                            mealId = existingMealId;
+                            UpdateMealRow(conn, transaction, mealId, planId, mealDate, notes);
+                            DeleteMealComponents(conn, transaction, mealId);
+                        }
+                        else
+                        {
+                            mealId = GetNextMealId(conn, transaction);
+                            InsertMealRow(conn, transaction, mealId, planId, mealDate, notes);
+                        }
+
+                        InsertMealComponents(conn, transaction, mealId);
+                        transaction.Commit();
+                        MessageBox.Show("식단이 등록되었습니다.", "완료");
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+
+        private static int GetExistingMealId(OracleConnection conn, OracleTransaction transaction, int planId, DateTime mealDate)
+        {
+            const string sql =
+                "SELECT MealID FROM Meal WHERE MealPlanID = :PLANID AND MealDate = :MEALDATE";
+            using (var cmd = new OracleCommand(sql, conn))
+            {
+                cmd.Transaction = transaction;
+                cmd.Parameters.Add(new OracleParameter("PLANID", planId));
+                cmd.Parameters.Add(new OracleParameter("MEALDATE", mealDate));
+                var result = cmd.ExecuteScalar();
+                return ToInt(result);
+            }
+        }
+
+        private static int GetNextMealId(OracleConnection conn, OracleTransaction transaction)
+        {
+            using (var cmd = new OracleCommand("SELECT NVL(MAX(MealID), 0) + 1 FROM Meal", conn))
+            {
+                cmd.Transaction = transaction;
+                var result = cmd.ExecuteScalar();
+                return ToInt(result);
+            }
+        }
+
+        private static void InsertMealRow(OracleConnection conn, OracleTransaction transaction, int mealId, int planId, DateTime mealDate, string notes)
+        {
+            const string sql =
+                "INSERT INTO Meal (MealID, MealPlanID, MealDate, TargetGradeFrom, TargetGradeTo, TargetGroup, Notes) " +
+                "VALUES (:ID, :PLANID, :MEALDATE, NULL, NULL, NULL, :NOTES)";
+            using (var cmd = new OracleCommand(sql, conn))
+            {
+                cmd.Transaction = transaction;
+                cmd.Parameters.Add(new OracleParameter("ID", mealId));
+                cmd.Parameters.Add(new OracleParameter("PLANID", planId));
+                cmd.Parameters.Add(new OracleParameter("MEALDATE", mealDate));
+                cmd.Parameters.Add(new OracleParameter("NOTES",
+                    string.IsNullOrWhiteSpace(notes) ? (object)DBNull.Value : notes));
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        private static void UpdateMealRow(OracleConnection conn, OracleTransaction transaction, int mealId, int planId, DateTime mealDate, string notes)
+        {
+            const string sql =
+                "UPDATE Meal SET MealPlanID = :PLANID, MealDate = :MEALDATE, Notes = :NOTES " +
+                "WHERE MealID = :ID";
+            using (var cmd = new OracleCommand(sql, conn))
+            {
+                cmd.Transaction = transaction;
+                cmd.Parameters.Add(new OracleParameter("PLANID", planId));
+                cmd.Parameters.Add(new OracleParameter("MEALDATE", mealDate));
+                cmd.Parameters.Add(new OracleParameter("NOTES",
+                    string.IsNullOrWhiteSpace(notes) ? (object)DBNull.Value : notes));
+                cmd.Parameters.Add(new OracleParameter("ID", mealId));
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        private static void DeleteMealComponents(OracleConnection conn, OracleTransaction transaction, int mealId)
+        {
+            using (var cmd = new OracleCommand("DELETE FROM MealComp WHERE MealID = :ID", conn))
+            {
+                cmd.Transaction = transaction;
+                cmd.Parameters.Add(new OracleParameter("ID", mealId));
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        private void InsertMealComponents(OracleConnection conn, OracleTransaction transaction, int mealId)
+        {
+            if (_selectedMealMenus.Count == 0)
+            {
+                return;
+            }
+
+            const string sql =
+                "INSERT INTO MealComp (MealID, FinalMenuID, PortionCount, IsMainDish) VALUES (:MEALID, :MENUID, :PORTION, :ISMAIN)";
+
+            var isFirst = true;
+            foreach (var menu in _selectedMealMenus)
+            {
+                using (var cmd = new OracleCommand(sql, conn))
+                {
+                    cmd.Transaction = transaction;
+                    cmd.Parameters.Add(new OracleParameter("MEALID", mealId));
+                    cmd.Parameters.Add(new OracleParameter("MENUID", menu.FinalMenuId));
+                    cmd.Parameters.Add(new OracleParameter("PORTION", GetDefaultPortionCount()));
+                    cmd.Parameters.Add(new OracleParameter("ISMAIN", isFirst ? "Y" : "N"));
+                    cmd.ExecuteNonQuery();
+                }
+
+                isFirst = false;
+            }
+        }
+
+        private int GetDefaultPortionCount()
+        {
+            return DefaultMealPortion;
+        }
+
         private void DisplayManagedRawMaterial(DataRow row)
         {
             if (txtRawDetailName == null)
@@ -882,6 +1732,7 @@ namespace nutritionist
                 txtRawDetailCategory.Text = string.Empty;
                 txtRawDetailUnit.Text = string.Empty;
                 txtRawDetailBaseQty.Text = string.Empty;
+                txtRawDetailUnitGram.Text = string.Empty;
                 txtRawDetailStorage.Text = string.Empty;
                 txtRawDetailShelfLife.Text = string.Empty;
                 txtRawDetailActive.Text = string.Empty;
@@ -894,6 +1745,7 @@ namespace nutritionist
             txtRawDetailCategory.Text = row["CATEGORYNAME"]?.ToString() ?? string.Empty;
             txtRawDetailUnit.Text = row["PURCHASEUNIT"]?.ToString() ?? string.Empty;
             txtRawDetailBaseQty.Text = FormatDecimal(row["BASEUNITQTY"]);
+            txtRawDetailUnitGram.Text = FormatDecimal(row["UNITGRAMQTY"]);
             txtRawDetailStorage.Text = row["STORAGETYPE"]?.ToString() ?? string.Empty;
             txtRawDetailShelfLife.Text = FormatShelfLife(row["SHELFLIFEDAYS"]);
             txtRawDetailActive.Text = FormatActiveFlag(row["ACTIVEFLAG"]);
@@ -963,7 +1815,7 @@ namespace nutritionist
             }
 
             const string sql =
-                "SELECT n.NutrientName AS 영양소, n.Unit AS 단위, rn.AmountPerBase AS 함량 " +
+                "SELECT n.NutrientName AS 영양소, n.Unit AS 단위, rn.AmountPerBase AS \"1g당 함량\" " +
                 "FROM RawNutrient rn INNER JOIN Nutrient n ON rn.NutrientID = n.NutrientID " +
                 "WHERE rn.RawID = :RAWID ORDER BY n.NutrientName";
 
@@ -1027,7 +1879,7 @@ namespace nutritionist
                 "    WHERE bc.ComponentType = 'I' AND bc.ComponentIngredientID IS NOT NULL AND i.BatchYieldGram IS NOT NULL AND i.BatchYieldGram > 0 " +
                 ") " +
                 "SELECT n.NutrientName AS 영양소, n.Unit AS 단위, " +
-                "       ROUND(SUM(NVL(rn.AmountPerBase / NULLIF(r.BaseUnitQty, 0), 0) * NVL(rc.QuantityGram, 0)), 3) AS 함량 " +
+                "       ROUND(SUM(NVL(rn.AmountPerBase, 0) * NVL(rc.QuantityGram, 0)), 3) AS 함량 " +
                 "FROM raw_component rc " +
                 "JOIN RawMaterial r ON rc.RawID = r.RawID " +
                 "JOIN RawNutrient rn ON rn.RawID = r.RawID " +
@@ -1059,6 +1911,7 @@ namespace nutritionist
                 "SELECT CASE mc.ComponentType WHEN 'R' THEN '원재료' ELSE '재료' END AS TypeLabel, " +
                 "       COALESCE(r.RawName, i.IngredientName) AS ComponentName, " +
                 "       NVL(mc.QuantityPerServing, 0) AS QuantityPerServing, " +
+                "       mc.ComponentRawID AS RawID, " +
                 "       CASE mc.ComponentType WHEN 'R' THEN r.PurchaseUnit ELSE '조합' END AS UnitLabel " +
                 "FROM MenuComp mc " +
                 "LEFT JOIN RawMaterial r ON mc.ComponentRawID = r.RawID " +
@@ -1087,6 +1940,12 @@ namespace nutritionist
             {
                 dgvRecipeComponents.Columns["UnitLabel"].HeaderText = "단위";
             }
+
+            var rawIdColumn = GetColumn(dgvRecipeComponents, "RawID");
+            if (rawIdColumn != null)
+            {
+                rawIdColumn.Visible = false;
+            }
         }
 
         private DataTable LoadAggregatedRecipeComponents(int finalMenuId)
@@ -1113,7 +1972,7 @@ namespace nutritionist
                 "    FROM raw_component rc " +
                 "    GROUP BY rc.FinalMenuID, rc.RawID " +
                 ") " +
-                "SELECT r.RawName AS RawName, ROUND(a.QuantityGram, 3) AS QuantityPerServing, r.PurchaseUnit AS PurchaseUnit " +
+                "SELECT r.RawID AS RawID, r.RawName AS RawName, ROUND(a.QuantityGram, 3) AS QuantityPerServing, r.PurchaseUnit AS PurchaseUnit " +
                 "FROM aggregated a " +
                 "JOIN RawMaterial r ON a.RawID = r.RawID " +
                 "WHERE a.FinalMenuID = :ID " +
@@ -1124,6 +1983,12 @@ namespace nutritionist
 
         private void ConfigureAggregatedRecipeGrid()
         {
+            var rawIdColumn = GetColumn(dgvRecipeComponents, "RawID");
+            if (rawIdColumn != null)
+            {
+                rawIdColumn.Visible = false;
+            }
+
             if (dgvRecipeComponents.Columns.Contains("RawName"))
             {
                 dgvRecipeComponents.Columns["RawName"].HeaderText = "원재료";
@@ -1138,6 +2003,54 @@ namespace nutritionist
             {
                 dgvRecipeComponents.Columns["PurchaseUnit"].HeaderText = "구매 단위";
             }
+        }
+
+        private void DgvRecipeComponents_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (dgvRecipeComponents == null || e.Button != MouseButtons.Right || e.RowIndex < 0)
+            {
+                return;
+            }
+
+            dgvRecipeComponents.ClearSelection();
+            var row = dgvRecipeComponents.Rows[e.RowIndex];
+            row.Selected = true;
+            var columnIndex = e.ColumnIndex >= 0 ? e.ColumnIndex : 0;
+            if (columnIndex >= 0 && columnIndex < row.Cells.Count)
+            {
+                dgvRecipeComponents.CurrentCell = row.Cells[columnIndex];
+            }
+        }
+
+        private void RecipeComponentMenu_Opening(object sender, CancelEventArgs e)
+        {
+            if (_menuRecipeViewRaw == null)
+            {
+                return;
+            }
+
+            var rawId = GetSelectedRecipeComponentRawId();
+            _menuRecipeViewRaw.Enabled = rawId.HasValue && rawId.Value > 0;
+        }
+
+        private void MenuRecipeViewRaw_Click(object sender, EventArgs e)
+        {
+            var rawId = GetSelectedRecipeComponentRawId();
+            if (rawId.HasValue)
+            {
+                ShowRawMaterialInManager(rawId.Value);
+            }
+        }
+
+        private int? GetSelectedRecipeComponentRawId()
+        {
+            if (dgvRecipeComponents?.CurrentRow == null)
+            {
+                return null;
+            }
+
+            var rawId = GetRawIdFromRecipeComponentRow(dgvRecipeComponents.CurrentRow);
+            return rawId > 0 ? rawId : (int?)null;
         }
 
         private void ClearRecipeNutrients()
@@ -1267,7 +2180,7 @@ namespace nutritionist
                 {
                     var rawId = ToInt(r["RAWID"]);
                     return _rawNutrientCodes.TryGetValue(rawId, out var codes) &&
-                           requiredNutrients.Any(code => codes.Contains(code));
+                           requiredNutrients.All(code => codes.Contains(code));
                 });
             }
 
@@ -1326,7 +2239,7 @@ namespace nutritionist
                 {
                     var menuId = ToInt(r["FINALMENUID"]);
                     return _recipeNutrientCodes.TryGetValue(menuId, out var codes) &&
-                           requiredNutrients.Any(code => codes.Contains(code));
+                           requiredNutrients.All(code => codes.Contains(code));
                 });
             }
 
@@ -1452,6 +2365,135 @@ namespace nutritionist
             }
 
             return set;
+        }
+
+        private Dictionary<string, decimal> GetOrCreateNutrientAmountMap(int key)
+        {
+            if (!_menuNutrientAmounts.TryGetValue(key, out var map))
+            {
+                map = new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase);
+                _menuNutrientAmounts[key] = map;
+            }
+
+            return map;
+        }
+
+        private sealed class MenuTagOption
+        {
+            public MenuTagOption(int tagId, string name, string type)
+            {
+                TagId = tagId;
+                Name = name ?? string.Empty;
+                Type = type;
+            }
+
+            public int TagId { get; }
+            public string Name { get; }
+            public string Type { get; }
+
+            public override string ToString()
+            {
+                if (string.IsNullOrWhiteSpace(Type))
+                {
+                    return Name;
+                }
+
+                return $"{Name} ({Type})";
+            }
+        }
+
+        private sealed class MenuSortOption
+        {
+            private MenuSortOption(string displayName, string nutrientCode, bool descending, bool isDefault)
+            {
+                DisplayName = displayName;
+                NutrientCode = nutrientCode;
+                Descending = descending;
+                IsDefault = isDefault || string.IsNullOrWhiteSpace(nutrientCode);
+            }
+
+            public string DisplayName { get; }
+            public string NutrientCode { get; }
+            public bool Descending { get; }
+            public bool IsDefault { get; }
+
+            public override string ToString() => DisplayName;
+
+            public static MenuSortOption CreateDefault(string displayName)
+            {
+                return new MenuSortOption(displayName, null, false, true);
+            }
+
+            public static MenuSortOption Create(string displayName, string nutrientCode, bool descending)
+            {
+                return new MenuSortOption(displayName, nutrientCode, descending, false);
+            }
+        }
+
+        private sealed class NutrientTarget
+        {
+            public NutrientTarget(string displayName, string unit, string code, decimal targetAmount)
+            {
+                DisplayName = displayName;
+                Unit = unit;
+                Code = code;
+                TargetAmount = targetAmount;
+            }
+
+            public string DisplayName { get; }
+            public string Unit { get; }
+            public string Code { get; }
+            public decimal TargetAmount { get; }
+        }
+
+        private sealed class NutrientSummaryRow
+        {
+            public NutrientSummaryRow(string nutrient, string unit, decimal targetAmount, decimal currentAmount)
+            {
+                Nutrient = nutrient;
+                Unit = unit;
+                TargetAmount = Math.Round(targetAmount, 2);
+                CurrentAmount = Math.Round(currentAmount, 2);
+            }
+
+            public string Nutrient { get; }
+            public string Unit { get; }
+            public decimal TargetAmount { get; }
+            public decimal CurrentAmount { get; }
+            public decimal CompletionRatio
+            {
+                get
+                {
+                    if (TargetAmount <= 0)
+                    {
+                        return 0m;
+                    }
+
+                    return Math.Round(CurrentAmount / TargetAmount * 100m, 1);
+                }
+            }
+
+            public string CompletionText => $"{CompletionRatio:0.#}%";
+        }
+
+        private static Color GetCompletionColor(decimal ratio)
+        {
+            if (ratio < 50m)
+            {
+                return Color.Firebrick;
+            }
+
+            if (ratio < 70m)
+            {
+                return Color.DarkOrange;
+            }
+
+            if (ratio < 90m)
+            {
+                return Color.SeaGreen;
+            }
+
+            return Color.RoyalBlue;
         }
 
         private static void FillRequiredDefaults(DataRow row)
@@ -1621,8 +2663,8 @@ namespace nutritionist
         {
             var nextId = GetNextId("RAWMATERIAL", "RAWID");
             const string sql =
-                "INSERT INTO RawMaterial (RawID, RawName, RawCategoryID, PurchaseUnit, BaseUnitQty, StorageType, ShelfLifeDays, ActiveFlag) " +
-                "VALUES (:ID, :NAME, :CATEGORY, :UNIT, :BASEQTY, :STORAGE, :SHELFLIFE, :ACTIVE)";
+                "INSERT INTO RawMaterial (RawID, RawName, RawCategoryID, PurchaseUnit, BaseUnitQty, UnitGramQty, StorageType, ShelfLifeDays, ActiveFlag) " +
+                "VALUES (:ID, :NAME, :CATEGORY, :UNIT, :BASEQTY, :UNITGRAM, :STORAGE, :SHELFLIFE, :ACTIVE)";
 
             ExecuteNonQuery(sql,
                 new OracleParameter("ID", nextId),
@@ -1630,6 +2672,9 @@ namespace nutritionist
                 new OracleParameter("CATEGORY", input.RawCategoryId),
                 new OracleParameter("UNIT", input.PurchaseUnit),
                 new OracleParameter("BASEQTY", input.BaseUnitQty),
+                new OracleParameter("UNITGRAM", input.UnitGramQty.HasValue
+                    ? (object)input.UnitGramQty.Value
+                    : DBNull.Value),
                 new OracleParameter("STORAGE", string.IsNullOrWhiteSpace(input.StorageType)
                     ? (object)DBNull.Value
                     : input.StorageType),
@@ -1885,6 +2930,114 @@ namespace nutritionist
             return (gridRow?.DataBoundItem as DataRowView)?.Row;
         }
 
+        private int GetRawIdFromRecipeComponentRow(DataGridViewRow row)
+        {
+            if (row == null)
+            {
+                return 0;
+            }
+
+            var dataRow = GetDataRowFromGrid(row);
+            if (dataRow != null)
+            {
+                if (dataRow.Table.Columns.Contains("RAWID"))
+                {
+                    return ToInt(dataRow["RAWID"]);
+                }
+
+                if (dataRow.Table.Columns.Contains("RawID"))
+                {
+                    return ToInt(dataRow["RawID"]);
+                }
+            }
+
+            var column = GetColumn(row.DataGridView, "RawID");
+            if (column != null)
+            {
+                return ToInt(row.Cells[column.Index].Value);
+            }
+
+            return 0;
+        }
+
+        private void ShowRawMaterialInManager(int rawId)
+        {
+            if (rawId <= 0)
+            {
+                return;
+            }
+
+            if (tabMain != null && tabManagement != null)
+            {
+                tabMain.SelectedTab = tabManagement;
+            }
+
+            if (tabControlManagement != null && tabRawMaterials != null)
+            {
+                tabControlManagement.SelectedTab = tabRawMaterials;
+            }
+
+            if (_rawMaterialTable == null || _rawMaterialTable.Rows.Count == 0)
+            {
+                LoadRawMaterials();
+            }
+            else
+            {
+                ApplyRawMaterialView();
+            }
+
+            if (!TrySelectRawMaterialInGrid(rawId))
+            {
+                MessageBox.Show("현재 필터 조건으로 해당 원재료를 찾을 수 없습니다. 검색 조건을 조정한 후 다시 시도해 주세요.", "원재료 찾기");
+            }
+        }
+
+        private bool TrySelectRawMaterialInGrid(int rawId)
+        {
+            if (dgvRawMaterials == null || rawId <= 0)
+            {
+                return false;
+            }
+
+            foreach (DataGridViewRow gridRow in dgvRawMaterials.Rows)
+            {
+                var dataRow = GetDataRowFromGrid(gridRow);
+                if (dataRow == null || IsGroupRow(dataRow))
+                {
+                    continue;
+                }
+
+                if (ToInt(dataRow["RAWID"]) != rawId)
+                {
+                    continue;
+                }
+
+                dgvRawMaterials.ClearSelection();
+                gridRow.Selected = true;
+
+                var currentCell = gridRow.Cells.Cast<DataGridViewCell>()
+                    .FirstOrDefault(c => c.Visible) ?? gridRow.Cells.Cast<DataGridViewCell>().FirstOrDefault();
+                if (currentCell != null)
+                {
+                    dgvRawMaterials.CurrentCell = currentCell;
+                }
+
+                try
+                {
+                    dgvRawMaterials.FirstDisplayedScrollingRowIndex = gridRow.Index;
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    // ignore if can't scroll to row
+                }
+
+                DisplayManagedRawMaterial(dataRow);
+                return true;
+            }
+
+            return false;
+        }
+
         private void DgvRawMaterials_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0 || dgvRawMaterials?.Rows == null || e.RowIndex >= dgvRawMaterials.Rows.Count)
@@ -1946,6 +3099,202 @@ namespace nutritionist
             }
 
             ApplyRawMaterialView();
+        }
+
+        private void LstAvailableMenus_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left || lstAvailableMenus == null)
+            {
+                return;
+            }
+
+            var index = lstAvailableMenus.IndexFromPoint(e.Location);
+            if (index < 0 || index >= lstAvailableMenus.Items.Count)
+            {
+                return;
+            }
+
+            lstAvailableMenus.SelectedIndex = index;
+            if (lstAvailableMenus.Items[index] is FinalMenuOption option)
+            {
+                lstAvailableMenus.DoDragDrop(option, DragDropEffects.Copy);
+            }
+        }
+
+        private void MealBoard_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data != null && e.Data.GetDataPresent(typeof(FinalMenuOption)))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void MealBoard_DragDrop(object sender, DragEventArgs e)
+        {
+            if (!(e.Data?.GetData(typeof(FinalMenuOption)) is FinalMenuOption option))
+            {
+                return;
+            }
+
+            if (_selectedMealMenus.Any(item => item.FinalMenuId == option.FinalMenuId))
+            {
+                return;
+            }
+
+            _selectedMealMenus.Add(option);
+            SaveMealRecipesForCurrentPlan();
+        }
+
+        private void MealBoard_DoubleClick(object sender, EventArgs e)
+        {
+            if (lvMealBoard?.SelectedItems == null || lvMealBoard.SelectedItems.Count == 0)
+            {
+                return;
+            }
+
+            if (lvMealBoard.SelectedItems[0].Tag is not FinalMenuOption option)
+            {
+                return;
+            }
+
+            _selectedMealMenus.Remove(option);
+            SaveMealRecipesForCurrentPlan();
+        }
+
+        private void SelectedMealMenus_ListChanged(object sender, ListChangedEventArgs e)
+        {
+            if (_suppressMealBoardUpdate)
+            {
+                return;
+            }
+
+            RefreshMealBoard();
+            UpdateNutritionSummary();
+        }
+
+        private void RefreshMealBoard()
+        {
+            if (lvMealBoard == null)
+            {
+                return;
+            }
+
+            lvMealBoard.BeginUpdate();
+            lvMealBoard.Items.Clear();
+            lvMealBoard.Groups.Clear();
+
+            var groups = new Dictionary<string, ListViewGroup>(StringComparer.OrdinalIgnoreCase);
+            foreach (var menu in _selectedMealMenus)
+            {
+                var type = string.IsNullOrWhiteSpace(menu.MenuType) ? "기타" : menu.MenuType;
+                if (!groups.TryGetValue(type, out var group))
+                {
+                    group = new ListViewGroup(type, type);
+                    lvMealBoard.Groups.Add(group);
+                    groups[type] = group;
+                }
+
+                var tagText = string.Join(", ", GetMenuTagNames(menu.FinalMenuId));
+                var item = new ListViewItem(menu.DisplayName, group)
+                {
+                    Tag = menu
+                };
+                item.SubItems.Add(menu.MenuType ?? "-");
+                item.SubItems.Add(tagText);
+                lvMealBoard.Items.Add(item);
+            }
+
+            lvMealBoard.EndUpdate();
+        }
+
+        private IEnumerable<string> GetMenuTagNames(int finalMenuId)
+        {
+            if (_menuTagMap.TryGetValue(finalMenuId, out var tagIds))
+            {
+                foreach (var tagId in tagIds)
+                {
+                    if (_tagNameLookup.TryGetValue(tagId, out var name))
+                    {
+                        yield return name;
+                    }
+                }
+            }
+        }
+
+        private void UpdateNutritionSummary()
+        {
+            _nutrientSummary.RaiseListChangedEvents = false;
+            _nutrientSummary.Clear();
+
+            var totals = new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase);
+            foreach (var menu in _selectedMealMenus)
+            {
+                if (!_menuNutrientAmounts.TryGetValue(menu.FinalMenuId, out var nutrientMap))
+                {
+                    continue;
+                }
+
+                foreach (var target in _nutrientTargets)
+                {
+                    if (nutrientMap.TryGetValue(target.Code, out var amount))
+                    {
+                        totals[target.Code] = totals.TryGetValue(target.Code, out var current)
+                            ? current + amount
+                            : amount;
+                    }
+                }
+            }
+
+            foreach (var target in _nutrientTargets)
+            {
+                var current = totals.TryGetValue(target.Code, out var sum) ? sum : 0m;
+                _nutrientSummary.Add(new NutrientSummaryRow(target.DisplayName, target.Unit, target.TargetAmount, current));
+            }
+
+            _nutrientSummary.RaiseListChangedEvents = true;
+            _nutrientSummary.ResetBindings();
+        }
+
+        private int GetCurrentMealPlanKey()
+        {
+            return _selectedMealPlanId ?? 0;
+        }
+
+        private void SaveMealRecipesForCurrentPlan()
+        {
+            var key = GetCurrentMealPlanKey();
+            if (_selectedMealMenus.Count == 0)
+            {
+                if (_mealPlanSelections.ContainsKey(key))
+                {
+                    _mealPlanSelections.Remove(key);
+                }
+
+                return;
+            }
+
+            _mealPlanSelections[key] = _selectedMealMenus.ToList();
+        }
+
+        private void LoadMealRecipesForCurrentPlan()
+        {
+            var key = GetCurrentMealPlanKey();
+            _suppressMealBoardUpdate = true;
+            _selectedMealMenus.Clear();
+            if (_mealPlanSelections.TryGetValue(key, out var menus))
+            {
+                foreach (var menu in menus)
+                {
+                    _selectedMealMenus.Add(menu);
+                }
+            }
+            _suppressMealBoardUpdate = false;
+            RefreshMealBoard();
+            UpdateNutritionSummary();
         }
     }
 }

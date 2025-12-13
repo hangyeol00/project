@@ -25,3 +25,4 @@ D:\workspace\cs_db\Main\nutritionist\obj\Debug\nutritio.21143F17.Up2Date
 D:\workspace\cs_db\Main\nutritionist\obj\Debug\nutritionist.exe
 D:\workspace\cs_db\Main\nutritionist\obj\Debug\nutritionist.pdb
 D:\workspace\cs_db\Main\nutritionist\obj\Debug\nutritionist.NutritionistForm.resources
+D:\workspace\cs_db\Main\nutritionist\obj\Debug\nutritionist.Tabs.NutritionDashboardControl.resources

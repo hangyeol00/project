@@ -133,7 +133,6 @@ CREATE TABLE Meal (
     MealID          NUMBER PRIMARY KEY,
     MealPlanID      NUMBER NOT NULL REFERENCES MealPlan,
     MealDate        DATE NOT NULL,
-    MealType        VARCHAR2(10) NOT NULL,
     TargetGradeFrom NUMBER,
     TargetGradeTo   NUMBER,
     TargetGroup     VARCHAR2(30),

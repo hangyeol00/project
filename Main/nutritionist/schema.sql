@@ -30,6 +30,7 @@ CREATE TABLE RawMaterial (
     RawCategoryID  NUMBER NOT NULL REFERENCES RawCategory,
     PurchaseUnit   VARCHAR2(20) NOT NULL,
     BaseUnitQty    NUMBER(10,3) NOT NULL,
+    UnitGramQty    NUMBER(12,3),
     StorageType    VARCHAR2(20),
     ShelfLifeDays  NUMBER(5),
     ActiveFlag     CHAR(1) DEFAULT 'Y' NOT NULL
@@ -129,7 +130,6 @@ CREATE TABLE Meal (
     MealID          NUMBER PRIMARY KEY,
     MealPlanID      NUMBER NOT NULL REFERENCES MealPlan,
     MealDate        DATE NOT NULL,
-    MealType        VARCHAR2(10) NOT NULL,
     TargetGradeFrom NUMBER,
     TargetGradeTo   NUMBER,
     TargetGroup     VARCHAR2(30),

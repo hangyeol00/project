@@ -3,32 +3,112 @@
   "WorkspaceRootPath": "D:\\workspace\\cs_db\\Main\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|d:\\workspace\\cs_db\\main\\nutritionist\\tabs\\dashboardtabcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\tabs\\dashboardtabcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|d:\\workspace\\cs_db\\main\\nutritionist\\tabs\\dashboardtabcontrol.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\tabs\\dashboardtabcontrol.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|d:\\workspace\\cs_db\\main\\nutritionist\\tabs\\management\\allergiestabpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\tabs\\management\\allergiestabpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|d:\\workspace\\cs_db\\main\\nutritionist\\tabs\\management\\allergyrelationstabpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\tabs\\management\\allergyrelationstabpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|d:\\workspace\\cs_db\\main\\nutritionist\\tabs\\management\\ingredientstabpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\tabs\\management\\ingredientstabpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|d:\\workspace\\cs_db\\main\\nutritionist\\tabs\\management\\mealevaluationstabpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\tabs\\management\\mealevaluationstabpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|d:\\workspace\\cs_db\\main\\nutritionist\\tabs\\management\\mealplanstabpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\tabs\\management\\mealplanstabpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|d:\\workspace\\cs_db\\main\\nutritionist\\tabs\\management\\nutrientstabpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\tabs\\management\\nutrientstabpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|d:\\workspace\\cs_db\\main\\nutritionist\\tabs\\management\\rawmaterialstabpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\tabs\\management\\rawmaterialstabpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|d:\\workspace\\cs_db\\main\\nutritionist\\tabs\\management\\userstabpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\tabs\\management\\userstabpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|d:\\workspace\\cs_db\\main\\nutritionist\\tabs\\management\\recipestabpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\tabs\\management\\recipestabpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|d:\\workspace\\cs_db\\main\\nutritionist\\tabs\\management\\mealplanstabpage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\tabs\\management\\mealplanstabpage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|d:\\workspace\\cs_db\\main\\nutritionist\\nutritionistform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\nutritionistform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|D:\\workspace\\cs_db\\Main\\nutritionist\\mealplandialog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\mealplandialog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|D:\\workspace\\cs_db\\Main\\nutritionist\\nutritionistform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\nutritionistform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|D:\\workspace\\cs_db\\Main\\nutritionist\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|D:\\workspace\\cs_db\\Main\\nutritionist\\finalmenuoption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\finalmenuoption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|D:\\workspace\\cs_db\\Main\\nutritionist\\databaseconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\databaseconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|d:\\workspace\\cs_db\\main\\nutritionist\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|D:\\workspace\\cs_db\\Main\\nutritionist\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|D:\\workspace\\cs_db\\Main\\nutritionist\\rawmaterialdialog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\rawmaterialdialog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|D:\\workspace\\cs_db\\Main\\nutritionist\\purchaserequestdialog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\purchaserequestdialog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|D:\\workspace\\cs_db\\Main\\nutritionist\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|D:\\workspace\\cs_db\\Main\\nutritionist\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|D:\\workspace\\cs_db\\Main\\nutritionist\\rawcategoryoption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\rawcategoryoption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|D:\\workspace\\cs_db\\Main\\nutritionist\\usersession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\usersession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|D:\\workspace\\cs_db\\Main\\nutritionist\\rawmaterialoption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\rawmaterialoption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|D:\\workspace\\cs_db\\Main\\nutritionist\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|D:\\workspace\\cs_db\\Main\\nutritionist\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|D:\\workspace\\cs_db\\Main\\nutritionist\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|D:\\workspace\\cs_db\\Main\\nutritionist\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\workspace\\cs_db\\Main\\nutritionist\\Form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -46,8 +126,154 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DashboardTabControl.cs [Design]",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\DashboardTabControl.cs",
+              "RelativeDocumentMoniker": "nutritionist\\Tabs\\DashboardTabControl.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\DashboardTabControl.cs [Design]",
+              "RelativeToolTip": "nutritionist\\Tabs\\DashboardTabControl.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-13T03:45:14.89Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DashboardTabControl.Designer.cs",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\DashboardTabControl.Designer.cs",
+              "RelativeDocumentMoniker": "nutritionist\\Tabs\\DashboardTabControl.Designer.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\DashboardTabControl.Designer.cs",
+              "RelativeToolTip": "nutritionist\\Tabs\\DashboardTabControl.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-13T03:45:14.02Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MealEvaluationsTabPage.cs [Design]",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\MealEvaluationsTabPage.cs",
+              "RelativeDocumentMoniker": "nutritionist\\Tabs\\Management\\MealEvaluationsTabPage.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\MealEvaluationsTabPage.cs [Design]",
+              "RelativeToolTip": "nutritionist\\Tabs\\Management\\MealEvaluationsTabPage.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-13T03:42:13.694Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IngredientsTabPage.cs [Design]",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\IngredientsTabPage.cs",
+              "RelativeDocumentMoniker": "nutritionist\\Tabs\\Management\\IngredientsTabPage.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\IngredientsTabPage.cs [Design]",
+              "RelativeToolTip": "nutritionist\\Tabs\\Management\\IngredientsTabPage.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-13T03:42:14.922Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AllergyRelationsTabPage.cs [Design]",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\AllergyRelationsTabPage.cs",
+              "RelativeDocumentMoniker": "nutritionist\\Tabs\\Management\\AllergyRelationsTabPage.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\AllergyRelationsTabPage.cs [Design]",
+              "RelativeToolTip": "nutritionist\\Tabs\\Management\\AllergyRelationsTabPage.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-13T03:42:15.82Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AllergiesTabPage.cs [Design]",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\AllergiesTabPage.cs",
+              "RelativeDocumentMoniker": "nutritionist\\Tabs\\Management\\AllergiesTabPage.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\AllergiesTabPage.cs [Design]",
+              "RelativeToolTip": "nutritionist\\Tabs\\Management\\AllergiesTabPage.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-13T03:42:16.664Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MealPlansTabPage.cs [Design]",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\MealPlansTabPage.cs",
+              "RelativeDocumentMoniker": "nutritionist\\Tabs\\Management\\MealPlansTabPage.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\MealPlansTabPage.cs [Design]",
+              "RelativeToolTip": "nutritionist\\Tabs\\Management\\MealPlansTabPage.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-13T03:41:58.197Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "NutrientsTabPage.cs [Design]",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\NutrientsTabPage.cs",
+              "RelativeDocumentMoniker": "nutritionist\\Tabs\\Management\\NutrientsTabPage.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\NutrientsTabPage.cs [Design]",
+              "RelativeToolTip": "nutritionist\\Tabs\\Management\\NutrientsTabPage.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-13T03:42:00.058Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "RawMaterialsTabPage.cs [Design]",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\RawMaterialsTabPage.cs",
+              "RelativeDocumentMoniker": "nutritionist\\Tabs\\Management\\RawMaterialsTabPage.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\RawMaterialsTabPage.cs [Design]",
+              "RelativeToolTip": "nutritionist\\Tabs\\Management\\RawMaterialsTabPage.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-13T03:44:46.282Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "UsersTabPage.cs [Design]",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\UsersTabPage.cs",
+              "RelativeDocumentMoniker": "nutritionist\\Tabs\\Management\\UsersTabPage.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\UsersTabPage.cs [Design]",
+              "RelativeToolTip": "nutritionist\\Tabs\\Management\\UsersTabPage.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-13T03:44:47.785Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "RecipesTabPage.cs [Design]",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\RecipesTabPage.cs",
+              "RelativeDocumentMoniker": "nutritionist\\Tabs\\Management\\RecipesTabPage.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\RecipesTabPage.cs [Design]",
+              "RelativeToolTip": "nutritionist\\Tabs\\Management\\RecipesTabPage.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-13T03:44:47.034Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "MealPlansTabPage.Designer.cs",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\MealPlansTabPage.Designer.cs",
+              "RelativeDocumentMoniker": "nutritionist\\Tabs\\Management\\MealPlansTabPage.Designer.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\Tabs\\Management\\MealPlansTabPage.Designer.cs",
+              "RelativeToolTip": "nutritionist\\Tabs\\Management\\MealPlansTabPage.Designer.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAD4vzYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-13T03:38:34.756Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
@@ -62,19 +288,112 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 13,
+              "Title": "MealPlanDialog.cs [Design]",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\MealPlanDialog.cs",
+              "RelativeDocumentMoniker": "nutritionist\\MealPlanDialog.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\MealPlanDialog.cs [Design]",
+              "RelativeToolTip": "nutritionist\\MealPlanDialog.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-05T06:38:55.975Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
               "Title": "LoginForm.cs [Design]",
               "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\LoginForm.cs",
               "RelativeDocumentMoniker": "nutritionist\\LoginForm.cs",
               "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\LoginForm.cs [Design]",
               "RelativeToolTip": "nutritionist\\LoginForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-01T06:48:54.299Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-12-01T06:48:54.299Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 14,
+              "Title": "NutritionistForm.cs [Design]",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\NutritionistForm.cs",
+              "RelativeDocumentMoniker": "nutritionist\\NutritionistForm.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\NutritionistForm.cs [Design]",
+              "RelativeToolTip": "nutritionist\\NutritionistForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-05T06:38:58.012Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "NutritionistForm.Designer.cs",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\NutritionistForm.Designer.cs",
+              "RelativeDocumentMoniker": "nutritionist\\NutritionistForm.Designer.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\NutritionistForm.Designer.cs",
+              "RelativeToolTip": "nutritionist\\NutritionistForm.Designer.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAgwDgBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-05T06:39:21.987Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "FinalMenuOption.cs",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\FinalMenuOption.cs",
+              "RelativeDocumentMoniker": "nutritionist\\FinalMenuOption.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\FinalMenuOption.cs",
+              "RelativeToolTip": "nutritionist\\FinalMenuOption.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-10T06:49:19.096Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "AdminForm.cs [Design]",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\AdminForm.cs",
+              "RelativeDocumentMoniker": "nutritionist\\AdminForm.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\AdminForm.cs [Design]",
+              "RelativeToolTip": "nutritionist\\AdminForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-27T10:02:16.645Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "App.config",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\App.config",
+              "RelativeDocumentMoniker": "nutritionist\\App.config",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\App.config",
+              "RelativeToolTip": "nutritionist\\App.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-12-05T06:39:26.239Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "RawMaterialDialog.cs [Design]",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\RawMaterialDialog.cs",
+              "RelativeDocumentMoniker": "nutritionist\\RawMaterialDialog.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\RawMaterialDialog.cs [Design]",
+              "RelativeToolTip": "nutritionist\\RawMaterialDialog.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-05T06:39:10.431Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "DatabaseConfig.cs",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\DatabaseConfig.cs",
+              "RelativeDocumentMoniker": "nutritionist\\DatabaseConfig.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\DatabaseConfig.cs",
+              "RelativeToolTip": "nutritionist\\DatabaseConfig.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-01T04:14:45.578Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
               "Title": "PurchaseRequestDialog.cs [Design]",
               "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\PurchaseRequestDialog.cs",
               "RelativeDocumentMoniker": "nutritionist\\PurchaseRequestDialog.cs",
@@ -85,44 +404,31 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DatabaseConfig.cs",
-              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\DatabaseConfig.cs",
-              "RelativeDocumentMoniker": "nutritionist\\DatabaseConfig.cs",
-              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\DatabaseConfig.cs",
-              "RelativeToolTip": "nutritionist\\DatabaseConfig.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
+              "DocumentIndex": 22,
+              "Title": "RawCategoryOption.cs",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\RawCategoryOption.cs",
+              "RelativeDocumentMoniker": "nutritionist\\RawCategoryOption.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\RawCategoryOption.cs",
+              "RelativeToolTip": "nutritionist\\RawCategoryOption.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-01T04:14:45.578Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-05T06:39:20.021Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "LoginForm.cs",
-              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\LoginForm.cs",
-              "RelativeDocumentMoniker": "nutritionist\\LoginForm.cs",
-              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\LoginForm.cs",
-              "RelativeToolTip": "nutritionist\\LoginForm.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKoAAAAnAAAAAAAAAA==",
+              "DocumentIndex": 23,
+              "Title": "UserSession.cs",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\UserSession.cs",
+              "RelativeDocumentMoniker": "nutritionist\\UserSession.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\UserSession.cs",
+              "RelativeToolTip": "nutritionist\\UserSession.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-27T13:07:09.136Z"
+              "WhenOpened": "2025-12-05T06:39:18.897Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Form1.cs",
-              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\Form1.cs",
-              "RelativeDocumentMoniker": "nutritionist\\Form1.cs",
-              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\Form1.cs",
-              "RelativeToolTip": "nutritionist\\Form1.cs",
-              "ViewState": "AgIAAKcAAAAAAAAAAADwvxACAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-27T10:05:13.047Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 24,
               "Title": "RawMaterialOption.cs",
               "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\RawMaterialOption.cs",
               "RelativeDocumentMoniker": "nutritionist\\RawMaterialOption.cs",
@@ -134,7 +440,31 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 25,
+              "Title": "LoginForm.cs",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\LoginForm.cs",
+              "RelativeDocumentMoniker": "nutritionist\\LoginForm.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\LoginForm.cs",
+              "RelativeToolTip": "nutritionist\\LoginForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKoAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-27T13:07:09.136Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\Form1.cs",
+              "RelativeDocumentMoniker": "nutritionist\\Form1.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\Form1.cs",
+              "RelativeToolTip": "nutritionist\\Form1.cs",
+              "ViewState": "AgIAAKcAAAAAAAAAAADwvxACAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-27T10:05:13.047Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
               "Title": "Form1.Designer.cs",
               "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\Form1.Designer.cs",
               "RelativeDocumentMoniker": "nutritionist\\Form1.Designer.cs",
@@ -146,7 +476,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 26,
               "Title": "AdminForm.cs",
               "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\AdminForm.cs",
               "RelativeDocumentMoniker": "nutritionist\\AdminForm.cs",
@@ -155,16 +485,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-27T10:03:05.729Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "AdminForm.cs [\uB514\uC790\uC778]",
-              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\AdminForm.cs",
-              "RelativeDocumentMoniker": "nutritionist\\AdminForm.cs",
-              "ToolTip": "C:\\Demo\\Main\\nutritionist\\AdminForm.cs [\uB514\uC790\uC778]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-27T10:02:16.645Z"
             }
           ]
         }

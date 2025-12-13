@@ -177,7 +177,6 @@
 | MealID (PK) | NUMBER | Y | 식별자 |
 | MealPlanID (FK) | NUMBER | Y | 소속 식단집합 |
 | MealDate | DATE | Y | 제공일 |
-| MealType | VARCHAR2(10) | Y | 조/중/석 또는 코드 |
 | TargetGradeFrom/To | NUMBER | N | 대상 학년 범위 |
 | TargetGroup | VARCHAR2(30) | N | 초등부/교직원 등 |
 | Notes | VARCHAR2(200) | N | 특이사항 |
