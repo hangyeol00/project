@@ -132,6 +132,16 @@ namespace nutritionist
                 DialogResult = DialogResult.OK;
                 Close();
             }
+            catch (TypeInitializationException ex) when (ex.TypeName?.Contains("Oracle.DataAccess.Client.OracleConnection") == true)
+            {
+                var detail = ex.InnerException?.Message ?? ex.Message;
+                MessageBox.Show(
+                    "Oracle 클라이언트 구성이 올바르지 않아 로그인할 수 없습니다.\n" +
+                    "설치된 Oracle 클라이언트 버전과 애플리케이션 비트 수(x64)를 확인 후 다시 실행하세요.\n\n" + detail,
+                    "환경 오류",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
             catch (OracleException ex)
             {
                 MessageBox.Show($"로그인 중 오류가 발생했습니다.\n{ex.Message}", "DB 오류");

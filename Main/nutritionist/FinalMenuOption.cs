@@ -19,13 +19,10 @@ namespace nutritionist
         {
             get
             {
-                var codeSegment = string.IsNullOrWhiteSpace(MenuCode)
-                    ? string.Empty
-                    : $" [{MenuCode}]";
                 var typeSegment = string.IsNullOrWhiteSpace(MenuType)
                     ? string.Empty
                     : $" - {MenuType}";
-                return $"{MenuName}{codeSegment}{typeSegment}";
+                return $"{MenuName}{typeSegment}";
             }
         }
 

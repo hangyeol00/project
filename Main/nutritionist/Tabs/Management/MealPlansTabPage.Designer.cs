@@ -15,374 +15,195 @@ namespace nutritionist.Tabs.Management
 
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnRegisterMealPlan = new System.Windows.Forms.Button();
             this.btnResetMenuFilter = new System.Windows.Forms.Button();
-            this.btnUpdateMealPlan = new System.Windows.Forms.Button();
+            this.btnRequestMealApproval = new System.Windows.Forms.Button();
             this.clbMenuTags = new System.Windows.Forms.CheckedListBox();
             this.cmbMenuSort = new System.Windows.Forms.ComboBox();
             this.cmbMenuTypeFilter = new System.Windows.Forms.ComboBox();
-            this.colMealName = new System.Windows.Forms.ColumnHeader();
-            this.colMealTags = new System.Windows.Forms.ColumnHeader();
-            this.colMealType = new System.Windows.Forms.ColumnHeader();
+            this.colMealName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colMealTags = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colMealType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colNutrientCurrent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colNutrientName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colNutrientStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colNutrientTarget = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colNutrientUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvMealNutrition = new System.Windows.Forms.DataGridView();
-            this.dgvMealPlans = new System.Windows.Forms.DataGridView();
             this.dtpMealDate = new System.Windows.Forms.DateTimePicker();
+            this.dtpMealMonth = new System.Windows.Forms.DateTimePicker();
+            this.cmbMealWeek = new System.Windows.Forms.ComboBox();
+            this.lblSelectedMealDay = new System.Windows.Forms.Label();
             this.flowMealButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.flowMenuSortBar = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowMenuTypeFilter = new System.Windows.Forms.FlowLayoutPanel();
-            this.grpMealPlanDetail = new System.Windows.Forms.GroupBox();
             this.lblAvailableMenus = new System.Windows.Forms.Label();
-            this.lblMealDate = new System.Windows.Forms.Label();
-            this.lblMealNotes = new System.Windows.Forms.Label();
-            this.lblMealRecipes = new System.Windows.Forms.Label();
-            this.lblMenuTags = new System.Windows.Forms.Label();
+            this.flowMenuTypeFilter = new System.Windows.Forms.FlowLayoutPanel();
             this.lblMenuTypeFilter = new System.Windows.Forms.Label();
-            this.lblNutrientSummary = new System.Windows.Forms.Label();
-            this.lblSelectedMenus = new System.Windows.Forms.Label();
-            this.lstAvailableMenus = new System.Windows.Forms.ListBox();
-            this.lvMealBoard = new System.Windows.Forms.ListView();
-            this.splitContainerMealPlans = new System.Windows.Forms.SplitContainer();
-            this.tableMealBuilder = new System.Windows.Forms.TableLayoutPanel();
+            this.flowMealPeriodSelector = new System.Windows.Forms.FlowLayoutPanel();
+            this.tableMealDaySelector = new System.Windows.Forms.TableLayoutPanel();
+            this.btnStartMealPlan = new System.Windows.Forms.Button();
+            this.grpMealPlanDetail = new System.Windows.Forms.GroupBox();
             this.tableMealPlanDetail = new System.Windows.Forms.TableLayoutPanel();
             this.tableMealRecipeLists = new System.Windows.Forms.TableLayoutPanel();
             this.tableMenuLibrary = new System.Windows.Forms.TableLayoutPanel();
+            this.lblMenuTags = new System.Windows.Forms.Label();
+            this.lstAvailableMenus = new System.Windows.Forms.ListBox();
+            this.tableMealBuilder = new System.Windows.Forms.TableLayoutPanel();
+            this.lblSelectedMenus = new System.Windows.Forms.Label();
+            this.lvMealBoard = new System.Windows.Forms.ListView();
+            this.lblNutrientSummary = new System.Windows.Forms.Label();
+            this.lblMealNotes = new System.Windows.Forms.Label();
             this.txtMealNotes = new System.Windows.Forms.TextBox();
+            this.splitContainerMealPlans = new System.Windows.Forms.SplitContainer();
+            this.grpMealSchedule = new System.Windows.Forms.GroupBox();
+            this.tableMealSchedule = new System.Windows.Forms.TableLayoutPanel();
+            this.lblWeeklyMeals = new System.Windows.Forms.Label();
+            this.dgvWeeklyMeals = new System.Windows.Forms.DataGridView();
+            this.colWeekMonday = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colWeekTuesday = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colWeekWednesday = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colWeekThursday = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colWeekFriday = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lblMealMonthTitle = new System.Windows.Forms.Label();
+            this.lblMealWeekTitle = new System.Windows.Forms.Label();
+            this.lblMealDayTitle = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMealNutrition)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvMealPlans)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvWeeklyMeals)).BeginInit();
+            this.flowMealButtons.SuspendLayout();
+            this.flowMenuSortBar.SuspendLayout();
+            this.flowMenuTypeFilter.SuspendLayout();
+            this.grpMealPlanDetail.SuspendLayout();
+            this.tableMealPlanDetail.SuspendLayout();
+            this.tableMealRecipeLists.SuspendLayout();
+            this.tableMenuLibrary.SuspendLayout();
+            this.tableMealBuilder.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMealPlans)).BeginInit();
+            this.splitContainerMealPlans.Panel1.SuspendLayout();
+            this.splitContainerMealPlans.Panel2.SuspendLayout();
+            this.splitContainerMealPlans.SuspendLayout();
+            this.grpMealSchedule.SuspendLayout();
+            this.tableMealSchedule.SuspendLayout();
             this.SuspendLayout();
-            // MealPlansTabPage
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.splitContainerMealPlans);
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Name = "MealPlansTabPage";
-            this.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Size = new System.Drawing.Size(940, 453);
+            // btnRegisterMealPlan
             // 
-            // splitContainerMealPlans
-            // 
-            this.splitContainerMealPlans.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerMealPlans.Location = new System.Drawing.Point(3, 2);
-            this.splitContainerMealPlans.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.splitContainerMealPlans.Name = "splitContainerMealPlans";
-            // 
-            // splitContainerMealPlans.Panel1
-            // 
-            this.splitContainerMealPlans.Panel1.Controls.Add(this.dgvMealPlans);
-            // 
-            // splitContainerMealPlans.Panel2
-            // 
-            this.splitContainerMealPlans.Panel2.Controls.Add(this.grpMealPlanDetail);
-            this.splitContainerMealPlans.Size = new System.Drawing.Size(934, 449);
-            this.splitContainerMealPlans.SplitterDistance = 472;
-            this.splitContainerMealPlans.TabIndex = 0;
-            // 
-            // dgvMealPlans
-            // 
-            this.dgvMealPlans.BackgroundColor = System.Drawing.Color.White;
-            this.dgvMealPlans.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMealPlans.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvMealPlans.Location = new System.Drawing.Point(0, 0);
-            this.dgvMealPlans.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dgvMealPlans.Name = "dgvMealPlans";
-            this.dgvMealPlans.RowHeadersWidth = 51;
-            this.dgvMealPlans.RowTemplate.Height = 27;
-            this.dgvMealPlans.Size = new System.Drawing.Size(472, 449);
-            this.dgvMealPlans.TabIndex = 0;
-            // 
-            // grpMealPlanDetail
-            // 
-            this.grpMealPlanDetail.Controls.Add(this.tableMealPlanDetail);
-            this.grpMealPlanDetail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpMealPlanDetail.Location = new System.Drawing.Point(0, 0);
-            this.grpMealPlanDetail.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpMealPlanDetail.Name = "grpMealPlanDetail";
-            this.grpMealPlanDetail.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpMealPlanDetail.Size = new System.Drawing.Size(458, 449);
-            this.grpMealPlanDetail.TabIndex = 0;
-            this.grpMealPlanDetail.TabStop = false;
-            this.grpMealPlanDetail.Text = "식단 정보";
-            // 
-            // tableMealPlanDetail
-            // 
-            this.tableMealPlanDetail.ColumnCount = 2;
-            this.tableMealPlanDetail.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 105F));
-            this.tableMealPlanDetail.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableMealPlanDetail.Controls.Add(this.lblMealDate, 0, 0);
-            this.tableMealPlanDetail.Controls.Add(this.dtpMealDate, 1, 0);
-            this.tableMealPlanDetail.Controls.Add(this.lblMealRecipes, 0, 1);
-            this.tableMealPlanDetail.Controls.Add(this.tableMealRecipeLists, 1, 1);
-            this.tableMealPlanDetail.Controls.Add(this.lblMealNotes, 0, 2);
-            this.tableMealPlanDetail.Controls.Add(this.txtMealNotes, 1, 2);
-            this.tableMealPlanDetail.Controls.Add(this.flowMealButtons, 1, 3);
-            this.tableMealPlanDetail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableMealPlanDetail.Location = new System.Drawing.Point(3, 20);
-            this.tableMealPlanDetail.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tableMealPlanDetail.Name = "tableMealPlanDetail";
-            this.tableMealPlanDetail.RowCount = 4;
-            this.tableMealPlanDetail.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.tableMealPlanDetail.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableMealPlanDetail.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 96F));
-            this.tableMealPlanDetail.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
-            this.tableMealPlanDetail.Size = new System.Drawing.Size(452, 427);
-            this.tableMealPlanDetail.TabIndex = 0;
-            // 
-            // lblMealDate
-            // 
-            this.lblMealDate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblMealDate.Location = new System.Drawing.Point(3, 0);
-            this.lblMealDate.Name = "lblMealDate";
-            this.lblMealDate.Size = new System.Drawing.Size(99, 32);
-            this.lblMealDate.TabIndex = 0;
-            this.lblMealDate.Text = "식단 날짜";
-            this.lblMealDate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // dtpMealDate
-            // 
-            this.dtpMealDate.Dock = System.Windows.Forms.DockStyle.Left;
-            this.dtpMealDate.Location = new System.Drawing.Point(108, 2);
-            this.dtpMealDate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dtpMealDate.Name = "dtpMealDate";
-            this.dtpMealDate.Size = new System.Drawing.Size(176, 25);
-            this.dtpMealDate.TabIndex = 1;
-            // 
-            // lblMealRecipes
-            // 
-            this.lblMealRecipes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblMealRecipes.Location = new System.Drawing.Point(3, 32);
-            this.lblMealRecipes.Name = "lblMealRecipes";
-            this.lblMealRecipes.Size = new System.Drawing.Size(99, 160);
-            this.lblMealRecipes.TabIndex = 4;
-            this.lblMealRecipes.Text = "메뉴 선택/식단 구성";
-            this.lblMealRecipes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tableMealRecipeLists
-            // 
-            this.tableMealRecipeLists.ColumnCount = 2;
-            this.tableMealRecipeLists.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45F));
-            this.tableMealRecipeLists.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55F));
-            this.tableMealRecipeLists.Controls.Add(this.tableMenuLibrary, 0, 0);
-            this.tableMealRecipeLists.Controls.Add(this.tableMealBuilder, 1, 0);
-            this.tableMealRecipeLists.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableMealRecipeLists.Location = new System.Drawing.Point(108, 66);
-            this.tableMealRecipeLists.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tableMealRecipeLists.Name = "tableMealRecipeLists";
-            this.tableMealRecipeLists.RowCount = 1;
-            this.tableMealRecipeLists.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableMealRecipeLists.Size = new System.Drawing.Size(341, 156);
-            this.tableMealRecipeLists.TabIndex = 5;
-            // 
-            // tableMenuLibrary
-            // 
-            this.tableMenuLibrary.ColumnCount = 1;
-            this.tableMenuLibrary.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableMenuLibrary.Controls.Add(this.flowMenuTypeFilter, 0, 0);
-            this.tableMenuLibrary.Controls.Add(this.lblMenuTags, 0, 1);
-            this.tableMenuLibrary.Controls.Add(this.clbMenuTags, 0, 2);
-            this.tableMenuLibrary.Controls.Add(this.flowMenuSortBar, 0, 3);
-            this.tableMenuLibrary.Controls.Add(this.lstAvailableMenus, 0, 4);
-            this.tableMenuLibrary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableMenuLibrary.Location = new System.Drawing.Point(3, 2);
-            this.tableMenuLibrary.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tableMenuLibrary.Name = "tableMenuLibrary";
-            this.tableMenuLibrary.RowCount = 5;
-            this.tableMenuLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
-            this.tableMenuLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableMenuLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableMenuLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableMenuLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableMenuLibrary.Size = new System.Drawing.Size(164, 152);
-            this.tableMenuLibrary.TabIndex = 0;
-            // 
-            // flowMenuTypeFilter
-            // 
-            this.flowMenuTypeFilter.AutoSize = true;
-            this.flowMenuTypeFilter.Controls.Add(this.lblMenuTypeFilter);
-            this.flowMenuTypeFilter.Controls.Add(this.cmbMenuTypeFilter);
-            this.flowMenuTypeFilter.Controls.Add(this.btnResetMenuFilter);
-            this.flowMenuTypeFilter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowMenuTypeFilter.Location = new System.Drawing.Point(3, 2);
-            this.flowMenuTypeFilter.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.flowMenuTypeFilter.Name = "flowMenuTypeFilter";
-            this.flowMenuTypeFilter.Size = new System.Drawing.Size(158, 30);
-            this.flowMenuTypeFilter.TabIndex = 0;
-            // 
-            // lblMenuTypeFilter
-            // 
-            this.lblMenuTypeFilter.AutoSize = true;
-            this.lblMenuTypeFilter.Location = new System.Drawing.Point(3, 0);
-            this.lblMenuTypeFilter.Margin = new System.Windows.Forms.Padding(3, 0, 6, 0);
-            this.lblMenuTypeFilter.Name = "lblMenuTypeFilter";
-            this.lblMenuTypeFilter.Size = new System.Drawing.Size(74, 19);
-            this.lblMenuTypeFilter.TabIndex = 0;
-            this.lblMenuTypeFilter.Text = "메뉴 종류";
-            this.lblMenuTypeFilter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // cmbMenuTypeFilter
-            // 
-            this.cmbMenuTypeFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbMenuTypeFilter.FormattingEnabled = true;
-            this.cmbMenuTypeFilter.Location = new System.Drawing.Point(86, 2);
-            this.cmbMenuTypeFilter.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmbMenuTypeFilter.Name = "cmbMenuTypeFilter";
-            this.cmbMenuTypeFilter.Size = new System.Drawing.Size(110, 25);
-            this.cmbMenuTypeFilter.TabIndex = 1;
+            this.btnRegisterMealPlan.Location = new System.Drawing.Point(292, 10);
+            this.btnRegisterMealPlan.Margin = new System.Windows.Forms.Padding(11, 2, 0, 2);
+            this.btnRegisterMealPlan.Name = "btnRegisterMealPlan";
+            this.btnRegisterMealPlan.Size = new System.Drawing.Size(134, 30);
+            this.btnRegisterMealPlan.TabIndex = 0;
+            this.btnRegisterMealPlan.Text = "식단 등록";
+            this.btnRegisterMealPlan.UseVisualStyleBackColor = true;
             // 
             // btnResetMenuFilter
             // 
             this.btnResetMenuFilter.AutoSize = true;
-            this.btnResetMenuFilter.Location = new System.Drawing.Point(212, 2);
-            this.btnResetMenuFilter.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnResetMenuFilter.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnResetMenuFilter.Location = new System.Drawing.Point(4, 36);
+            this.btnResetMenuFilter.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.btnResetMenuFilter.Name = "btnResetMenuFilter";
-            this.btnResetMenuFilter.Size = new System.Drawing.Size(79, 27);
+            this.btnResetMenuFilter.Size = new System.Drawing.Size(142, 30);
             this.btnResetMenuFilter.TabIndex = 2;
             this.btnResetMenuFilter.Text = "필터 초기화";
             this.btnResetMenuFilter.UseVisualStyleBackColor = true;
             // 
-            // lblMenuTags
+            // btnRequestMealApproval
             // 
-            this.lblMenuTags.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblMenuTags.Location = new System.Drawing.Point(3, 34);
-            this.lblMenuTags.Name = "lblMenuTags";
-            this.lblMenuTags.Size = new System.Drawing.Size(158, 24);
-            this.lblMenuTags.TabIndex = 1;
-            this.lblMenuTags.Text = "태그 필터";
-            this.lblMenuTags.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRequestMealApproval.Enabled = false;
+            this.btnRequestMealApproval.Location = new System.Drawing.Point(159, 10);
+            this.btnRequestMealApproval.Margin = new System.Windows.Forms.Padding(11, 2, 0, 2);
+            this.btnRequestMealApproval.Name = "btnRequestMealApproval";
+            this.btnRequestMealApproval.Size = new System.Drawing.Size(134, 30);
+            this.btnRequestMealApproval.TabIndex = 1;
+            this.btnRequestMealApproval.Text = "식단 승인 요청";
+            this.btnRequestMealApproval.UseVisualStyleBackColor = true;
             // 
             // clbMenuTags
             // 
             this.clbMenuTags.CheckOnClick = true;
             this.clbMenuTags.Dock = System.Windows.Forms.DockStyle.Fill;
             this.clbMenuTags.FormattingEnabled = true;
-            this.clbMenuTags.Location = new System.Drawing.Point(3, 60);
-            this.clbMenuTags.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.clbMenuTags.Location = new System.Drawing.Point(4, 95);
+            this.clbMenuTags.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.clbMenuTags.Name = "clbMenuTags";
-            this.clbMenuTags.Size = new System.Drawing.Size(158, 24);
+            this.clbMenuTags.Size = new System.Drawing.Size(239, 70);
             this.clbMenuTags.TabIndex = 2;
-            // 
-            // flowMenuSortBar
-            // 
-            this.flowMenuSortBar.AutoSize = true;
-            this.flowMenuSortBar.Controls.Add(this.cmbMenuSort);
-            this.flowMenuSortBar.Controls.Add(this.lblAvailableMenus);
-            this.flowMenuSortBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowMenuSortBar.Location = new System.Drawing.Point(3, 86);
-            this.flowMenuSortBar.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.flowMenuSortBar.Name = "flowMenuSortBar";
-            this.flowMenuSortBar.Size = new System.Drawing.Size(158, 24);
-            this.flowMenuSortBar.TabIndex = 3;
-            this.flowMenuSortBar.WrapContents = false;
             // 
             // cmbMenuSort
             // 
             this.cmbMenuSort.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbMenuSort.FormattingEnabled = true;
-            this.cmbMenuSort.Location = new System.Drawing.Point(3, 0);
-            this.cmbMenuSort.Margin = new System.Windows.Forms.Padding(3, 0, 6, 0);
+            this.cmbMenuSort.Location = new System.Drawing.Point(4, 0);
+            this.cmbMenuSort.Margin = new System.Windows.Forms.Padding(4, 0, 8, 0);
             this.cmbMenuSort.Name = "cmbMenuSort";
-            this.cmbMenuSort.Size = new System.Drawing.Size(115, 25);
+            this.cmbMenuSort.Size = new System.Drawing.Size(143, 26);
             this.cmbMenuSort.TabIndex = 0;
             // 
-            // lblAvailableMenus
+            // cmbMenuTypeFilter
             // 
-            this.lblAvailableMenus.AutoSize = true;
-            this.lblAvailableMenus.Location = new System.Drawing.Point(124, 0);
-            this.lblAvailableMenus.Margin = new System.Windows.Forms.Padding(0, 4, 0, 0);
-            this.lblAvailableMenus.Name = "lblAvailableMenus";
-            this.lblAvailableMenus.Size = new System.Drawing.Size(65, 19);
-            this.lblAvailableMenus.TabIndex = 1;
-            this.lblAvailableMenus.Text = "메뉴 목록";
-            this.lblAvailableMenus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lstAvailableMenus
-            // 
-            this.lstAvailableMenus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstAvailableMenus.FormattingEnabled = true;
-            this.lstAvailableMenus.ItemHeight = 17;
-            this.lstAvailableMenus.Location = new System.Drawing.Point(3, 112);
-            this.lstAvailableMenus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.lstAvailableMenus.Name = "lstAvailableMenus";
-            this.lstAvailableMenus.Size = new System.Drawing.Size(158, 38);
-            this.lstAvailableMenus.TabIndex = 4;
-            // 
-            // tableMealBuilder
-            // 
-            this.tableMealBuilder.ColumnCount = 1;
-            this.tableMealBuilder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableMealBuilder.Controls.Add(this.lblSelectedMenus, 0, 0);
-            this.tableMealBuilder.Controls.Add(this.lvMealBoard, 0, 1);
-            this.tableMealBuilder.Controls.Add(this.lblNutrientSummary, 0, 2);
-            this.tableMealBuilder.Controls.Add(this.dgvMealNutrition, 0, 3);
-            this.tableMealBuilder.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableMealBuilder.Location = new System.Drawing.Point(173, 2);
-            this.tableMealBuilder.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tableMealBuilder.Name = "tableMealBuilder";
-            this.tableMealBuilder.RowCount = 4;
-            this.tableMealBuilder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableMealBuilder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tableMealBuilder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableMealBuilder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableMealBuilder.Size = new System.Drawing.Size(165, 152);
-            this.tableMealBuilder.TabIndex = 1;
-            // 
-            // lblSelectedMenus
-            // 
-            this.lblSelectedMenus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblSelectedMenus.Location = new System.Drawing.Point(3, 0);
-            this.lblSelectedMenus.Name = "lblSelectedMenus";
-            this.lblSelectedMenus.Size = new System.Drawing.Size(159, 24);
-            this.lblSelectedMenus.TabIndex = 0;
-            this.lblSelectedMenus.Text = "식단 보드";
-            this.lblSelectedMenus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lvMealBoard
-            // 
-            this.lvMealBoard.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colMealName,
-            this.colMealType,
-            this.colMealTags});
-            this.lvMealBoard.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvMealBoard.FullRowSelect = true;
-            this.lvMealBoard.HideSelection = false;
-            this.lvMealBoard.Location = new System.Drawing.Point(3, 26);
-            this.lvMealBoard.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.lvMealBoard.MultiSelect = false;
-            this.lvMealBoard.Name = "lvMealBoard";
-            this.lvMealBoard.Size = new System.Drawing.Size(159, 60);
-            this.lvMealBoard.TabIndex = 1;
-            this.lvMealBoard.UseCompatibleStateImageBehavior = false;
-            this.lvMealBoard.View = System.Windows.Forms.View.Details;
+            this.cmbMenuTypeFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbMenuTypeFilter.FormattingEnabled = true;
+            this.cmbMenuTypeFilter.Location = new System.Drawing.Point(102, 2);
+            this.cmbMenuTypeFilter.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.cmbMenuTypeFilter.Name = "cmbMenuTypeFilter";
+            this.cmbMenuTypeFilter.Size = new System.Drawing.Size(136, 26);
+            this.cmbMenuTypeFilter.TabIndex = 1;
             // 
             // colMealName
             // 
             this.colMealName.Text = "메뉴명";
             this.colMealName.Width = 120;
             // 
-            // colMealType
-            // 
-            this.colMealType.Text = "분류";
-            this.colMealType.Width = 80;
-            // 
             // colMealTags
             // 
             this.colMealTags.Text = "태그";
             this.colMealTags.Width = 120;
             // 
-            // lblNutrientSummary
+            // colMealType
             // 
-            this.lblNutrientSummary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblNutrientSummary.Location = new System.Drawing.Point(3, 88);
-            this.lblNutrientSummary.Name = "lblNutrientSummary";
-            this.lblNutrientSummary.Size = new System.Drawing.Size(159, 24);
-            this.lblNutrientSummary.TabIndex = 2;
-            this.lblNutrientSummary.Text = "필수 영양소 충족 현황";
-            this.lblNutrientSummary.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.colMealType.Text = "분류";
+            this.colMealType.Width = 80;
+            // 
+            // colNutrientCurrent
+            // 
+            this.colNutrientCurrent.DataPropertyName = "CurrentAmount";
+            this.colNutrientCurrent.HeaderText = "현재량";
+            this.colNutrientCurrent.MinimumWidth = 8;
+            this.colNutrientCurrent.Name = "colNutrientCurrent";
+            this.colNutrientCurrent.ReadOnly = true;
+            // 
+            // colNutrientName
+            // 
+            this.colNutrientName.DataPropertyName = "Nutrient";
+            this.colNutrientName.HeaderText = "영양소";
+            this.colNutrientName.MinimumWidth = 8;
+            this.colNutrientName.Name = "colNutrientName";
+            this.colNutrientName.ReadOnly = true;
+            // 
+            // colNutrientStatus
+            // 
+            this.colNutrientStatus.DataPropertyName = "CompletionText";
+            this.colNutrientStatus.HeaderText = "충족률";
+            this.colNutrientStatus.MinimumWidth = 8;
+            this.colNutrientStatus.Name = "colNutrientStatus";
+            this.colNutrientStatus.ReadOnly = true;
+            // 
+            // colNutrientTarget
+            // 
+            this.colNutrientTarget.DataPropertyName = "TargetAmount";
+            this.colNutrientTarget.HeaderText = "권장량";
+            this.colNutrientTarget.MinimumWidth = 8;
+            this.colNutrientTarget.Name = "colNutrientTarget";
+            this.colNutrientTarget.ReadOnly = true;
+            // 
+            // colNutrientUnit
+            // 
+            this.colNutrientUnit.DataPropertyName = "Unit";
+            this.colNutrientUnit.HeaderText = "단위";
+            this.colNutrientUnit.MinimumWidth = 8;
+            this.colNutrientUnit.Name = "colNutrientUnit";
+            this.colNutrientUnit.ReadOnly = true;
             // 
             // dgvMealNutrition
             // 
@@ -398,58 +219,395 @@ namespace nutritionist.Tabs.Management
             this.colNutrientCurrent,
             this.colNutrientStatus});
             this.dgvMealNutrition.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvMealNutrition.Location = new System.Drawing.Point(3, 114);
-            this.dgvMealNutrition.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dgvMealNutrition.Location = new System.Drawing.Point(4, 175);
+            this.dgvMealNutrition.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dgvMealNutrition.MultiSelect = false;
             this.dgvMealNutrition.Name = "dgvMealNutrition";
             this.dgvMealNutrition.ReadOnly = true;
             this.dgvMealNutrition.RowHeadersVisible = false;
+            this.dgvMealNutrition.RowHeadersWidth = 62;
             this.dgvMealNutrition.RowTemplate.Height = 25;
-            this.dgvMealNutrition.Size = new System.Drawing.Size(159, 36);
+            this.dgvMealNutrition.Size = new System.Drawing.Size(155, 79);
             this.dgvMealNutrition.TabIndex = 3;
             // 
-            // colNutrientName
             // 
-            this.colNutrientName.DataPropertyName = "Nutrient";
-            this.colNutrientName.HeaderText = "영양소";
-            this.colNutrientName.Name = "colNutrientName";
-            this.colNutrientName.ReadOnly = true;
+            // dtpMealDate
             // 
-            // colNutrientUnit
+            this.dtpMealDate.Location = new System.Drawing.Point(3, 0);
+            this.dtpMealDate.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.dtpMealDate.Name = "dtpMealDate";
+            this.dtpMealDate.Size = new System.Drawing.Size(190, 28);
+            this.dtpMealDate.TabIndex = 1;
+            this.dtpMealDate.Visible = false;
             // 
-            this.colNutrientUnit.DataPropertyName = "Unit";
-            this.colNutrientUnit.HeaderText = "단위";
-            this.colNutrientUnit.Name = "colNutrientUnit";
-            this.colNutrientUnit.ReadOnly = true;
-            this.colNutrientUnit.Width = 60;
+            // dtpMealMonth
             // 
-            // colNutrientTarget
+            this.dtpMealMonth.CustomFormat = "yyyy-MM";
+            this.dtpMealMonth.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpMealMonth.Location = new System.Drawing.Point(74, 2);
+            this.dtpMealMonth.Margin = new System.Windows.Forms.Padding(4, 2, 12, 2);
+            this.dtpMealMonth.Name = "dtpMealMonth";
+            this.dtpMealMonth.ShowUpDown = true;
+            this.dtpMealMonth.Size = new System.Drawing.Size(120, 28);
+            this.dtpMealMonth.TabIndex = 11;
             // 
-            this.colNutrientTarget.DataPropertyName = "TargetAmount";
-            this.colNutrientTarget.HeaderText = "권장량";
-            this.colNutrientTarget.Name = "colNutrientTarget";
-            this.colNutrientTarget.ReadOnly = true;
+            // cmbMealWeek
             // 
-            // colNutrientCurrent
+            this.cmbMealWeek.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbMealWeek.FormattingEnabled = true;
+            this.cmbMealWeek.Location = new System.Drawing.Point(266, 2);
+            this.cmbMealWeek.Margin = new System.Windows.Forms.Padding(4, 2, 12, 2);
+            this.cmbMealWeek.Name = "cmbMealWeek";
+            this.cmbMealWeek.Size = new System.Drawing.Size(134, 26);
+            this.cmbMealWeek.TabIndex = 12;
             // 
-            this.colNutrientCurrent.DataPropertyName = "CurrentAmount";
-            this.colNutrientCurrent.HeaderText = "현재량";
-            this.colNutrientCurrent.Name = "colNutrientCurrent";
-            this.colNutrientCurrent.ReadOnly = true;
+            // lblSelectedMealDay
             // 
-            // colNutrientStatus
+            this.lblSelectedMealDay.AutoSize = true;
+            this.lblSelectedMealDay.Margin = new System.Windows.Forms.Padding(0, 4, 0, 0);
+            this.lblSelectedMealDay.Name = "lblSelectedMealDay";
+            this.lblSelectedMealDay.Size = new System.Drawing.Size(16, 18);
+            this.lblSelectedMealDay.TabIndex = 13;
+            this.lblSelectedMealDay.Text = "-";
             // 
-            this.colNutrientStatus.DataPropertyName = "CompletionText";
-            this.colNutrientStatus.HeaderText = "충족률";
-            this.colNutrientStatus.Name = "colNutrientStatus";
-            this.colNutrientStatus.ReadOnly = true;
+            // tableMealDaySelector
+            // 
+            this.tableMealDaySelector.AutoSize = true;
+            this.tableMealDaySelector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableMealDaySelector.ColumnCount = 1;
+            this.tableMealDaySelector.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableMealDaySelector.Controls.Add(this.lblMealDayTitle, 0, 0);
+            this.tableMealDaySelector.Controls.Add(this.lblSelectedMealDay, 0, 1);
+            this.tableMealDaySelector.Controls.Add(this.btnStartMealPlan, 0, 2);
+            this.tableMealDaySelector.Location = new System.Drawing.Point(414, 2);
+            this.tableMealDaySelector.Margin = new System.Windows.Forms.Padding(0, 2, 12, 2);
+            this.tableMealDaySelector.Name = "tableMealDaySelector";
+            this.tableMealDaySelector.RowCount = 3;
+            this.tableMealDaySelector.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableMealDaySelector.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableMealDaySelector.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableMealDaySelector.Size = new System.Drawing.Size(150, 84);
+            this.tableMealDaySelector.TabIndex = 18;
+            // 
+            // btnStartMealPlan
+            // 
+            this.btnStartMealPlan.AutoSize = true;
+            this.btnStartMealPlan.Location = new System.Drawing.Point(0, 48);
+            this.btnStartMealPlan.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.btnStartMealPlan.Name = "btnStartMealPlan";
+            this.btnStartMealPlan.Size = new System.Drawing.Size(134, 30);
+            this.btnStartMealPlan.TabIndex = 14;
+            this.btnStartMealPlan.Text = "식단 계획 시작";
+            this.btnStartMealPlan.UseVisualStyleBackColor = true;
+            // 
+            // flowMealButtons
+            // 
+            this.flowMealButtons.AutoSize = true;
+            this.flowMealButtons.Controls.Add(this.btnRegisterMealPlan);
+            this.flowMealButtons.Controls.Add(this.btnRequestMealApproval);
+            this.flowMealButtons.Dock = System.Windows.Forms.DockStyle.Top;
+            this.flowMealButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flowMealButtons.Location = new System.Drawing.Point(4, 402);
+            this.flowMealButtons.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.flowMealButtons.Name = "flowMealButtons";
+            this.flowMealButtons.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+            this.flowMealButtons.Size = new System.Drawing.Size(557, 42);
+            this.flowMealButtons.TabIndex = 8;
+            // 
+            // flowMenuSortBar
+            // 
+            this.flowMenuSortBar.AutoSize = true;
+            this.flowMenuSortBar.Controls.Add(this.cmbMenuSort);
+            this.flowMenuSortBar.Controls.Add(this.lblAvailableMenus);
+            this.flowMenuSortBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowMenuSortBar.Location = new System.Drawing.Point(4, 169);
+            this.flowMenuSortBar.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.flowMenuSortBar.Name = "flowMenuSortBar";
+            this.flowMenuSortBar.Size = new System.Drawing.Size(239, 25);
+            this.flowMenuSortBar.TabIndex = 3;
+            this.flowMenuSortBar.WrapContents = false;
+            // 
+            // lblAvailableMenus
+            // 
+            this.lblAvailableMenus.AutoSize = true;
+            this.lblAvailableMenus.Location = new System.Drawing.Point(155, 4);
+            this.lblAvailableMenus.Margin = new System.Windows.Forms.Padding(0, 4, 0, 0);
+            this.lblAvailableMenus.Name = "lblAvailableMenus";
+            this.lblAvailableMenus.Size = new System.Drawing.Size(86, 18);
+            this.lblAvailableMenus.TabIndex = 1;
+            this.lblAvailableMenus.Text = "메뉴 목록";
+            this.lblAvailableMenus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // flowMenuTypeFilter
+            // 
+            this.flowMenuTypeFilter.AutoSize = true;
+            this.flowMenuTypeFilter.Controls.Add(this.lblMenuTypeFilter);
+            this.flowMenuTypeFilter.Controls.Add(this.cmbMenuTypeFilter);
+            this.flowMenuTypeFilter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowMenuTypeFilter.Location = new System.Drawing.Point(4, 2);
+            this.flowMenuTypeFilter.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.flowMenuTypeFilter.Name = "flowMenuTypeFilter";
+            this.flowMenuTypeFilter.Size = new System.Drawing.Size(239, 30);
+            this.flowMenuTypeFilter.TabIndex = 0;
+            this.flowMenuTypeFilter.WrapContents = false;
+            // 
+            // flowMealPeriodSelector
+            // 
+            this.flowMealPeriodSelector.AutoSize = true;
+            this.flowMealPeriodSelector.Controls.Add(this.lblMealMonthTitle);
+            this.flowMealPeriodSelector.Controls.Add(this.dtpMealMonth);
+            this.flowMealPeriodSelector.Controls.Add(this.lblMealWeekTitle);
+            this.flowMealPeriodSelector.Controls.Add(this.cmbMealWeek);
+            this.flowMealPeriodSelector.Controls.Add(this.tableMealDaySelector);
+            this.flowMealPeriodSelector.Controls.Add(this.dtpMealDate);
+            this.flowMealPeriodSelector.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowMealPeriodSelector.Location = new System.Drawing.Point(4, 2);
+            this.flowMealPeriodSelector.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.flowMealPeriodSelector.Name = "flowMealPeriodSelector";
+            this.flowMealPeriodSelector.Size = new System.Drawing.Size(573, 34);
+            this.flowMealPeriodSelector.TabIndex = 14;
+            this.flowMealPeriodSelector.WrapContents = false;
+            // 
+            // lblMenuTypeFilter
+            // 
+            this.lblMenuTypeFilter.AutoSize = true;
+            this.lblMenuTypeFilter.Location = new System.Drawing.Point(4, 0);
+            this.lblMenuTypeFilter.Margin = new System.Windows.Forms.Padding(4, 0, 8, 0);
+            this.lblMenuTypeFilter.Name = "lblMenuTypeFilter";
+            this.lblMenuTypeFilter.Size = new System.Drawing.Size(86, 18);
+            this.lblMenuTypeFilter.TabIndex = 0;
+            this.lblMenuTypeFilter.Text = "메뉴 종류";
+            this.lblMenuTypeFilter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblMealMonthTitle
+            // 
+            this.lblMealMonthTitle.AutoSize = true;
+            this.lblMealMonthTitle.Location = new System.Drawing.Point(4, 6);
+            this.lblMealMonthTitle.Margin = new System.Windows.Forms.Padding(4, 6, 0, 0);
+            this.lblMealMonthTitle.Name = "lblMealMonthTitle";
+            this.lblMealMonthTitle.Size = new System.Drawing.Size(54, 18);
+            this.lblMealMonthTitle.TabIndex = 15;
+            this.lblMealMonthTitle.Text = "식단 월";
+            this.lblMealMonthTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblMealWeekTitle
+            // 
+            this.lblMealWeekTitle.AutoSize = true;
+            this.lblMealWeekTitle.Location = new System.Drawing.Point(210, 6);
+            this.lblMealWeekTitle.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.lblMealWeekTitle.Name = "lblMealWeekTitle";
+            this.lblMealWeekTitle.Size = new System.Drawing.Size(36, 18);
+            this.lblMealWeekTitle.TabIndex = 16;
+            this.lblMealWeekTitle.Text = "주차";
+            this.lblMealWeekTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblMealDayTitle
+            // 
+            this.lblMealDayTitle.AutoSize = true;
+            this.lblMealDayTitle.Margin = new System.Windows.Forms.Padding(0);
+            this.lblMealDayTitle.Name = "lblMealDayTitle";
+            this.lblMealDayTitle.Size = new System.Drawing.Size(36, 18);
+            this.lblMealDayTitle.TabIndex = 17;
+            this.lblMealDayTitle.Text = "요일";
+            this.lblMealDayTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // grpMealPlanDetail
+            // 
+            this.grpMealPlanDetail.Controls.Add(this.tableMealPlanDetail);
+            this.grpMealPlanDetail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpMealPlanDetail.Location = new System.Drawing.Point(0, 0);
+            this.grpMealPlanDetail.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.grpMealPlanDetail.Name = "grpMealPlanDetail";
+            this.grpMealPlanDetail.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.grpMealPlanDetail.Size = new System.Drawing.Size(573, 476);
+            this.grpMealPlanDetail.TabIndex = 0;
+            this.grpMealPlanDetail.TabStop = false;
+            this.grpMealPlanDetail.Text = "식단 정보";
+            // 
+            // tableMealPlanDetail
+            // 
+            this.tableMealPlanDetail.ColumnCount = 1;
+            this.tableMealPlanDetail.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableMealPlanDetail.Controls.Add(this.tableMealRecipeLists, 0, 0);
+            this.tableMealPlanDetail.Controls.Add(this.lblMealNotes, 0, 1);
+            this.tableMealPlanDetail.Controls.Add(this.txtMealNotes, 0, 2);
+            this.tableMealPlanDetail.Controls.Add(this.flowMealButtons, 0, 3);
+            this.tableMealPlanDetail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableMealPlanDetail.Location = new System.Drawing.Point(4, 23);
+            this.tableMealPlanDetail.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.tableMealPlanDetail.Name = "tableMealPlanDetail";
+            this.tableMealPlanDetail.RowCount = 4;
+            this.tableMealPlanDetail.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableMealPlanDetail.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableMealPlanDetail.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 102F));
+            this.tableMealPlanDetail.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 51F));
+            this.tableMealPlanDetail.Size = new System.Drawing.Size(565, 451);
+            this.tableMealPlanDetail.TabIndex = 0;
+            // 
+            // tableMealRecipeLists
+            // 
+            this.tableMealRecipeLists.ColumnCount = 2;
+            this.tableMealRecipeLists.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45F));
+            this.tableMealRecipeLists.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55F));
+            this.tableMealRecipeLists.Controls.Add(this.tableMenuLibrary, 0, 0);
+            this.tableMealRecipeLists.Controls.Add(this.tableMealBuilder, 1, 0);
+            this.tableMealRecipeLists.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableMealRecipeLists.Location = new System.Drawing.Point(4, 2);
+            this.tableMealRecipeLists.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.tableMealRecipeLists.Name = "tableMealRecipeLists";
+            this.tableMealRecipeLists.RowCount = 1;
+            this.tableMealRecipeLists.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableMealRecipeLists.Size = new System.Drawing.Size(557, 273);
+            this.tableMealRecipeLists.TabIndex = 5;
+            // 
+            // tableMenuLibrary
+            // 
+            this.tableMenuLibrary.ColumnCount = 1;
+            this.tableMenuLibrary.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableMenuLibrary.Controls.Add(this.flowMenuTypeFilter, 0, 0);
+            this.tableMenuLibrary.Controls.Add(this.btnResetMenuFilter, 0, 1);
+            this.tableMenuLibrary.Controls.Add(this.lblMenuTags, 0, 2);
+            this.tableMenuLibrary.Controls.Add(this.clbMenuTags, 0, 3);
+            this.tableMenuLibrary.Controls.Add(this.flowMenuSortBar, 0, 4);
+            this.tableMenuLibrary.Controls.Add(this.lstAvailableMenus, 0, 5);
+            this.tableMenuLibrary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableMenuLibrary.Location = new System.Drawing.Point(4, 2);
+            this.tableMenuLibrary.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.tableMenuLibrary.Name = "tableMenuLibrary";
+            this.tableMenuLibrary.RowCount = 6;
+            this.tableMenuLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.tableMenuLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.tableMenuLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableMenuLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 74F));
+            this.tableMenuLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableMenuLibrary.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableMenuLibrary.Size = new System.Drawing.Size(247, 256);
+            this.tableMenuLibrary.TabIndex = 0;
+            // 
+            // lblMenuTags
+            // 
+            this.lblMenuTags.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblMenuTags.Location = new System.Drawing.Point(4, 68);
+            this.lblMenuTags.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblMenuTags.Name = "lblMenuTags";
+            this.lblMenuTags.Size = new System.Drawing.Size(239, 25);
+            this.lblMenuTags.TabIndex = 1;
+            this.lblMenuTags.Text = "태그 필터";
+            this.lblMenuTags.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lstAvailableMenus
+            // 
+            this.lstAvailableMenus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstAvailableMenus.FormattingEnabled = true;
+            this.lstAvailableMenus.ItemHeight = 18;
+            this.lstAvailableMenus.Location = new System.Drawing.Point(4, 196);
+            this.lstAvailableMenus.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.lstAvailableMenus.Name = "lstAvailableMenus";
+            this.lstAvailableMenus.Size = new System.Drawing.Size(239, 128);
+            this.lstAvailableMenus.TabIndex = 4;
+            // 
+            // tableMealBuilder
+            // 
+            this.tableMealBuilder.ColumnCount = 1;
+            this.tableMealBuilder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableMealBuilder.Controls.Add(this.lblSelectedMenus, 0, 0);
+            this.tableMealBuilder.Controls.Add(this.lvMealBoard, 0, 1);
+            this.tableMealBuilder.Controls.Add(this.lblNutrientSummary, 0, 2);
+            this.tableMealBuilder.Controls.Add(this.dgvMealNutrition, 0, 3);
+            this.tableMealBuilder.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableMealBuilder.Location = new System.Drawing.Point(259, 2);
+            this.tableMealBuilder.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.tableMealBuilder.Name = "tableMealBuilder";
+            this.tableMealBuilder.RowCount = 4;
+            this.tableMealBuilder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableMealBuilder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.tableMealBuilder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableMealBuilder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableMealBuilder.Size = new System.Drawing.Size(163, 256);
+            this.tableMealBuilder.TabIndex = 1;
+            // 
+            // colWeekMonday
+            // 
+            this.colWeekMonday.HeaderText = "월";
+            this.colWeekMonday.MinimumWidth = 8;
+            this.colWeekMonday.Name = "colWeekMonday";
+            this.colWeekMonday.ReadOnly = true;
+            // 
+            // colWeekTuesday
+            // 
+            this.colWeekTuesday.HeaderText = "화";
+            this.colWeekTuesday.MinimumWidth = 8;
+            this.colWeekTuesday.Name = "colWeekTuesday";
+            this.colWeekTuesday.ReadOnly = true;
+            // 
+            // colWeekWednesday
+            // 
+            this.colWeekWednesday.HeaderText = "수";
+            this.colWeekWednesday.MinimumWidth = 8;
+            this.colWeekWednesday.Name = "colWeekWednesday";
+            this.colWeekWednesday.ReadOnly = true;
+            // 
+            // colWeekThursday
+            // 
+            this.colWeekThursday.HeaderText = "목";
+            this.colWeekThursday.MinimumWidth = 8;
+            this.colWeekThursday.Name = "colWeekThursday";
+            this.colWeekThursday.ReadOnly = true;
+            // 
+            // colWeekFriday
+            // 
+            this.colWeekFriday.HeaderText = "금";
+            this.colWeekFriday.MinimumWidth = 8;
+            this.colWeekFriday.Name = "colWeekFriday";
+            this.colWeekFriday.ReadOnly = true;
+            // 
+            // lblSelectedMenus
+            // 
+            this.lblSelectedMenus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblSelectedMenus.Location = new System.Drawing.Point(4, 129);
+            this.lblSelectedMenus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSelectedMenus.Name = "lblSelectedMenus";
+            this.lblSelectedMenus.Size = new System.Drawing.Size(155, 25);
+            this.lblSelectedMenus.TabIndex = 1;
+            this.lblSelectedMenus.Text = "식단 보드";
+            this.lblSelectedMenus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lvMealBoard
+            // 
+            this.lvMealBoard.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colMealName,
+            this.colMealType,
+            this.colMealTags});
+            this.lvMealBoard.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvMealBoard.FullRowSelect = true;
+            this.lvMealBoard.HideSelection = false;
+            this.lvMealBoard.Location = new System.Drawing.Point(4, 27);
+            this.lvMealBoard.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.lvMealBoard.MultiSelect = false;
+            this.lvMealBoard.Name = "lvMealBoard";
+            this.lvMealBoard.Size = new System.Drawing.Size(155, 119);
+            this.lvMealBoard.TabIndex = 1;
+            this.lvMealBoard.UseCompatibleStateImageBehavior = false;
+            this.lvMealBoard.View = System.Windows.Forms.View.Details;
+            // 
+            // lblNutrientSummary
+            // 
+            this.lblNutrientSummary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblNutrientSummary.Location = new System.Drawing.Point(4, 217);
+            this.lblNutrientSummary.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblNutrientSummary.Name = "lblNutrientSummary";
+            this.lblNutrientSummary.Size = new System.Drawing.Size(155, 25);
+            this.lblNutrientSummary.TabIndex = 2;
+            this.lblNutrientSummary.Text = "필수 영양소 충족 현황";
+            this.lblNutrientSummary.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblMealNotes
             // 
             this.lblMealNotes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblMealNotes.Location = new System.Drawing.Point(3, 192);
+            this.lblMealNotes.Location = new System.Drawing.Point(4, 326);
+            this.lblMealNotes.Margin = new System.Windows.Forms.Padding(4, 4, 4, 0);
             this.lblMealNotes.Name = "lblMealNotes";
-            this.lblMealNotes.Size = new System.Drawing.Size(99, 96);
+            this.lblMealNotes.Size = new System.Drawing.Size(557, 25);
             this.lblMealNotes.TabIndex = 6;
             this.lblMealNotes.Text = "비고";
             this.lblMealNotes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -457,59 +615,145 @@ namespace nutritionist.Tabs.Management
             // txtMealNotes
             // 
             this.txtMealNotes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtMealNotes.Location = new System.Drawing.Point(108, 194);
-            this.txtMealNotes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtMealNotes.Location = new System.Drawing.Point(4, 353);
+            this.txtMealNotes.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.txtMealNotes.Multiline = true;
             this.txtMealNotes.Name = "txtMealNotes";
-            this.txtMealNotes.Size = new System.Drawing.Size(341, 92);
+            this.txtMealNotes.Size = new System.Drawing.Size(557, 98);
             this.txtMealNotes.TabIndex = 7;
             // 
-            // flowMealButtons
+            // grpMealSchedule
             // 
-            this.flowMealButtons.AutoSize = true;
-            this.flowMealButtons.Controls.Add(this.btnRegisterMealPlan);
-            this.flowMealButtons.Controls.Add(this.btnUpdateMealPlan);
-            this.flowMealButtons.Dock = System.Windows.Forms.DockStyle.Top;
-            this.flowMealButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowMealButtons.Location = new System.Drawing.Point(3, 290);
-            this.flowMealButtons.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.flowMealButtons.Name = "flowMealButtons";
-            this.flowMealButtons.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
-            this.flowMealButtons.Size = new System.Drawing.Size(446, 40);
-            this.flowMealButtons.TabIndex = 8;
+            this.grpMealSchedule.Controls.Add(this.tableMealSchedule);
+            this.grpMealSchedule.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpMealSchedule.Location = new System.Drawing.Point(0, 0);
+            this.grpMealSchedule.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.grpMealSchedule.Name = "grpMealSchedule";
+            this.grpMealSchedule.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.grpMealSchedule.Size = new System.Drawing.Size(589, 476);
+            this.grpMealSchedule.TabIndex = 0;
+            this.grpMealSchedule.TabStop = false;
+            this.grpMealSchedule.Text = "주간 식단 현황";
             // 
-            // btnRegisterMealPlan
+            // tableMealSchedule
             // 
-            this.btnRegisterMealPlan.Location = new System.Drawing.Point(339, 10);
-            this.btnRegisterMealPlan.Margin = new System.Windows.Forms.Padding(9, 2, 0, 2);
-            this.btnRegisterMealPlan.Name = "btnRegisterMealPlan";
-            this.btnRegisterMealPlan.Size = new System.Drawing.Size(107, 28);
-            this.btnRegisterMealPlan.TabIndex = 0;
-            this.btnRegisterMealPlan.Text = "식단 등록";
-            this.btnRegisterMealPlan.UseVisualStyleBackColor = true;
+            this.tableMealSchedule.ColumnCount = 1;
+            this.tableMealSchedule.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableMealSchedule.Controls.Add(this.flowMealPeriodSelector, 0, 0);
+            this.tableMealSchedule.Controls.Add(this.lblWeeklyMeals, 0, 1);
+            this.tableMealSchedule.Controls.Add(this.dgvWeeklyMeals, 0, 2);
+            this.tableMealSchedule.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableMealSchedule.Location = new System.Drawing.Point(4, 22);
+            this.tableMealSchedule.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.tableMealSchedule.Name = "tableMealSchedule";
+            this.tableMealSchedule.RowCount = 3;
+            this.tableMealSchedule.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.tableMealSchedule.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tableMealSchedule.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableMealSchedule.Size = new System.Drawing.Size(581, 452);
+            this.tableMealSchedule.TabIndex = 0;
             // 
-            // btnUpdateMealPlan
+            // lblWeeklyMeals
             // 
-            this.btnUpdateMealPlan.Location = new System.Drawing.Point(232, 10);
-            this.btnUpdateMealPlan.Margin = new System.Windows.Forms.Padding(9, 2, 0, 2);
-            this.btnUpdateMealPlan.Name = "btnUpdateMealPlan";
-            this.btnUpdateMealPlan.Size = new System.Drawing.Size(98, 28);
-            this.btnUpdateMealPlan.TabIndex = 1;
-            this.btnUpdateMealPlan.Text = "식단 수정";
-            this.btnUpdateMealPlan.UseVisualStyleBackColor = true;
+            this.lblWeeklyMeals.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblWeeklyMeals.Location = new System.Drawing.Point(4, 38);
+            this.lblWeeklyMeals.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblWeeklyMeals.Name = "lblWeeklyMeals";
+            this.lblWeeklyMeals.Size = new System.Drawing.Size(573, 28);
+            this.lblWeeklyMeals.TabIndex = 1;
+            this.lblWeeklyMeals.Text = "주간 식단표";
+            this.lblWeeklyMeals.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerMealPlans)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvMealPlans)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvMealNutrition)).EndInit();
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
+            // dgvWeeklyMeals
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvWeeklyMeals.AllowUserToAddRows = false;
+            this.dgvWeeklyMeals.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvWeeklyMeals.AllowUserToDeleteRows = false;
+            this.dgvWeeklyMeals.AllowUserToResizeColumns = false;
+            this.dgvWeeklyMeals.AllowUserToResizeRows = false;
+            this.dgvWeeklyMeals.BackgroundColor = System.Drawing.Color.White;
+            this.dgvWeeklyMeals.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvWeeklyMeals.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colWeekMonday,
+            this.colWeekTuesday,
+            this.colWeekWednesday,
+            this.colWeekThursday,
+            this.colWeekFriday});
+            this.dgvWeeklyMeals.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvWeeklyMeals.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvWeeklyMeals.Location = new System.Drawing.Point(4, 68);
+            this.dgvWeeklyMeals.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.dgvWeeklyMeals.MultiSelect = false;
+            this.dgvWeeklyMeals.Name = "dgvWeeklyMeals";
+            this.dgvWeeklyMeals.ReadOnly = true;
+            this.dgvWeeklyMeals.RowHeadersVisible = false;
+            this.dgvWeeklyMeals.RowTemplate.Height = 80;
+            this.dgvWeeklyMeals.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgvWeeklyMeals.Size = new System.Drawing.Size(573, 382);
+            this.dgvWeeklyMeals.TabIndex = 2;
+            // 
+            // splitContainerMealPlans
+            // 
+            this.splitContainerMealPlans.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerMealPlans.Location = new System.Drawing.Point(4, 2);
+            this.splitContainerMealPlans.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.splitContainerMealPlans.Name = "splitContainerMealPlans";
+            // 
+            // splitContainerMealPlans.Panel1
+            // 
+            this.splitContainerMealPlans.Panel1.Controls.Add(this.grpMealSchedule);
+            // 
+            // splitContainerMealPlans.Panel2
+            // 
+            this.splitContainerMealPlans.Panel2.Controls.Add(this.grpMealPlanDetail);
+            this.splitContainerMealPlans.Size = new System.Drawing.Size(1167, 476);
+            this.splitContainerMealPlans.SplitterDistance = 589;
+            this.splitContainerMealPlans.SplitterWidth = 5;
+            this.splitContainerMealPlans.TabIndex = 0;
+            // 
+            // MealPlansTabPage
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.splitContainerMealPlans);
+            this.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.Name = "MealPlansTabPage";
+            this.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.Size = new System.Drawing.Size(1175, 480);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMealNutrition)).EndInit();
+            this.flowMealButtons.ResumeLayout(false);
+            this.flowMenuSortBar.ResumeLayout(false);
+            this.flowMenuSortBar.PerformLayout();
+            this.flowMenuTypeFilter.ResumeLayout(false);
+            this.flowMenuTypeFilter.PerformLayout();
+            this.flowMealPeriodSelector.ResumeLayout(false);
+            this.flowMealPeriodSelector.PerformLayout();
+            this.grpMealPlanDetail.ResumeLayout(false);
+            this.tableMealPlanDetail.ResumeLayout(false);
+            this.tableMealPlanDetail.PerformLayout();
+            this.tableMealRecipeLists.ResumeLayout(false);
+            this.tableMenuLibrary.ResumeLayout(false);
+            this.tableMenuLibrary.PerformLayout();
+            this.tableMealBuilder.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvWeeklyMeals)).EndInit();
+            this.grpMealSchedule.ResumeLayout(false);
+            this.tableMealSchedule.ResumeLayout(false);
+            this.tableMealSchedule.PerformLayout();
+            this.splitContainerMealPlans.Panel1.ResumeLayout(false);
+            this.splitContainerMealPlans.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerMealPlans)).EndInit();
+            this.splitContainerMealPlans.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
+
         }
 
         internal System.Windows.Forms.Button btnRegisterMealPlan;
         internal System.Windows.Forms.Button btnResetMenuFilter;
-        internal System.Windows.Forms.Button btnUpdateMealPlan;
+        internal System.Windows.Forms.Button btnRequestMealApproval;
+        internal System.Windows.Forms.Button btnStartMealPlan;
         internal System.Windows.Forms.CheckedListBox clbMenuTags;
         internal System.Windows.Forms.ComboBox cmbMenuSort;
         internal System.Windows.Forms.ComboBox cmbMenuTypeFilter;
@@ -522,18 +766,17 @@ namespace nutritionist.Tabs.Management
         internal System.Windows.Forms.DataGridViewTextBoxColumn colNutrientTarget;
         internal System.Windows.Forms.DataGridViewTextBoxColumn colNutrientUnit;
         internal System.Windows.Forms.DataGridView dgvMealNutrition;
-        internal System.Windows.Forms.DataGridView dgvMealPlans;
         internal System.Windows.Forms.DateTimePicker dtpMealDate;
         internal System.Windows.Forms.FlowLayoutPanel flowMealButtons;
         internal System.Windows.Forms.FlowLayoutPanel flowMenuSortBar;
         internal System.Windows.Forms.FlowLayoutPanel flowMenuTypeFilter;
+        internal System.Windows.Forms.FlowLayoutPanel flowMealPeriodSelector;
         internal System.Windows.Forms.GroupBox grpMealPlanDetail;
         internal System.Windows.Forms.Label lblAvailableMenus;
-        internal System.Windows.Forms.Label lblMealDate;
         internal System.Windows.Forms.Label lblMealNotes;
-        internal System.Windows.Forms.Label lblMealRecipes;
         internal System.Windows.Forms.Label lblMenuTags;
         internal System.Windows.Forms.Label lblMenuTypeFilter;
+        internal System.Windows.Forms.Label lblWeeklyMeals;
         internal System.Windows.Forms.Label lblNutrientSummary;
         internal System.Windows.Forms.Label lblSelectedMenus;
         internal System.Windows.Forms.ListBox lstAvailableMenus;
@@ -544,5 +787,20 @@ namespace nutritionist.Tabs.Management
         internal System.Windows.Forms.TableLayoutPanel tableMealRecipeLists;
         internal System.Windows.Forms.TableLayoutPanel tableMenuLibrary;
         internal System.Windows.Forms.TextBox txtMealNotes;
+        internal System.Windows.Forms.DateTimePicker dtpMealMonth;
+        internal System.Windows.Forms.ComboBox cmbMealWeek;
+        internal System.Windows.Forms.Label lblSelectedMealDay;
+        internal System.Windows.Forms.DataGridView dgvWeeklyMeals;
+        internal System.Windows.Forms.DataGridViewTextBoxColumn colWeekMonday;
+        internal System.Windows.Forms.DataGridViewTextBoxColumn colWeekTuesday;
+        internal System.Windows.Forms.DataGridViewTextBoxColumn colWeekWednesday;
+        internal System.Windows.Forms.DataGridViewTextBoxColumn colWeekThursday;
+        internal System.Windows.Forms.DataGridViewTextBoxColumn colWeekFriday;
+        internal System.Windows.Forms.Label lblMealMonthTitle;
+        internal System.Windows.Forms.Label lblMealWeekTitle;
+        internal System.Windows.Forms.Label lblMealDayTitle;
+        internal System.Windows.Forms.TableLayoutPanel tableMealDaySelector;
+        internal System.Windows.Forms.GroupBox grpMealSchedule;
+        internal System.Windows.Forms.TableLayoutPanel tableMealSchedule;
     }
 }

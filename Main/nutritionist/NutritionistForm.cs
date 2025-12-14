@@ -14,6 +14,7 @@ namespace nutritionist
     public partial class NutritionistForm : Form
     {
         private const string MealPlanStatusDraft = "DRAFT";
+        private const string MealPlanStatusPending = "PENDING";
         private const string MealPlanStatusApproved = "APPROVED";
         private const string PurchaseStatusRequested = "REQUESTED";
         private const string PurchaseStatusApproved = "APPROVED";
@@ -30,11 +31,12 @@ namespace nutritionist
         private readonly List<FinalMenuOption> _finalMenuOptions = new List<FinalMenuOption>();
         private readonly BindingList<FinalMenuOption> _filteredMenuOptions = new BindingList<FinalMenuOption>();
         private readonly BindingList<FinalMenuOption> _selectedMealMenus = new BindingList<FinalMenuOption>();
-        private readonly Dictionary<int, List<FinalMenuOption>> _mealPlanSelections = new Dictionary<int, List<FinalMenuOption>>();
+        private readonly Dictionary<string, List<FinalMenuOption>> _mealPlanSelections = new Dictionary<string, List<FinalMenuOption>>();
         private readonly Dictionary<int, HashSet<string>> _rawNutrientCodes = new Dictionary<int, HashSet<string>>();
         private readonly Dictionary<int, decimal> _rawCalorieMap = new Dictionary<int, decimal>();
         private readonly Dictionary<int, HashSet<string>> _recipeNutrientCodes = new Dictionary<int, HashSet<string>>();
         private readonly Dictionary<int, decimal> _recipeCalorieMap = new Dictionary<int, decimal>();
+        private readonly Dictionary<int, FinalMenuOption> _menuOptionLookup = new Dictionary<int, FinalMenuOption>();
         private readonly Dictionary<int, Dictionary<string, decimal>> _menuNutrientAmounts = new Dictionary<int, Dictionary<string, decimal>>();
         private readonly BindingList<NutrientSummaryRow> _nutrientSummary = new BindingList<NutrientSummaryRow>();
         private readonly Dictionary<int, HashSet<int>> _menuTagMap = new Dictionary<int, HashSet<int>>();
@@ -57,6 +59,7 @@ namespace nutritionist
         private int _groupRowSerial = -1;
         private bool _suppressMenuFilter;
         private bool _suppressMealBoardUpdate;
+        private bool _suppressWeekChange;
         private static readonly Dictionary<string, string> RawColumnHeaders = new Dictionary<string, string>
         {
             { "ITEMTYPE", "구분" },
@@ -78,13 +81,29 @@ namespace nutritionist
             { "ACTIVEFLAG", "사용 여부" }
         };
         private const int DefaultMealPortion = 100;
+        private static readonly string[] WeekdayNames = { "월", "화", "수", "목", "금" };
 
         private int? _selectedRawMaterialId;
         private int? _selectedMealPlanId;
         private int? _selectedPurchaseRequestId;
         private int? _selectedRecipeId;
+        private readonly DateTime[] _currentWeekDates = new DateTime[5];
+        private readonly List<WeekOption> _mealWeekOptions = new List<WeekOption>();
+        private WeekOption _selectedWeekOption;
+        private int _selectedWeekdayIndex = -1;
+        private DateTime? _currentPlanStart;
+        private DateTime? _currentPlanEnd;
+        private string _currentMealPlanStatus;
+        private bool _isCurrentWeekComplete;
 
         private NutritionDashboardControl Dashboard => dashboardTabControl;
+        private TableLayoutPanel layoutDashboard => Dashboard?.layoutDashboard;
+        private GroupBox grpTodayMeals => Dashboard?.grpTodayMeals;
+        private DataGridView dgvTodayMeals => Dashboard?.dgvTodayMeals;
+        private GroupBox grpTodayRaw => Dashboard?.grpTodayRaw;
+        private DataGridView dgvTodayRawNeeds => Dashboard?.dgvTodayRawNeeds;
+        private GroupBox grpShortage => Dashboard?.grpShortage;
+        private DataGridView dgvShortageRaw => Dashboard?.dgvShortageRaw;
         private GroupBox grpMealLogs => Dashboard?.grpMealLogs;
         private DataGridView dgvMealLogs => Dashboard?.dgvMealLogs;
         private GroupBox grpAction => Dashboard?.grpAction;
@@ -99,6 +118,8 @@ namespace nutritionist
         private GroupBox grpStudents => Dashboard?.grpStudents;
         private DataGridView dgvStudents => Dashboard?.dgvStudents;
         private GroupBox grpSummary => Dashboard?.grpSummary;
+        private Label lblServeDateTitle => Dashboard?.lblServeDateTitle;
+        private Label lblCurrentServeDate => Dashboard?.lblCurrentServeDate;
         private Label lblNotMealValue => Dashboard?.lblNotMealValue;
         private Label lblNotMeal => Dashboard?.lblNotMeal;
         private Label lblTodayMealValue => Dashboard?.lblTodayMealValue;
@@ -186,18 +207,24 @@ namespace nutritionist
         private FlowLayoutPanel flowRecipeButtons => RecipesTab?.flowRecipeButtons;
         private MealPlansTabPage MealPlansTab => mealPlansTabPage;
         private SplitContainer splitContainerMealPlans => MealPlansTab?.splitContainerMealPlans;
-        private DataGridView dgvMealPlans => MealPlansTab?.dgvMealPlans;
         private DateTimePicker dtpMealDate => MealPlansTab?.dtpMealDate;
+        private DateTimePicker dtpMealMonth => MealPlansTab?.dtpMealMonth;
+        private ComboBox cmbMealWeek => MealPlansTab?.cmbMealWeek;
+        private Label lblSelectedMealDay => MealPlansTab?.lblSelectedMealDay;
+        private DataGridView dgvWeeklyMeals => MealPlansTab?.dgvWeeklyMeals;
         private TextBox txtMealNotes => MealPlansTab?.txtMealNotes;
         private CheckedListBox clbMenuTags => MealPlansTab?.clbMenuTags;
         private ComboBox cmbMenuTypeFilter => MealPlansTab?.cmbMenuTypeFilter;
         private ComboBox cmbMenuSort => MealPlansTab?.cmbMenuSort;
         private Button btnResetMenuFilter => MealPlansTab?.btnResetMenuFilter;
         private Button btnRegisterMealPlan => MealPlansTab?.btnRegisterMealPlan;
+        private Button btnRequestMealApproval => MealPlansTab?.btnRequestMealApproval;
+        private Button btnStartMealPlan => MealPlansTab?.btnStartMealPlan;
         private ListBox lstAvailableMenus => MealPlansTab?.lstAvailableMenus;
         private ListView lvMealBoard => MealPlansTab?.lvMealBoard;
         private DataGridView dgvMealNutrition => MealPlansTab?.dgvMealNutrition;
         private DataGridViewTextBoxColumn colNutrientStatus => MealPlansTab?.colNutrientStatus;
+        private GroupBox grpMealPlanDetail => MealPlansTab?.grpMealPlanDetail;
 
         public NutritionistForm() : this(null)
         {
@@ -223,6 +250,16 @@ namespace nutritionist
             if (btnRegisterMealPlan != null)
             {
                 btnRegisterMealPlan.Click += BtnRegisterMealPlan_Click;
+            }
+
+            if (btnRequestMealApproval != null)
+            {
+                btnRequestMealApproval.Click += BtnRequestMealApproval_Click;
+            }
+
+            if (btnStartMealPlan != null)
+            {
+                btnStartMealPlan.Click += BtnStartMealPlan_Click;
             }
             if (dgvRawMaterials != null)
             {
@@ -261,6 +298,9 @@ namespace nutritionist
         private void InitializeLayout()
         {
             ConfigureGrid(dgvStudents);
+            ConfigureGrid(dgvTodayMeals);
+            ConfigureGrid(dgvTodayRawNeeds);
+            ConfigureGrid(dgvShortageRaw);
             ConfigureGrid(dgvRawMaterials);
             ConfigureGrid(dgvRecipes);
             ConfigureGrid(dgvMenus);
@@ -410,8 +450,363 @@ namespace nutritionist
                 dgvMealNutrition.CellFormatting += DgvMealNutrition_CellFormatting;
             }
 
+            InitializeMealPlannerControls();
             AttachRawFilterEvents();
             AttachRecipeFilterEvents();
+        }
+
+        private void InitializeMealPlannerControls()
+        {
+            if (dtpMealMonth != null)
+            {
+                dtpMealMonth.Value = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                dtpMealMonth.ValueChanged += DtpMealMonth_ValueChanged;
+            }
+
+            if (cmbMealWeek != null)
+            {
+                cmbMealWeek.SelectedIndexChanged += CmbMealWeek_SelectedIndexChanged;
+            }
+
+            if (dgvWeeklyMeals != null)
+            {
+                dgvWeeklyMeals.Rows.Clear();
+                dgvWeeklyMeals.Rows.Add();
+                dgvWeeklyMeals.ClearSelection();
+                dgvWeeklyMeals.CellClick += DgvWeeklyMeals_CellClick;
+            }
+
+            UpdateMealWeekOptions();
+            ClearWeeklyMealsGrid();
+            UpdateMealPlanInteractionState();
+        }
+
+        private void DtpMealMonth_ValueChanged(object sender, EventArgs e)
+        {
+            if (_suppressWeekChange)
+            {
+                return;
+            }
+
+            UpdateMealWeekOptions();
+        }
+
+        private void CmbMealWeek_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_suppressWeekChange)
+            {
+                return;
+            }
+
+            _selectedWeekOption = cmbMealWeek?.SelectedItem as WeekOption;
+            _selectedWeekdayIndex = -1;
+            RefreshWeeklyMealBoard();
+        }
+
+        private void DgvWeeklyMeals_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+
+            SelectWeekday(e.ColumnIndex);
+        }
+
+        private void SetMealMonthWithoutEvents(DateTime monthDate)
+        {
+            if (dtpMealMonth == null)
+            {
+                return;
+            }
+
+            _suppressWeekChange = true;
+            dtpMealMonth.Value = monthDate;
+            _suppressWeekChange = false;
+            UpdateMealWeekOptions();
+        }
+
+        private void UpdateMealWeekOptions()
+        {
+            if (dtpMealMonth == null || cmbMealWeek == null)
+            {
+                return;
+            }
+
+            var targetMonth = dtpMealMonth.Value;
+            var previousStart = _selectedWeekOption?.StartDate;
+            _suppressWeekChange = true;
+            cmbMealWeek.Items.Clear();
+            _mealWeekOptions.Clear();
+
+            var current = GetFirstMondayOfMonth(targetMonth.Year, targetMonth.Month);
+            var index = 1;
+            while (current.Month == targetMonth.Month)
+            {
+                var option = new WeekOption(index, current);
+                _mealWeekOptions.Add(option);
+                cmbMealWeek.Items.Add(option);
+                index++;
+                current = current.AddDays(7);
+            }
+
+            if (_mealWeekOptions.Count > 0)
+            {
+                var restored = _mealWeekOptions.FirstOrDefault(opt => previousStart.HasValue && opt.StartDate == previousStart.Value);
+                _selectedWeekOption = restored ?? _mealWeekOptions.First();
+                cmbMealWeek.SelectedItem = _selectedWeekOption;
+                _selectedWeekdayIndex = -1;
+                _suppressWeekChange = false;
+                RefreshWeeklyMealBoard();
+                return;
+            }
+
+            _selectedWeekOption = null;
+            cmbMealWeek.SelectedItem = null;
+            _selectedWeekdayIndex = -1;
+            _suppressWeekChange = false;
+            ClearWeeklyMealsGrid();
+        }
+
+        private static DateTime GetFirstMondayOfMonth(int year, int month)
+        {
+            var firstDay = new DateTime(year, month, 1);
+            var offset = ((int)DayOfWeek.Monday - (int)firstDay.DayOfWeek + 7) % 7;
+            return firstDay.AddDays(offset);
+        }
+
+        private void RefreshWeeklyMealBoard()
+        {
+            if (dgvWeeklyMeals == null)
+            {
+                return;
+            }
+
+            EnsureWeeklyGridRow();
+
+            if (_selectedWeekOption == null || _selectedMealPlanId == null)
+            {
+                ClearWeeklyMealsGrid();
+                return;
+            }
+
+            var start = _selectedWeekOption.StartDate;
+            var end = start.AddDays(4);
+            if (!IsWeekWithinSelectedPlan(start, end))
+            {
+                ClearWeeklyMealsGrid();
+                return;
+            }
+
+            var weekMeals = LoadWeekMealsFromDatabase(start, end);
+            var weekComplete = true;
+
+            for (var i = 0; i < WeekdayNames.Length; i++)
+            {
+                var date = start.AddDays(i);
+                _currentWeekDates[i] = date;
+                dgvWeeklyMeals.Columns[i].HeaderText = $"{WeekdayNames[i]} {date:MM/dd}";
+                if (weekMeals.TryGetValue(date.Date, out var menus) && menus.Count > 0)
+                {
+                    dgvWeeklyMeals.Rows[0].Cells[i].Value = string.Join(Environment.NewLine, menus.Select(m => m.MenuName));
+                }
+                else
+                {
+                    dgvWeeklyMeals.Rows[0].Cells[i].Value = string.Empty;
+                    weekComplete = false;
+                }
+            }
+
+            _isCurrentWeekComplete = weekComplete;
+            UpdateApprovalRequestAvailability();
+
+            var targetIndex = _selectedWeekdayIndex;
+            if (targetIndex < 0 || targetIndex >= WeekdayNames.Length)
+            {
+                targetIndex = 0;
+            }
+
+            SelectWeekday(targetIndex);
+        }
+
+        private void EnsureWeeklyGridRow()
+        {
+            if (dgvWeeklyMeals != null && dgvWeeklyMeals.Rows.Count == 0)
+            {
+                dgvWeeklyMeals.Rows.Add();
+            }
+        }
+
+        private void ClearWeeklyMealsGrid()
+        {
+            if (dgvWeeklyMeals == null)
+            {
+                return;
+            }
+
+            EnsureWeeklyGridRow();
+            for (var i = 0; i < WeekdayNames.Length; i++)
+            {
+                dgvWeeklyMeals.Columns[i].HeaderText = WeekdayNames[i];
+                dgvWeeklyMeals.Rows[0].Cells[i].Value = string.Empty;
+                _currentWeekDates[i] = DateTime.MinValue;
+            }
+
+            dgvWeeklyMeals.ClearSelection();
+            UpdateSelectedDayLabel(null, -1);
+            _isCurrentWeekComplete = false;
+            UpdateApprovalRequestAvailability();
+        }
+
+        private void SelectWeekday(int columnIndex, bool suppressReload = false)
+        {
+            if (columnIndex < 0 || columnIndex >= _currentWeekDates.Length)
+            {
+                return;
+            }
+
+            var date = _currentWeekDates[columnIndex];
+            if (date == DateTime.MinValue)
+            {
+                return;
+            }
+
+            _selectedWeekdayIndex = columnIndex;
+            if (dgvWeeklyMeals != null && dgvWeeklyMeals.Rows.Count > 0)
+            {
+                dgvWeeklyMeals.ClearSelection();
+                dgvWeeklyMeals[columnIndex, 0].Selected = true;
+            }
+
+            if (dtpMealDate != null)
+            {
+                dtpMealDate.Value = date;
+            }
+
+            UpdateSelectedDayLabel(date, columnIndex);
+
+            if (!suppressReload)
+            {
+                LoadMealRecipesForCurrentPlan();
+            }
+        }
+
+        private void UpdateSelectedDayLabel(DateTime? date, int columnIndex)
+        {
+            if (lblSelectedMealDay == null)
+            {
+                return;
+            }
+
+            if (!date.HasValue || columnIndex < 0 || columnIndex >= WeekdayNames.Length)
+            {
+                lblSelectedMealDay.Text = "-";
+                return;
+            }
+
+            lblSelectedMealDay.Text = $"{date:yyyy-MM-dd} ({WeekdayNames[columnIndex]})";
+        }
+
+        private Dictionary<DateTime, List<FinalMenuOption>> LoadWeekMealsFromDatabase(DateTime start, DateTime end)
+        {
+            var result = new Dictionary<DateTime, List<FinalMenuOption>>();
+            if (_selectedMealPlanId == null)
+            {
+                return result;
+            }
+
+            const string sql =
+                "SELECT m.MealDate, mc.FinalMenuID, fm.MenuType " +
+                "FROM Meal m " +
+                "JOIN MealComp mc ON m.MealID = mc.MealID " +
+                "JOIN FinalMenu fm ON mc.FinalMenuID = fm.FinalMenuID " +
+                "WHERE m.MealPlanID = :PLANID AND m.MealDate BETWEEN :STARTDATE AND :ENDDATE " +
+                "ORDER BY m.MealDate, CASE fm.MenuType " +
+                "WHEN 'MAIN' THEN 1 WHEN 'SIDE' THEN 2 WHEN 'SOUP' THEN 3 WHEN 'DRINK' THEN 4 ELSE 5 END, fm.MenuName";
+
+            var table = ExecuteDataTable(sql,
+                new OracleParameter("PLANID", _selectedMealPlanId.Value),
+                new OracleParameter("STARTDATE", start),
+                new OracleParameter("ENDDATE", end));
+
+            foreach (DataRow row in table.Rows)
+            {
+                var mealDate = ToNullableDate(row["MEALDATE"])?.Date;
+                if (!mealDate.HasValue)
+                {
+                    continue;
+                }
+
+                var option = FindMenuOption(ToInt(row["FINALMENUID"]));
+                if (option == null)
+                {
+                    continue;
+                }
+
+                if (!result.TryGetValue(mealDate.Value, out var list))
+                {
+                    list = new List<FinalMenuOption>();
+                    result[mealDate.Value] = list;
+                }
+
+                list.Add(option);
+            }
+
+            return result;
+        }
+
+        private List<FinalMenuOption> LoadMealMenusFromDatabase(DateTime mealDate)
+        {
+            var items = new List<FinalMenuOption>();
+            if (_selectedMealPlanId == null)
+            {
+                return items;
+            }
+
+            const string sql =
+                "SELECT mc.FinalMenuID, fm.MenuType, fm.MenuName " +
+                "FROM Meal m " +
+                "JOIN MealComp mc ON m.MealID = mc.MealID " +
+                "JOIN FinalMenu fm ON mc.FinalMenuID = fm.FinalMenuID " +
+                "WHERE m.MealPlanID = :PLANID AND m.MealDate = :MEALDATE " +
+                "ORDER BY CASE fm.MenuType " +
+                "WHEN 'MAIN' THEN 1 WHEN 'SIDE' THEN 2 WHEN 'SOUP' THEN 3 WHEN 'DRINK' THEN 4 ELSE 5 END, fm.MenuName";
+
+            var table = ExecuteDataTable(sql,
+                new OracleParameter("PLANID", _selectedMealPlanId.Value),
+                new OracleParameter("MEALDATE", mealDate));
+
+            foreach (DataRow row in table.Rows)
+            {
+                var option = FindMenuOption(ToInt(row["FINALMENUID"]));
+                if (option != null)
+                {
+                    items.Add(option);
+                }
+            }
+
+            return items;
+        }
+
+        private FinalMenuOption FindMenuOption(int menuId)
+        {
+            if (menuId <= 0)
+            {
+                return null;
+            }
+
+            if (_menuOptionLookup.TryGetValue(menuId, out var option))
+            {
+                return option;
+            }
+
+            option = _finalMenuOptions.FirstOrDefault(menu => menu.FinalMenuId == menuId);
+            if (option != null)
+            {
+                _menuOptionLookup[menuId] = option;
+            }
+
+            return option;
         }
 
         private void InitializeRecipeComponentContextMenu()
@@ -540,8 +935,28 @@ namespace nutritionist
             Text = $"영양사 도구{nameSuffix}";
 
             menuOpenAdmin.Visible = isAdmin;
-            btnServeMeal.Text = isAdmin ? "식단 승인" : "식단 계획 등록";
-            btnCancelMeal.Text = isAdmin ? "발주 승인" : "발주 요청 등록";
+            if (btnServeMeal != null)
+            {
+                btnServeMeal.Text = isAdmin ? "식단 승인" : "식단 계획 등록";
+                btnServeMeal.Visible = isAdmin;
+            }
+
+            if (btnCancelMeal != null)
+            {
+                btnCancelMeal.Text = isAdmin ? "발주 승인" : "발주 요청 등록";
+            }
+
+            if (btnStartMealPlan != null)
+            {
+                btnStartMealPlan.Visible = !isAdmin;
+            }
+
+            if (btnRequestMealApproval != null)
+            {
+                btnRequestMealApproval.Visible = !isAdmin;
+            }
+
+            UpdateMealPlanInteractionState();
         }
 
         private void RestrictNutritionistTabs()
@@ -686,6 +1101,10 @@ namespace nutritionist
             lblTotalStudentValue.Text = totalRaw.ToString();
             lblTodayMealValue.Text = totalMealPlan.ToString();
             lblNotMealValue.Text = pendingPurchase.ToString();
+            if (lblCurrentServeDate != null)
+            {
+                lblCurrentServeDate.Text = DateTime.Today.ToString("yyyy-MM-dd");
+            }
         }
 
         private void LoadRawMaterials()
@@ -852,13 +1271,16 @@ namespace nutritionist
             dgvMenus.DataSource = table;
 
             _finalMenuOptions.Clear();
+            _menuOptionLookup.Clear();
             foreach (DataRow row in table.Rows)
             {
-                _finalMenuOptions.Add(new FinalMenuOption(
+                var option = new FinalMenuOption(
                     ToInt(row["FINALMENUID"]),
                     row["MENUCODE"]?.ToString(),
                     row["MENUNAME"]?.ToString() ?? string.Empty,
-                    row["MENUTYPE"]?.ToString()));
+                    row["MENUTYPE"]?.ToString());
+                _finalMenuOptions.Add(option);
+                _menuOptionLookup[option.FinalMenuId] = option;
             }
             PopulateMenuTypeFilter();
             PopulateMenuSortOptions();
@@ -1369,18 +1791,116 @@ namespace nutritionist
             DisplaySelectedMealPlan();
         }
 
-        private void DisplaySelectedMealPlan()
+        private void SelectMealPlanById(int mealPlanId)
         {
-            LoadMealRecipesForCurrentPlan();
-            if (_selectedMealPlanId == null || dgvMealLogs.CurrentRow == null)
+            if (dgvMealLogs == null)
             {
-                txtMenuCode.Text = "선택 없음";
                 return;
             }
 
+            foreach (DataGridViewRow row in dgvMealLogs.Rows)
+            {
+                if (row?.Cells["MEALPLANID"]?.Value == null)
+                {
+                    continue;
+                }
+
+                if (ToInt(row.Cells["MEALPLANID"].Value) != mealPlanId)
+                {
+                    continue;
+                }
+
+                row.Selected = true;
+                if (row.Cells.Count > 0)
+                {
+                    dgvMealLogs.CurrentCell = row.Cells[0];
+                }
+
+                SetSelectedMealPlanFromRow(row);
+                break;
+            }
+        }
+
+        private void DisplaySelectedMealPlan()
+        {
+            if (_selectedMealPlanId == null || dgvMealLogs.CurrentRow == null)
+            {
+                txtMenuCode.Text = "선택 없음";
+                _currentPlanStart = null;
+                _currentPlanEnd = null;
+                _selectedWeekOption = null;
+                _selectedWeekdayIndex = -1;
+                _currentMealPlanStatus = null;
+                ClearWeeklyMealsGrid();
+                _suppressMealBoardUpdate = true;
+                _selectedMealMenus.Clear();
+                _suppressMealBoardUpdate = false;
+                RefreshMealBoard();
+                UpdateNutritionSummary();
+                UpdateSelectedDayLabel(null, -1);
+                UpdateMealPlanInteractionState();
+                return;
+            }
+
+            _currentPlanStart = ToNullableDate(dgvMealLogs.CurrentRow.Cells["PERIODSTART"]?.Value);
+            _currentPlanEnd = ToNullableDate(dgvMealLogs.CurrentRow.Cells["PERIODEND"]?.Value);
+
             var name = dgvMealLogs.CurrentRow.Cells["PLANNAME"].Value?.ToString() ?? string.Empty;
             var status = dgvMealLogs.CurrentRow.Cells["STATUS"].Value?.ToString() ?? string.Empty;
+            _currentMealPlanStatus = status;
             txtMenuCode.Text = $"{name} ({status})";
+
+            if (dtpMealMonth != null && _currentPlanStart.HasValue)
+            {
+                SetMealMonthWithoutEvents(new DateTime(_currentPlanStart.Value.Year, _currentPlanStart.Value.Month, 1));
+            }
+            else
+            {
+                UpdateMealWeekOptions();
+            }
+
+            UpdateMealPlanInteractionState();
+        }
+
+        private void UpdateMealPlanInteractionState()
+        {
+            var hasPlan = _selectedMealPlanId.HasValue;
+            if (dgvWeeklyMeals != null)
+            {
+                dgvWeeklyMeals.Enabled = hasPlan;
+            }
+
+            var isDietitian = _session?.IsAdmin != true;
+            var canEdit = hasPlan && isDietitian &&
+                          string.Equals(_currentMealPlanStatus, MealPlanStatusDraft, StringComparison.OrdinalIgnoreCase);
+
+            if (grpMealPlanDetail != null)
+            {
+                grpMealPlanDetail.Enabled = canEdit;
+            }
+
+            UpdateApprovalRequestAvailability();
+        }
+
+        private void UpdateApprovalRequestAvailability()
+        {
+            if (btnRequestMealApproval == null)
+            {
+                return;
+            }
+
+            var isDietitian = _session?.IsAdmin != true;
+            if (!isDietitian)
+            {
+                btnRequestMealApproval.Enabled = false;
+                return;
+            }
+
+            var hasPlan = _selectedMealPlanId.HasValue;
+            var canRequestApproval = hasPlan &&
+                                     string.Equals(_currentMealPlanStatus, MealPlanStatusDraft, StringComparison.OrdinalIgnoreCase) &&
+                                     _isCurrentWeekComplete;
+            btnRequestMealApproval.Enabled = canRequestApproval;
         }
 
         private void DgvPurchaseRequests_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -1445,6 +1965,16 @@ namespace nutritionist
             }
         }
 
+        private void BtnRequestMealApproval_Click(object sender, EventArgs e)
+        {
+            RequestMealPlanApproval();
+        }
+
+        private void BtnStartMealPlan_Click(object sender, EventArgs e)
+        {
+            OpenMealPlanDialog();
+        }
+
         private void OpenMealPlanDialog()
         {
             if (!EnsureDietitianAccess())
@@ -1459,9 +1989,10 @@ namespace nutritionist
                     var input = dialog.Result;
                     try
                     {
-                        CreateMealPlan(input.PlanName, input.StartDate, input.EndDate);
+                        var planId = CreateMealPlan(input.PlanName, input.StartDate, input.EndDate);
                         MessageBox.Show("식단 계획이 등록되었습니다.", "완료");
                         ReloadAll();
+                        SelectMealPlanById(planId);
                     }
                     catch (OracleException ex)
                     {
@@ -1471,7 +2002,7 @@ namespace nutritionist
             }
         }
 
-        private void CreateMealPlan(string planName, DateTime startDate, DateTime endDate)
+        private int CreateMealPlan(string planName, DateTime startDate, DateTime endDate)
         {
             var nextId = GetNextId("MEALPLAN", "MEALPLANID");
             const string sql =
@@ -1485,6 +2016,54 @@ namespace nutritionist
                 new OracleParameter("END", endDate),
                 new OracleParameter("STATUS", MealPlanStatusDraft),
                 new OracleParameter("CREATEDBY", _session?.UserId ?? "SYSTEM"));
+
+            return nextId;
+        }
+
+        private void RequestMealPlanApproval()
+        {
+            if (!EnsureDietitianAccess())
+            {
+                return;
+            }
+
+            if (_selectedMealPlanId == null)
+            {
+                MessageBox.Show("식단 계획을 선택해 주세요.", "안내");
+                return;
+            }
+
+            if (!_isCurrentWeekComplete)
+            {
+                MessageBox.Show("한 주의 식단을 모두 등록한 후 승인 요청을 할 수 있습니다.", "안내");
+                return;
+            }
+
+            if (!string.Equals(_currentMealPlanStatus, MealPlanStatusDraft, StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("작성 중인 식단만 승인 요청할 수 있습니다.", "안내");
+                return;
+            }
+
+            const string sql = "UPDATE MealPlan SET Status = :STATUS WHERE MealPlanID = :ID";
+            try
+            {
+                var planId = _selectedMealPlanId.Value;
+                var rows = ExecuteNonQuery(sql,
+                    new OracleParameter("STATUS", MealPlanStatusPending),
+                    new OracleParameter("ID", planId));
+
+                if (rows > 0)
+                {
+                    MessageBox.Show("식단 승인 요청이 전송되었습니다.", "완료");
+                    ReloadAll();
+                    SelectMealPlanById(planId);
+                }
+            }
+            catch (OracleException ex)
+            {
+                MessageBox.Show($"식단 승인 요청 중 오류가 발생했습니다.\n{ex.Message}", "DB 오류");
+            }
         }
 
         private void RegisterMealForCurrentPlan()
@@ -1501,7 +2080,13 @@ namespace nutritionist
                 return;
             }
 
-            var mealDate = dtpMealDate?.Value.Date ?? DateTime.Today;
+            if (dtpMealDate == null || _selectedWeekdayIndex < 0)
+            {
+                MessageBox.Show("요일을 선택해 주세요.", "안내");
+                return;
+            }
+
+            var mealDate = dtpMealDate.Value.Date;
             if (!IsMealDateWithinSelectedPlan(mealDate, out var planStart, out var planEnd))
             {
                 var startText = planStart?.ToString("yyyy-MM-dd") ?? "-";
@@ -1516,17 +2101,18 @@ namespace nutritionist
 
         private bool IsMealDateWithinSelectedPlan(DateTime mealDate, out DateTime? planStart, out DateTime? planEnd)
         {
-            planStart = null;
-            planEnd = null;
+            planStart = _currentPlanStart;
+            planEnd = _currentPlanEnd;
 
-            var row = GetCurrentMealPlanRow();
-            if (row == null)
+            if (!planStart.HasValue || !planEnd.HasValue)
             {
-                return true;
+                var row = GetCurrentMealPlanRow();
+                if (row != null)
+                {
+                    planStart ??= ToNullableDate(row.Cells["PERIODSTART"]?.Value);
+                    planEnd ??= ToNullableDate(row.Cells["PERIODEND"]?.Value);
+                }
             }
-
-            planStart = ToNullableDate(row.Cells["PERIODSTART"]?.Value);
-            planEnd = ToNullableDate(row.Cells["PERIODEND"]?.Value);
 
             if (planStart.HasValue && mealDate.Date < planStart.Value.Date)
             {
@@ -1539,6 +2125,21 @@ namespace nutritionist
             }
 
             return true;
+        }
+
+        private bool IsWeekWithinSelectedPlan(DateTime weekStart, DateTime weekEnd)
+        {
+            if (!IsMealDateWithinSelectedPlan(weekStart, out var planStart, out var planEnd))
+            {
+                return false;
+            }
+
+            if (!planStart.HasValue || !planEnd.HasValue)
+            {
+                return false;
+            }
+
+            return weekEnd.Date <= planEnd.Value.Date;
         }
 
         private DataGridViewRow GetCurrentMealPlanRow()
@@ -1606,6 +2207,7 @@ namespace nutritionist
                         InsertMealComponents(conn, transaction, mealId);
                         transaction.Commit();
                         MessageBox.Show("식단이 등록되었습니다.", "완료");
+                        RefreshWeeklyMealBoard();
                     }
                     catch
                     {
@@ -2692,17 +3294,27 @@ namespace nutritionist
                 return;
             }
 
+            var row = GetCurrentMealPlanRow();
+            var status = row?.Cells["STATUS"]?.Value?.ToString() ?? _currentMealPlanStatus;
+            if (!string.Equals(status, MealPlanStatusPending, StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("승인 요청된 식단만 승인할 수 있습니다.", "안내");
+                return;
+            }
+
             var sql = "UPDATE MealPlan SET Status = :STATUS WHERE MealPlanID = :ID";
             try
             {
+                var planId = _selectedMealPlanId.Value;
                 var rows = ExecuteNonQuery(sql,
                     new OracleParameter("STATUS", MealPlanStatusApproved),
-                    new OracleParameter("ID", _selectedMealPlanId));
+                    new OracleParameter("ID", planId));
 
                 if (rows > 0)
                 {
                     MessageBox.Show("식단이 승인되었습니다.", "완료");
                     ReloadAll();
+                    SelectMealPlanById(planId);
                 }
             }
             catch (OracleException ex)
@@ -3259,21 +3871,27 @@ namespace nutritionist
             _nutrientSummary.ResetBindings();
         }
 
-        private int GetCurrentMealPlanKey()
+        private string GetCurrentMealPlanKey()
         {
-            return _selectedMealPlanId ?? 0;
+            if (_selectedMealPlanId == null || dtpMealDate == null)
+            {
+                return string.Empty;
+            }
+
+            return $"{_selectedMealPlanId.Value}_{dtpMealDate.Value:yyyyMMdd}";
         }
 
         private void SaveMealRecipesForCurrentPlan()
         {
             var key = GetCurrentMealPlanKey();
+            if (string.IsNullOrEmpty(key))
+            {
+                return;
+            }
+
             if (_selectedMealMenus.Count == 0)
             {
-                if (_mealPlanSelections.ContainsKey(key))
-                {
-                    _mealPlanSelections.Remove(key);
-                }
-
+                _mealPlanSelections.Remove(key);
                 return;
             }
 
@@ -3285,7 +3903,18 @@ namespace nutritionist
             var key = GetCurrentMealPlanKey();
             _suppressMealBoardUpdate = true;
             _selectedMealMenus.Clear();
-            if (_mealPlanSelections.TryGetValue(key, out var menus))
+            List<FinalMenuOption> menus = null;
+            if (!string.IsNullOrEmpty(key))
+            {
+                _mealPlanSelections.TryGetValue(key, out menus);
+            }
+
+            if ((menus == null || menus.Count == 0) && dtpMealDate != null)
+            {
+                menus = LoadMealMenusFromDatabase(dtpMealDate.Value.Date);
+            }
+
+            if (menus != null)
             {
                 foreach (var menu in menus)
                 {
@@ -3295,6 +3924,24 @@ namespace nutritionist
             _suppressMealBoardUpdate = false;
             RefreshMealBoard();
             UpdateNutritionSummary();
+        }
+
+        private sealed class WeekOption
+        {
+            public WeekOption(int index, DateTime startDate)
+            {
+                Index = index;
+                StartDate = startDate.Date;
+            }
+
+            public int Index { get; }
+            public DateTime StartDate { get; }
+            public DateTime EndDate => StartDate.AddDays(4);
+
+            public override string ToString()
+            {
+                return $"{Index}주차 ({StartDate:MM/dd}~{EndDate:MM/dd})";
+            }
         }
     }
 }
