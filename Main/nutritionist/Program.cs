@@ -17,23 +17,31 @@ namespace nutritionist
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            using (var loginForm = new LoginForm())
+            try
             {
-                var result = loginForm.ShowDialog();
-                var session = loginForm.Session;
-                if (result != DialogResult.OK || session == null)
+                using (var loginForm = new LoginForm())
                 {
-                    return;
-                }
+                    var result = loginForm.ShowDialog();
+                    var session = loginForm.Session;
+                    if (result != DialogResult.OK || session == null)
+                    {
+                        return;
+                    }
 
-                if (session.IsAdmin)
-                {
-                    Application.Run(new AdminForm(session));
+                    if (session.IsAdmin)
+                    {
+                        Application.Run(new AdminForm(session));
+                    }
+                    else
+                    {
+                        Application.Run(new NutritionistForm(session));
+                    }
                 }
-                else
-                {
-                    Application.Run(new NutritionistForm(session));
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"프로그램 실행 중 오류가 발생했습니다.\n\n오류 메시지: {ex.Message}\n\n스택 트레이스:\n{ex.StackTrace}", 
+                    "치명적 오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
