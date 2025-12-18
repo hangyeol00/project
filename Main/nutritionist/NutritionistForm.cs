@@ -58,16 +58,6 @@ namespace nutritionist
         private int? _selectedMealPlanId;
         private int? _selectedPurchaseRequestId;
         private int? _selectedRecipeId;
-        private DashboardForm _dashboardForm;
-        private RawMaterialsForm _rawMaterialsForm;
-        private IngredientsForm _ingredientsForm;
-        private NutrientsForm _nutrientsForm;
-        private RecipesForm _recipesForm;
-        private MealPlansForm _mealPlansForm;
-        private UsersForm _usersForm;
-        private AllergiesForm _allergiesForm;
-        private AllergyRelationsForm _allergyRelationsForm;
-        private MealEvaluationsForm _mealEvaluationsForm;
 
         public NutritionistForm() : this(null)
         {
@@ -86,8 +76,48 @@ namespace nutritionist
                 if (menuAddRaw != null) menuAddRaw.Click += MenuAddRaw_Click;
                 if (menuOpenAdmin != null) menuOpenAdmin.Click += MenuOpenAdmin_Click;
                 if (menuExit != null) menuExit.Click += MenuExit_Click;
-                // 기존 컨트롤 이벤트 핸들러는 Form에 Embed된 후에는 필요 없음
-                // 각 Form이 자체적으로 이벤트를 처리함
+                
+                // 원본 컨트롤 이벤트 핸들러 연결
+                if (dgvStudents != null) dgvStudents.CellClick += DgvStudents_CellClick;
+                if (dgvRecipes != null) dgvRecipes.CellClick += DgvRecipes_CellClick;
+                if (dgvMealLogs != null) dgvMealLogs.CellClick += DgvMealPlans_CellClick;
+                if (dgvIngredients != null) dgvIngredients.CellClick += DgvPurchaseRequests_CellClick;
+                if (dgvRawMaterials != null)
+                {
+                    dgvRawMaterials.CellClick += DgvRawMaterials_CellClick;
+                    dgvRawMaterials.CellFormatting += DgvRawMaterials_CellFormatting;
+                }
+                if (btnServeMeal != null) btnServeMeal.Click += BtnServeMeal_Click;
+                if (btnMarkServed != null) btnMarkServed.Click += BtnMarkServed_Click;
+                if (btnCancelMeal != null) btnCancelMeal.Click += BtnCancelMeal_Click;
+                if (btnRawAdd != null) btnRawAdd.Click += BtnRawAdd_Click;
+                if (btnRawRefresh != null) btnRawRefresh.Click += BtnRawRefresh_Click;
+                if (btnRawSearch != null) btnRawSearch.Click += BtnRawSearch_Click;
+                if (btnRawClear != null) btnRawClear.Click += BtnRawClear_Click;
+                if (chkRawGroup != null) chkRawGroup.CheckedChanged += ChkRawGroup_CheckedChanged;
+                if (txtRawSearch != null) txtRawSearch.KeyDown += TxtRawSearch_KeyDown;
+                if (btnRecipeSearch != null) btnRecipeSearch.Click += BtnRecipeSearch_Click;
+                if (btnRecipeClear != null) btnRecipeClear.Click += BtnRecipeClear_Click;
+                if (txtRecipeSearch != null) txtRecipeSearch.KeyDown += TxtRecipeSearch_KeyDown;
+                if (btnRefreshRecipe != null) btnRefreshRecipe.Click += BtnRefreshRecipe_Click;
+                if (btnRegisterRecipe != null) btnRegisterRecipe.Click += BtnRegisterRecipe_Click;
+                if (dgvRecipeComponents != null)
+                {
+                    dgvRecipeComponents.DragEnter += DgvRecipeComponents_DragEnter;
+                    dgvRecipeComponents.DragDrop += DgvRecipeComponents_DragDrop;
+                }
+                if (dgvMealRecipes != null)
+                {
+                    dgvMealRecipes.CellClick += DgvMealRecipes_CellClick;
+                    dgvMealRecipes.MouseDown += DgvMealRecipes_MouseDown;
+                }
+                if (dgvMealComponents != null)
+                {
+                    dgvMealComponents.DragEnter += DgvMealComponents_DragEnter;
+                    dgvMealComponents.DragDrop += DgvMealComponents_DragDrop;
+                }
+                if (dtpMealDate != null) dtpMealDate.ValueChanged += InputMeal_Changed;
+                if (cmbMealType != null) cmbMealType.SelectedIndexChanged += InputMeal_Changed;
 
                 ConfigureAccessByRole();
                 UpdateNavigationSelection();
@@ -104,67 +134,40 @@ namespace nutritionist
         {
             try
             {
-                // DashboardForm을 패널 방식으로 Embed
-                if (tabDashboard != null)
+                // 원본 컨트롤 직접 사용
+                ConfigureGrid(dgvStudents);
+                ConfigureGrid(dgvRawMaterials);
+                ConfigureGrid(dgvRecipes);
+                ConfigureGrid(dgvMenus);
+                ConfigureGrid(dgvMealLogs);
+                ConfigureGrid(dgvIngredients);
+                ConfigureGrid(dgvRawNutrients);
+                ConfigureGrid(dgvRecipeNutrients);
+                ConfigureGrid(dgvRecipeComponents);
+                ConfigureGrid(dgvRawComponents);
+                
+                if (dgvRecipeComponents != null) dgvRecipeComponents.AllowDrop = true;
+                if (tvRawMaterials != null) tvRawMaterials.Visible = false;
+                if (dgvRecipes != null)
                 {
-                    _dashboardForm = new DashboardForm(_session);
-                    EmbedForm(_dashboardForm, tabDashboard);
+                    dgvRecipes.MouseDown += DgvRecipes_MouseDown;
                 }
-
-                // 모든 Management 탭 Form들을 Embed
-                if (tabRawMaterials != null)
+                if (btnRecipeSearch != null)
                 {
-                    _rawMaterialsForm = new RawMaterialsForm(_session);
-                    EmbedForm(_rawMaterialsForm, tabRawMaterials);
+                    btnRecipeSearch.Click += BtnRecipeSearch_Click;
                 }
-
-                if (tabIngredients != null)
+                if (splitContainerIngredients != null)
                 {
-                    _ingredientsForm = new IngredientsForm(_session);
-                    EmbedForm(_ingredientsForm, tabIngredients);
+                    splitContainerIngredients.Orientation = Orientation.Horizontal;
                 }
-
-                if (tabNutrients != null)
+                if (splitContainerNutrients != null)
                 {
-                    _nutrientsForm = new NutrientsForm(_session);
-                    EmbedForm(_nutrientsForm, tabNutrients);
+                    splitContainerNutrients.Orientation = Orientation.Horizontal;
                 }
-
-                if (tabRecipes != null)
-                {
-                    _recipesForm = new RecipesForm(_session);
-                    EmbedForm(_recipesForm, tabRecipes);
-                }
-
-                if (tabMealPlans != null)
-                {
-                    _mealPlansForm = new MealPlansForm(_session);
-                    EmbedForm(_mealPlansForm, tabMealPlans);
-                }
-
-                if (tabUsers != null)
-                {
-                    _usersForm = new UsersForm(_session);
-                    EmbedForm(_usersForm, tabUsers);
-                }
-
-                if (tabAllergies != null)
-                {
-                    _allergiesForm = new AllergiesForm(_session);
-                    EmbedForm(_allergiesForm, tabAllergies);
-                }
-
-                if (tabAllergyRelations != null)
-                {
-                    _allergyRelationsForm = new AllergyRelationsForm(_session);
-                    EmbedForm(_allergyRelationsForm, tabAllergyRelations);
-                }
-
-                if (tabMealEvaluations != null)
-                {
-                    _mealEvaluationsForm = new MealEvaluationsForm(_session);
-                    EmbedForm(_mealEvaluationsForm, tabMealEvaluations);
-                }
+                if (txtStudentId != null) txtStudentId.ReadOnly = true;
+                if (txtMenuCode != null) txtMenuCode.ReadOnly = true;
+                AttachRawFilterEvents();
+                AttachRecipeFilterEvents();
 
                 // 탭 전환 이벤트 핸들러
                 if (tabMain != null)
@@ -175,42 +178,6 @@ namespace nutritionist
                 {
                     tabControlManagement.SelectedIndexChanged += TabControlManagement_SelectedIndexChanged;
                 }
-
-                // 초기 탭의 Form 표시
-                if (tabMain?.SelectedTab != null)
-                {
-                    ShowEmbeddedForm(tabMain.SelectedTab);
-                    if (tabMain.SelectedTab == tabManagement && tabControlManagement?.SelectedTab != null)
-                    {
-                        ShowEmbeddedForm(tabControlManagement.SelectedTab);
-                    }
-                }
-
-                // 기존 컨트롤들은 Form에 Embed된 후에는 접근하지 않음
-                // 각 Form이 자체적으로 Grid를 구성함
-                // ConfigureGrid(dgvStudents);
-                // ConfigureGrid(dgvRawMaterials);
-                // ConfigureGrid(dgvRecipes);
-                // ConfigureGrid(dgvMenus);
-                // ConfigureGrid(dgvMealLogs);
-                // ConfigureGrid(dgvIngredients);
-                // ConfigureGrid(dgvRawNutrients);
-                // ConfigureGrid(dgvRecipeNutrients);
-                // ConfigureGrid(dgvRecipeComponents);
-                // ConfigureGrid(dgvRawComponents);
-                
-                // 기존 컨트롤들은 Form에 Embed된 후에는 접근하지 않음
-                // 각 Form이 자체적으로 컨트롤을 관리함
-                // if (dgvRecipeComponents != null) dgvRecipeComponents.AllowDrop = true;
-                // if (tvRawMaterials != null) tvRawMaterials.Visible = false;
-                // if (dgvRecipes != null) { ... }
-                // if (btnRecipeSearch != null) { ... }
-                // if (splitContainerIngredients != null) { ... }
-                // if (splitContainerNutrients != null) { ... }
-                // txtStudentId.ReadOnly = true;
-                // txtMenuCode.ReadOnly = true;
-                // AttachRawFilterEvents();
-                // AttachRecipeFilterEvents();
             }
             catch (Exception ex)
             {
@@ -364,11 +331,7 @@ namespace nutritionist
                 tabControlManagement.SelectedTab = tabRawMaterials;
                 tabMain.SelectedTab = tabManagement;
             }
-            // RawMaterialsForm의 버튼 클릭 이벤트는 Form 내부에서 처리됨
-            if (_rawMaterialsForm != null)
-            {
-                // Form이 이미 로드되어 있으므로 사용자가 직접 버튼을 클릭할 수 있음
-            }
+            // 원본 컨트롤 직접 사용 - 탭 전환만 수행
         }
 
         private void MenuExit_Click(object sender, EventArgs e)
@@ -395,17 +358,17 @@ namespace nutritionist
         {
             try
             {
-                // 각 Form의 Reload 메서드 호출
-                _dashboardForm?.ReloadAll();
-                _rawMaterialsForm?.Reload();
-                _ingredientsForm?.Reload();
-                _nutrientsForm?.Reload();
-                _recipesForm?.Reload();
-                _mealPlansForm?.Reload();
-                _usersForm?.Reload();
-                _allergiesForm?.Reload();
-                _allergyRelationsForm?.Reload();
-                _mealEvaluationsForm?.Reload();
+                EnsureServeDateInitialized();
+                LoadSummary();
+                LoadRawMaterials();
+                LoadTodayMeals();
+                LoadTodayRawNeeds();
+                LoadShortageList();
+                LoadRawNutrientSummary();
+                LoadRecipesManagement();
+                LoadFinalMenus();
+                LoadMealPlans();
+                LoadPurchaseRequests();
             }
             catch (OracleException ex)
             {
@@ -2323,74 +2286,16 @@ namespace nutritionist
             dgvMealComponents.DataSource = null; // Clear detail when context changes
         }
 
-        private static void EmbedForm(Form form, Control container)
-        {
-            if (form == null || container == null) return;
-            try
-            {
-                form.TopLevel = false;
-                form.FormBorderStyle = FormBorderStyle.None;
-                form.Dock = DockStyle.Fill;
-                container.Controls.Clear();
-                container.Controls.Add(form);
-                form.Show();
-                form.Hide(); // 초기에는 숨김, 탭 선택 시 표시
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Form Embed 중 오류가 발생했습니다.\n{ex.Message}\n\n{ex.StackTrace}", 
-                    "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         private void TabControlManagement_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
-                // 이전 탭의 Form 숨김
-                if (tabControlManagement != null && tabControlManagement.TabPages.Count > 0)
-                {
-                    foreach (TabPage tabPage in tabControlManagement.TabPages)
-                    {
-                        HideEmbeddedForm(tabPage);
-                    }
-                }
-
-                // 현재 선택된 탭의 Form 표시
-                if (tabControlManagement?.SelectedTab != null)
-                {
-                    ShowEmbeddedForm(tabControlManagement.SelectedTab);
-                }
-
                 ReloadAll();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"관리 탭 전환 중 오류가 발생했습니다.\n{ex.Message}", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void ShowEmbeddedForm(TabPage tabPage)
-        {
-            if (tabPage == null) return;
-            foreach (Control control in tabPage.Controls)
-            {
-                if (control is Form embeddedForm)
-                {
-                    embeddedForm.Show();
-                }
-            }
-        }
-
-        private void HideEmbeddedForm(TabPage tabPage)
-        {
-            if (tabPage == null) return;
-            foreach (Control control in tabPage.Controls)
-            {
-                if (control is Form embeddedForm)
-                {
-                    embeddedForm.Hide();
-                }
             }
         }
     }

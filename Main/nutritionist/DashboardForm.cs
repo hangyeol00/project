@@ -143,7 +143,7 @@ namespace nutritionist
             SetServeDate(resolved);
         }
 
-        private void SetServeDate(DateTime targetDate)
+        public void SetServeDate(DateTime targetDate)
         {
             _currentServeDate = targetDate.Date;
             if (lblCurrentServeDate != null)
@@ -174,7 +174,12 @@ namespace nutritionist
             }
         }
 
-        private DateTime GetNextMealDate(DateTime currentDate)
+        public DateTime GetCurrentServeDate()
+        {
+            return _currentServeDate;
+        }
+
+        public DateTime GetNextMealDate(DateTime currentDate)
         {
             var sql = "SELECT MIN(MealDate) FROM Meal WHERE MealDate > :P_DATE";
             var next = DatabaseHelper.ExecuteScalar(sql, new OracleParameter("P_DATE", OracleDbType.Date) { Value = currentDate.Date });
