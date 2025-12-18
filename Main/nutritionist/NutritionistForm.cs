@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using Oracle.DataAccess.Client;
@@ -32,7 +33,9 @@ namespace nutritionist
         private readonly BindingList<FinalMenuOption> _filteredMenuOptions = new BindingList<FinalMenuOption>();
         private readonly BindingList<FinalMenuOption> _selectedMealMenus = new BindingList<FinalMenuOption>();
         private readonly Dictionary<string, List<FinalMenuOption>> _mealPlanSelections = new Dictionary<string, List<FinalMenuOption>>();
-        private readonly Dictionary<int, HashSet<string>> _rawNutrientCodes = new Dictionary<int, HashSet<string>>();
+        private readonly List<MealPlanInfo> _mealPlans = new List<MealPlanInfo>();
+        private readonly BindingList<MealPlanInfo> _weekMealPlanOptions = new BindingList<MealPlanInfo>();
+       private readonly Dictionary<int, HashSet<string>> _rawNutrientCodes = new Dictionary<int, HashSet<string>>();
         private readonly Dictionary<int, decimal> _rawCalorieMap = new Dictionary<int, decimal>();
         private readonly Dictionary<int, HashSet<string>> _recipeNutrientCodes = new Dictionary<int, HashSet<string>>();
         private readonly Dictionary<int, decimal> _recipeCalorieMap = new Dictionary<int, decimal>();
@@ -41,10 +44,22 @@ namespace nutritionist
         private readonly BindingList<NutrientSummaryRow> _nutrientSummary = new BindingList<NutrientSummaryRow>();
         private readonly Dictionary<int, HashSet<int>> _menuTagMap = new Dictionary<int, HashSet<int>>();
         private readonly Dictionary<int, string> _tagNameLookup = new Dictionary<int, string>();
+        private readonly Dictionary<int, HashSet<int>> _menuAllergyMap = new Dictionary<int, HashSet<int>>();
+        private readonly Dictionary<int, List<MenuAllergyDetail>> _menuAllergyDetails = new Dictionary<int, List<MenuAllergyDetail>>();
+        private readonly Dictionary<int, string> _allergyNameLookup = new Dictionary<int, string>();
+        private readonly Dictionary<int, int> _allergyConsumerCounts = new Dictionary<int, int>();
+        private readonly Dictionary<string, List<AlternativeAssignment>> _pendingAltAssignments = new Dictionary<string, List<AlternativeAssignment>>();
+        private int? _selectedEvaluationMenuId;
+        private int? _selectedEvaluationRawId;
+        private MealPlanInfo _selectedMealPlanInfo;
+        private bool _suppressPlanListSelection;
+        private DateTime? _pendingWeekDate;
         private readonly List<MenuTagOption> _availableMenuTags = new List<MenuTagOption>();
         private readonly List<MenuSortOption> _menuSortOptions = new List<MenuSortOption>();
         private ContextMenuStrip _recipeComponentMenu;
+        private ContextMenuStrip _allergyAlertMenu;
         private ToolStripMenuItem _menuRecipeViewRaw;
+        private ToolStripMenuItem _menuAssignAlternative;
         private readonly List<NutrientTarget> _nutrientTargets = new List<NutrientTarget>
         {
             new NutrientTarget("칼로리", "kcal", CalorieNutrientCode, 700m),
@@ -60,6 +75,7 @@ namespace nutritionist
         private bool _suppressMenuFilter;
         private bool _suppressMealBoardUpdate;
         private bool _suppressWeekChange;
+        private bool _initialAllergyModalShown;
         private static readonly Dictionary<string, string> RawColumnHeaders = new Dictionary<string, string>
         {
             { "ITEMTYPE", "구분" },
@@ -106,12 +122,9 @@ namespace nutritionist
         private GroupBox grpShortage => Dashboard?.grpShortage;
         private DataGridView dgvShortageRaw => Dashboard?.dgvShortageRaw;
         private GroupBox grpMealLogs => Dashboard?.grpMealLogs;
-        private DataGridView dgvMealLogs => Dashboard?.dgvMealLogs;
         private GroupBox grpAction => Dashboard?.grpAction;
         private Button btnCancelMeal => Dashboard?.btnCancelMeal;
         private Button btnServeMeal => Dashboard?.btnServeMeal;
-        private TextBox txtMenuCode => Dashboard?.txtMenuCode;
-        private Label lblMenuCode => Dashboard?.lblMenuCode;
         private TextBox txtStudentId => Dashboard?.txtStudentId;
         private Label lblStudentId => Dashboard?.lblStudentId;
         private GroupBox grpMenus => Dashboard?.grpMenus;
@@ -213,6 +226,8 @@ namespace nutritionist
         private ComboBox cmbMealWeek => MealPlansTab?.cmbMealWeek;
         private Label lblSelectedMealDay => MealPlansTab?.lblSelectedMealDay;
         private Label lblMealPlanStatus => MealPlansTab?.lblMealPlanStatus;
+        private ListBox lstWeekMealPlans => MealPlansTab?.lstWeekMealPlans;
+        private Button btnDeleteMealPlan => MealPlansTab?.btnDeleteMealPlan;
         private DataGridView dgvWeeklyMeals => MealPlansTab?.dgvWeeklyMeals;
         private TextBox txtMealNotes => MealPlansTab?.txtMealNotes;
         private CheckedListBox clbMenuTags => MealPlansTab?.clbMenuTags;
@@ -224,9 +239,14 @@ namespace nutritionist
         private Button btnStartMealPlan => MealPlansTab?.btnStartMealPlan;
         private ListBox lstAvailableMenus => MealPlansTab?.lstAvailableMenus;
         private ListView lvMealBoard => MealPlansTab?.lvMealBoard;
+        private ListView lvAllergyAlerts => MealPlansTab?.lvAllergyAlerts;
         private DataGridView dgvMealNutrition => MealPlansTab?.dgvMealNutrition;
         private DataGridViewTextBoxColumn colNutrientStatus => MealPlansTab?.colNutrientStatus;
         private GroupBox grpMealPlanDetail => MealPlansTab?.grpMealPlanDetail;
+        private MealEvaluationsTabPage MealEvaluationsTab => mealEvaluationsTabPage;
+        private DataGridView dgvEvaluationMenus => MealEvaluationsTab?.dgvEvaluationMenus;
+        private DataGridView dgvEvaluationIngredients => MealEvaluationsTab?.dgvEvaluationIngredients;
+        private DataGridView dgvEvaluationAllergies => MealEvaluationsTab?.dgvEvaluationAllergies;
 
         public NutritionistForm() : this(null)
         {
@@ -245,7 +265,6 @@ namespace nutritionist
             menuOpenAdmin.Click += MenuOpenAdmin_Click;
             menuExit.Click += MenuExit_Click;
             dgvStudents.CellClick += DgvStudents_CellClick;
-            dgvMealLogs.CellClick += DgvMealPlans_CellClick;
             dgvIngredients.CellClick += DgvPurchaseRequests_CellClick;
             btnServeMeal.Click += BtnServeMeal_Click;
             btnCancelMeal.Click += BtnCancelMeal_Click;
@@ -306,12 +325,14 @@ namespace nutritionist
             ConfigureGrid(dgvRawMaterials);
             ConfigureGrid(dgvRecipes);
             ConfigureGrid(dgvMenus);
-            ConfigureGrid(dgvMealLogs);
             ConfigureGrid(dgvIngredients);
             ConfigureGrid(dgvRawNutrients);
             ConfigureGrid(dgvRecipeNutrients);
             ConfigureGrid(dgvRecipeComponents);
             ConfigureGrid(dgvRawComponents);
+            ConfigureGrid(dgvEvaluationMenus);
+            ConfigureGrid(dgvEvaluationIngredients);
+            ConfigureGrid(dgvEvaluationAllergies);
             InitializeRecipeComponentContextMenu();
             if (tvRawMaterials != null)
             {
@@ -358,8 +379,10 @@ namespace nutritionist
                 splitContainerNutrients.Panel2Collapsed = true;
             }
 
-            txtStudentId.ReadOnly = true;
-            txtMenuCode.ReadOnly = true;
+            if (txtStudentId != null)
+            {
+                txtStudentId.ReadOnly = true;
+            }
             if (txtRawDetailName != null)
             {
                 txtRawDetailName.ReadOnly = true;
@@ -425,6 +448,21 @@ namespace nutritionist
                 lvMealBoard.DoubleClick += MealBoard_DoubleClick;
             }
 
+            if (lvAllergyAlerts != null)
+            {
+                InitializeAllergyAlertMenu();
+            }
+
+            if (dgvEvaluationMenus != null)
+            {
+                dgvEvaluationMenus.SelectionChanged += DgvEvaluationMenus_SelectionChanged;
+            }
+
+            if (dgvEvaluationIngredients != null)
+            {
+                dgvEvaluationIngredients.SelectionChanged += DgvEvaluationIngredients_SelectionChanged;
+            }
+
             if (cmbMenuTypeFilter != null)
             {
                 cmbMenuTypeFilter.SelectedIndexChanged += CmbMenuTypeFilter_SelectedIndexChanged;
@@ -453,6 +491,7 @@ namespace nutritionist
             }
 
             InitializeMealPlannerControls();
+            InitializePlanSelectionControls();
             AttachRawFilterEvents();
             AttachRecipeFilterEvents();
         }
@@ -483,6 +522,23 @@ namespace nutritionist
             UpdateMealPlanInteractionState();
         }
 
+        private void InitializePlanSelectionControls()
+        {
+            if (lstWeekMealPlans != null)
+            {
+                _suppressPlanListSelection = true;
+                lstWeekMealPlans.DisplayMember = nameof(MealPlanInfo.DisplayText);
+                lstWeekMealPlans.DataSource = _weekMealPlanOptions;
+                _suppressPlanListSelection = false;
+                lstWeekMealPlans.SelectedIndexChanged += LstWeekMealPlans_SelectedIndexChanged;
+            }
+
+            if (btnDeleteMealPlan != null)
+            {
+                btnDeleteMealPlan.Click += BtnDeleteMealPlan_Click;
+            }
+        }
+
         private void DtpMealMonth_ValueChanged(object sender, EventArgs e)
         {
             if (_suppressWeekChange)
@@ -502,7 +558,7 @@ namespace nutritionist
 
             _selectedWeekOption = cmbMealWeek?.SelectedItem as WeekOption;
             _selectedWeekdayIndex = -1;
-            RefreshWeeklyMealBoard();
+            RefreshWeekPlanList();
         }
 
         private void DgvWeeklyMeals_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -515,11 +571,16 @@ namespace nutritionist
             SelectWeekday(e.ColumnIndex);
         }
 
-        private void SetMealMonthWithoutEvents(DateTime monthDate)
+        private void SetMealMonthWithoutEvents(DateTime monthDate, DateTime? preferredDate = null)
         {
             if (dtpMealMonth == null)
             {
                 return;
+            }
+
+            if (preferredDate.HasValue)
+            {
+                _pendingWeekDate = preferredDate;
             }
 
             _suppressWeekChange = true;
@@ -537,6 +598,8 @@ namespace nutritionist
 
             var targetMonth = dtpMealMonth.Value;
             var previousStart = _selectedWeekOption?.StartDate;
+            var preferredDate = _pendingWeekDate;
+            _pendingWeekDate = null;
             _suppressWeekChange = true;
             cmbMealWeek.Items.Clear();
             _mealWeekOptions.Clear();
@@ -554,12 +617,23 @@ namespace nutritionist
 
             if (_mealWeekOptions.Count > 0)
             {
-                var restored = _mealWeekOptions.FirstOrDefault(opt => previousStart.HasValue && opt.StartDate == previousStart.Value);
+                WeekOption restored = null;
+                if (preferredDate.HasValue)
+                {
+                    restored = _mealWeekOptions.FirstOrDefault(option =>
+                        preferredDate.Value.Date >= option.StartDate && preferredDate.Value.Date <= option.EndDate);
+                }
+
+                if (restored == null && previousStart.HasValue)
+                {
+                    restored = _mealWeekOptions.FirstOrDefault(option => option.StartDate == previousStart.Value);
+                }
+
                 _selectedWeekOption = restored ?? _mealWeekOptions.First();
                 cmbMealWeek.SelectedItem = _selectedWeekOption;
                 _selectedWeekdayIndex = -1;
                 _suppressWeekChange = false;
-                RefreshWeeklyMealBoard();
+                RefreshWeekPlanList();
                 return;
             }
 
@@ -568,6 +642,7 @@ namespace nutritionist
             _selectedWeekdayIndex = -1;
             _suppressWeekChange = false;
             ClearWeeklyMealsGrid();
+            RefreshWeekPlanList(false);
         }
 
         private static DateTime GetFirstMondayOfMonth(int year, int month)
@@ -610,7 +685,7 @@ namespace nutritionist
 
             EnsureWeeklyGridRow();
 
-            if (_selectedWeekOption == null || _selectedMealPlanId == null)
+            if (_selectedWeekOption == null || _selectedMealPlanInfo == null)
             {
                 ClearWeeklyMealsGrid();
                 return;
@@ -618,7 +693,7 @@ namespace nutritionist
 
             var start = _selectedWeekOption.StartDate;
             var end = start.AddDays(4);
-            if (!IsWeekWithinSelectedPlan(start, end))
+            if (!_selectedMealPlanInfo.Covers(start, end))
             {
                 ClearWeeklyMealsGrid();
                 return;
@@ -683,6 +758,7 @@ namespace nutritionist
 
             dgvWeeklyMeals.ClearSelection();
             UpdateSelectedDayLabel(null, -1);
+            _selectedWeekdayIndex = -1;
             _isCurrentWeekComplete = false;
             UpdateApprovalRequestAvailability();
             _isWeekWithinPlanPeriod = false;
@@ -719,6 +795,182 @@ namespace nutritionist
             if (!suppressReload)
             {
                 LoadMealRecipesForCurrentPlan();
+            }
+        }
+
+        private void RefreshWeekPlanList(bool retainSelection = true)
+        {
+            if (lstWeekMealPlans == null)
+            {
+                return;
+            }
+
+            var previousPlanId = retainSelection ? _selectedMealPlanId : null;
+
+            _weekMealPlanOptions.RaiseListChangedEvents = false;
+            _weekMealPlanOptions.Clear();
+
+            if (_selectedWeekOption != null)
+            {
+                var weekStart = _selectedWeekOption.StartDate;
+                var weekEnd = _selectedWeekOption.EndDate;
+                var plans = _mealPlans
+                    .Where(plan => plan.Covers(weekStart, weekEnd))
+                    .OrderBy(plan => plan.PeriodStart)
+                    .ThenBy(plan => plan.PlanName, StringComparer.OrdinalIgnoreCase)
+                    .ToList();
+
+                foreach (var plan in plans)
+                {
+                    _weekMealPlanOptions.Add(plan);
+                }
+            }
+
+            _weekMealPlanOptions.RaiseListChangedEvents = true;
+            _weekMealPlanOptions.ResetBindings();
+
+            if (_weekMealPlanOptions.Count == 0)
+            {
+                _suppressPlanListSelection = true;
+                lstWeekMealPlans.ClearSelected();
+                _suppressPlanListSelection = false;
+                ApplySelectedMealPlan(null);
+                return;
+            }
+
+            MealPlanInfo target = null;
+            if (previousPlanId.HasValue)
+            {
+                target = _weekMealPlanOptions.FirstOrDefault(plan => plan.MealPlanId == previousPlanId.Value);
+            }
+
+            target ??= _weekMealPlanOptions[0];
+
+            _suppressPlanListSelection = true;
+            lstWeekMealPlans.SelectedItem = target;
+            _suppressPlanListSelection = false;
+            ApplySelectedMealPlan(target);
+        }
+
+        private void LstWeekMealPlans_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_suppressPlanListSelection)
+            {
+                return;
+            }
+
+            if (lstWeekMealPlans?.SelectedItem is MealPlanInfo plan)
+            {
+                ApplySelectedMealPlan(plan);
+            }
+            else
+            {
+                ApplySelectedMealPlan(null);
+            }
+        }
+
+        private void BtnDeleteMealPlan_Click(object sender, EventArgs e)
+        {
+            if (!EnsureDietitianAccess())
+            {
+                return;
+            }
+
+            if (_selectedMealPlanInfo == null || !_selectedMealPlanId.HasValue)
+            {
+                MessageBox.Show("삭제할 식단 계획을 선택해 주세요.", "안내");
+                return;
+            }
+
+            if (!string.Equals(_currentMealPlanStatus, MealPlanStatusDraft, StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("작성 중(DRAFT) 식단만 삭제할 수 있습니다.", "안내");
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                "선택한 식단 계획과 해당 주차의 식단 등록 내역을 모두 삭제하시겠습니까?",
+                "식단 계획 삭제",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (confirm != DialogResult.Yes)
+            {
+                return;
+            }
+
+            DeleteMealPlan(_selectedMealPlanId.Value);
+        }
+
+        private void DeleteMealPlan(int mealPlanId)
+        {
+            try
+            {
+                using (var conn = new OracleConnection(DatabaseConfig.ConnectionString))
+                {
+                    conn.Open();
+                    using (var transaction = conn.BeginTransaction())
+                    {
+                        ExecuteNonQuery(conn, transaction,
+                            "DELETE FROM AltReview WHERE AltAssignID IN (SELECT AltAssignID FROM AltAssign WHERE MealID IN (SELECT MealID FROM Meal WHERE MealPlanID = :PLANID))",
+                            mealPlanId);
+
+                        ExecuteNonQuery(conn, transaction,
+                            "DELETE FROM AltAssign WHERE MealID IN (SELECT MealID FROM Meal WHERE MealPlanID = :PLANID)",
+                            mealPlanId);
+
+                        ExecuteNonQuery(conn, transaction,
+                            "DELETE FROM MealReviewItem WHERE MealID IN (SELECT MealID FROM Meal WHERE MealPlanID = :PLANID)",
+                            mealPlanId);
+
+                        ExecuteNonQuery(conn, transaction,
+                            "DELETE FROM MealReview WHERE MealID IN (SELECT MealID FROM Meal WHERE MealPlanID = :PLANID)",
+                            mealPlanId);
+
+                        ExecuteNonQuery(conn, transaction,
+                            "DELETE FROM MealComp WHERE MealID IN (SELECT MealID FROM Meal WHERE MealPlanID = :PLANID)",
+                            mealPlanId);
+
+                        ExecuteNonQuery(conn, transaction,
+                            "DELETE FROM Meal WHERE MealPlanID = :PLANID",
+                            mealPlanId);
+
+                        ExecuteNonQuery(conn, transaction,
+                            "DELETE FROM MealPlan WHERE MealPlanID = :PLANID",
+                            mealPlanId);
+
+                        transaction.Commit();
+                    }
+                }
+
+                var keysToRemove = _mealPlanSelections.Keys
+                    .Where(key => key.StartsWith($"{mealPlanId}_", StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+                foreach (var key in keysToRemove)
+                {
+                    _mealPlanSelections.Remove(key);
+                }
+
+                _selectedMealPlanInfo = null;
+                _selectedMealPlanId = null;
+                LoadMealPlans();
+                LoadSummary();
+                MessageBox.Show("식단 계획이 삭제되었습니다.", "완료");
+            }
+            catch (OracleException ex)
+            {
+                MessageBox.Show($"식단 계획 삭제 중 오류가 발생했습니다.\n{ex.Message}", "DB 오류");
+            }
+        }
+
+        private static void ExecuteNonQuery(OracleConnection conn, OracleTransaction transaction, string sql, int planId)
+        {
+            using (var cmd = new OracleCommand(sql, conn))
+            {
+                cmd.Transaction = transaction;
+                cmd.BindByName = true;
+                cmd.Parameters.Add(new OracleParameter("PLANID", planId));
+                cmd.ExecuteNonQuery();
             }
         }
 
@@ -854,6 +1106,21 @@ namespace nutritionist
             _recipeComponentMenu.Opening += RecipeComponentMenu_Opening;
             dgvRecipeComponents.ContextMenuStrip = _recipeComponentMenu;
             dgvRecipeComponents.CellMouseDown += DgvRecipeComponents_CellMouseDown;
+        }
+
+        private void InitializeAllergyAlertMenu()
+        {
+            if (lvAllergyAlerts == null)
+            {
+                return;
+            }
+
+            _allergyAlertMenu = new ContextMenuStrip();
+            _menuAssignAlternative = new ToolStripMenuItem("대체 메뉴 할당");
+            _menuAssignAlternative.Click += MenuAssignAlternative_Click;
+            _allergyAlertMenu.Items.Add(_menuAssignAlternative);
+            lvAllergyAlerts.ContextMenuStrip = _allergyAlertMenu;
+            lvAllergyAlerts.MouseDown += LvAllergyAlerts_MouseDown;
         }
 
         private static void ConfigureGrid(DataGridView grid)
@@ -1015,6 +1282,7 @@ namespace nutritionist
         private void NutritionistForm_Load(object sender, EventArgs e)
         {
             ReloadAll();
+            ShowInitialAllergyTraceModal();
         }
 
         private void MenuReload_Click(object sender, EventArgs e)
@@ -1051,11 +1319,15 @@ namespace nutritionist
         {
             try
             {
+                _pendingAltAssignments.Clear();
                 LoadSummary();
                 LoadRawMaterials();
                 LoadRecipesManagement();
+                LoadMenuAllergySummary();
+                LoadAllergyConsumerCounts();
                 LoadFinalMenus();
                 LoadMealPlans();
+                LoadEvaluationExplorer();
                 LoadPurchaseRequests();
             }
             catch (OracleException ex)
@@ -1293,6 +1565,84 @@ namespace nutritionist
             UpdateNutritionSummary();
         }
 
+        private void LoadMenuAllergySummary()
+        {
+            _menuAllergyMap.Clear();
+            _menuAllergyDetails.Clear();
+            _allergyNameLookup.Clear();
+
+            const string sql =
+                "WITH base_component AS ( " +
+                "    SELECT FinalMenuID, ComponentType, ComponentRawID, ComponentIngredientID " +
+                "    FROM MenuComp " +
+                "), raw_component AS ( " +
+                "    SELECT FinalMenuID, ComponentRawID AS RawID " +
+                "    FROM base_component " +
+                "    WHERE ComponentType = 'R' AND ComponentRawID IS NOT NULL " +
+                "    UNION ALL " +
+                "    SELECT bc.FinalMenuID, ic.RawID " +
+                "    FROM base_component bc " +
+                "    JOIN IngredientComp ic ON bc.ComponentIngredientID = ic.IngredientID " +
+                "    WHERE bc.ComponentType = 'I' AND bc.ComponentIngredientID IS NOT NULL " +
+                ") " +
+                "SELECT DISTINCT rc.FinalMenuID, rc.RawID, rm.RawName, ra.AllergyID, a.AllergyName " +
+                "FROM raw_component rc " +
+                "JOIN RawAllergy ra ON rc.RawID = ra.RawID " +
+                "LEFT JOIN Allergy a ON a.AllergyID = ra.AllergyID " +
+                "LEFT JOIN RawMaterial rm ON rc.RawID = rm.RawID";
+
+            var table = ExecuteDataTable(sql);
+            foreach (DataRow row in table.Rows)
+            {
+                var menuId = ToInt(row["FINALMENUID"]);
+                var rawId = ToInt(row["RAWID"]);
+                var allergyId = ToInt(row["ALLERGYID"]);
+                if (menuId <= 0 || rawId <= 0 || allergyId <= 0)
+                {
+                    continue;
+                }
+
+                var set = GetOrCreateMenuAllergySet(menuId);
+                set.Add(allergyId);
+
+                if (!_allergyNameLookup.ContainsKey(allergyId))
+                {
+                    _allergyNameLookup[allergyId] = row["ALLERGYNAME"]?.ToString() ?? string.Empty;
+                }
+
+                var details = GetOrCreateMenuAllergyDetails(menuId);
+                var rawName = row["RAWNAME"]?.ToString() ?? string.Empty;
+                var allergyName = row["ALLERGYNAME"]?.ToString() ?? string.Empty;
+                details.Add(new MenuAllergyDetail(rawId, rawName, allergyId, allergyName));
+            }
+        }
+
+        private void LoadAllergyConsumerCounts()
+        {
+            _allergyConsumerCounts.Clear();
+
+            const string sql =
+                "SELECT ca.AllergyID, a.AllergyName, COUNT(DISTINCT ca.ConsumerID) AS ConsumerCount " +
+                "FROM ConsumerAllergy ca " +
+                "JOIN Consumer c ON ca.ConsumerID = c.ConsumerID " +
+                "JOIN Allergy a ON ca.AllergyID = a.AllergyID " +
+                "WHERE NVL(c.Status, 'ACTIVE') = 'ACTIVE' " +
+                "GROUP BY ca.AllergyID, a.AllergyName";
+
+            var table = ExecuteDataTable(sql);
+            foreach (DataRow row in table.Rows)
+            {
+                var allergyId = ToInt(row["ALLERGYID"]);
+                if (allergyId <= 0)
+                {
+                    continue;
+                }
+
+                _allergyConsumerCounts[allergyId] = ToInt(row["CONSUMERCOUNT"]);
+                _allergyNameLookup[allergyId] = row["ALLERGYNAME"]?.ToString() ?? string.Empty;
+            }
+        }
+
         private void LoadFinalMenus()
         {
             const string sql =
@@ -1317,6 +1667,150 @@ namespace nutritionist
             PopulateMenuSortOptions();
             LoadMenuTags();
             ApplyMenuFilter(true);
+        }
+
+        private void LoadEvaluationExplorer()
+        {
+            var menuGrid = dgvEvaluationMenus;
+            if (menuGrid == null)
+            {
+                return;
+            }
+
+            const string sql =
+                "SELECT FinalMenuID AS MENU_ID, MenuName AS MENU_NAME, MenuType AS MENU_TYPE " +
+                "FROM FinalMenu ORDER BY MenuName";
+            menuGrid.DataSource = ExecuteDataTable(sql);
+
+            _selectedEvaluationMenuId = null;
+            _selectedEvaluationRawId = null;
+
+            if (dgvEvaluationIngredients != null)
+            {
+                dgvEvaluationIngredients.DataSource = null;
+            }
+
+            if (dgvEvaluationAllergies != null)
+            {
+                dgvEvaluationAllergies.DataSource = null;
+            }
+        }
+
+        private void LoadEvaluationIngredientsForMenu(int finalMenuId)
+        {
+            _selectedEvaluationMenuId = finalMenuId;
+            _selectedEvaluationRawId = null;
+
+            var grid = dgvEvaluationIngredients;
+            if (grid == null)
+            {
+                return;
+            }
+
+            const string sql =
+                "WITH base_component AS ( " +
+                "    SELECT FinalMenuID, ComponentType, ComponentRawID, ComponentIngredientID " +
+                "    FROM MenuComp " +
+                "), raw_component AS ( " +
+                "    SELECT FinalMenuID, ComponentRawID AS RawID " +
+                "    FROM base_component " +
+                "    WHERE ComponentType = 'R' AND ComponentRawID IS NOT NULL " +
+                "    UNION ALL " +
+                "    SELECT bc.FinalMenuID, ic.RawID " +
+                "    FROM base_component bc " +
+                "    JOIN IngredientComp ic ON bc.ComponentIngredientID = ic.IngredientID " +
+                "    WHERE bc.ComponentType = 'I' AND bc.ComponentIngredientID IS NOT NULL " +
+                ") " +
+                "SELECT DISTINCT rc.RawID AS RAW_ID, rm.RawName AS RAW_NAME, " +
+                "       rm.PurchaseUnit AS PURCHASE_UNIT, rm.BaseUnitQty AS BASE_UNIT_QTY " +
+                "FROM raw_component rc " +
+                "JOIN RawMaterial rm ON rc.RawID = rm.RawID " +
+                "WHERE rc.FinalMenuID = :MENU_ID " +
+                "ORDER BY rm.RawName";
+
+            grid.DataSource = ExecuteDataTable(sql, new OracleParameter("MENU_ID", finalMenuId));
+
+            if (dgvEvaluationAllergies != null)
+            {
+                dgvEvaluationAllergies.DataSource = null;
+            }
+        }
+
+        private void LoadEvaluationAllergiesForRaw(int rawId)
+        {
+            _selectedEvaluationRawId = rawId;
+
+            var grid = dgvEvaluationAllergies;
+            if (grid == null)
+            {
+                return;
+            }
+
+            const string sql =
+                "SELECT ra.AllergyID AS ALLERGY_ID, " +
+                "       NVL(a.AllergyName, '알레르기 ' || ra.AllergyID) AS ALLERGY_NAME, " +
+                "       ra.EvidenceNote AS EVIDENCE_NOTE " +
+                "FROM RawAllergy ra " +
+                "LEFT JOIN Allergy a ON ra.AllergyID = a.AllergyID " +
+                "WHERE ra.RawID = :RAW_ID " +
+                "ORDER BY NVL(a.AllergyName, '알레르기 ' || ra.AllergyID)";
+
+            grid.DataSource = ExecuteDataTable(sql, new OracleParameter("RAW_ID", rawId));
+        }
+
+        private void DgvEvaluationMenus_SelectionChanged(object sender, EventArgs e)
+        {
+            var menuId = GetSelectedGridId(dgvEvaluationMenus, "MENU_ID");
+            if (menuId <= 0 || menuId == _selectedEvaluationMenuId)
+            {
+                return;
+            }
+
+            LoadEvaluationIngredientsForMenu(menuId);
+        }
+
+        private void DgvEvaluationIngredients_SelectionChanged(object sender, EventArgs e)
+        {
+            var rawId = GetSelectedGridId(dgvEvaluationIngredients, "RAW_ID");
+            if (rawId <= 0 || rawId == _selectedEvaluationRawId)
+            {
+                return;
+            }
+
+            LoadEvaluationAllergiesForRaw(rawId);
+        }
+
+        private static int GetSelectedGridId(DataGridView grid, string columnName)
+        {
+            if (grid?.CurrentRow == null)
+            {
+                return 0;
+            }
+
+            object value = null;
+            if (grid.CurrentRow.DataBoundItem is DataRowView view)
+            {
+                if (view.Row.Table.Columns.Contains(columnName))
+                {
+                    value = view.Row[columnName];
+                }
+            }
+
+            if (value == null)
+            {
+                var column = grid.Columns[columnName];
+                if (column != null)
+                {
+                    value = grid.CurrentRow.Cells[column.Index].Value;
+                }
+            }
+
+            if (value == null || value == DBNull.Value)
+            {
+                return 0;
+            }
+
+            return ToInt(value);
         }
 
         private void PopulateMenuTypeFilter()
@@ -1456,17 +1950,38 @@ namespace nutritionist
                 "FROM MealPlan mp LEFT JOIN AppUser u ON mp.CreatedBy = u.UserID " +
                 "ORDER BY mp.PeriodStart DESC, mp.MealPlanID DESC";
 
-            dgvMealLogs.DataSource = ExecuteDataTable(sql);
-            if (dgvMealLogs.Rows.Count > 0)
+            var previousPlanId = _selectedMealPlanId;
+            _mealPlans.Clear();
+
+            var table = ExecuteDataTable(sql);
+            foreach (DataRow row in table.Rows)
             {
-                dgvMealLogs.Rows[0].Selected = true;
-                SetSelectedMealPlanFromRow(dgvMealLogs.Rows[0]);
+                var planId = ToInt(row["MEALPLANID"]);
+                if (planId <= 0)
+                {
+                    continue;
+                }
+
+                var planName = row["PLANNAME"]?.ToString() ?? string.Empty;
+                var periodStart = ToNullableDate(row["PERIODSTART"]);
+                var periodEnd = ToNullableDate(row["PERIODEND"]);
+                if (!periodStart.HasValue || !periodEnd.HasValue)
+                {
+                    continue;
+                }
+
+                var status = row["STATUS"]?.ToString();
+                _mealPlans.Add(new MealPlanInfo(planId, planName, periodStart.Value, periodEnd.Value, status));
             }
-            else
+
+            if (!previousPlanId.HasValue && _selectedMealPlanInfo != null)
             {
-                _selectedMealPlanId = null;
-                DisplaySelectedMealPlan();
+                previousPlanId = _selectedMealPlanInfo.MealPlanId;
             }
+
+            _selectedMealPlanInfo = null;
+            _selectedMealPlanId = previousPlanId;
+            RefreshWeekPlanList();
         }
 
         private void LoadPurchaseRequests()
@@ -1686,8 +2201,7 @@ namespace nutritionist
                 return;
             }
 
-            var row = dgvMealNutrition.Rows[e.RowIndex].DataBoundItem as NutrientSummaryRow;
-            if (row == null)
+            if (dgvMealNutrition.Rows[e.RowIndex].DataBoundItem is not NutrientSummaryRow row)
             {
                 return;
             }
@@ -1798,99 +2312,95 @@ namespace nutritionist
             LoadRecipeComponents(menuId);
         }
 
-        private void DgvMealPlans_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0 || dgvMealLogs.CurrentRow == null)
-            {
-                return;
-            }
-
-            SetSelectedMealPlanFromRow(dgvMealLogs.CurrentRow);
-        }
-
-        private void SetSelectedMealPlanFromRow(DataGridViewRow row)
-        {
-            SaveMealRecipesForCurrentPlan();
-            if (row?.Cells["MEALPLANID"].Value == null)
-            {
-                _selectedMealPlanId = null;
-                DisplaySelectedMealPlan();
-                return;
-            }
-
-            _selectedMealPlanId = Convert.ToInt32(row.Cells["MEALPLANID"].Value);
-            DisplaySelectedMealPlan();
-        }
 
         private void SelectMealPlanById(int mealPlanId)
         {
-            if (dgvMealLogs == null)
+            var plan = _mealPlans.FirstOrDefault(item => item.MealPlanId == mealPlanId);
+            if (plan == null)
             {
                 return;
             }
 
-            foreach (DataGridViewRow row in dgvMealLogs.Rows)
-            {
-                if (row?.Cells["MEALPLANID"]?.Value == null)
-                {
-                    continue;
-                }
-
-                if (ToInt(row.Cells["MEALPLANID"].Value) != mealPlanId)
-                {
-                    continue;
-                }
-
-                row.Selected = true;
-                if (row.Cells.Count > 0)
-                {
-                    dgvMealLogs.CurrentCell = row.Cells[0];
-                }
-
-                SetSelectedMealPlanFromRow(row);
-                break;
-            }
+            _selectedMealPlanId = plan.MealPlanId;
+            _pendingWeekDate = plan.PeriodStart;
+            var monthStart = new DateTime(plan.PeriodStart.Year, plan.PeriodStart.Month, 1);
+            SetMealMonthWithoutEvents(monthStart, plan.PeriodStart);
         }
 
-        private void DisplaySelectedMealPlan()
+        private void ApplySelectedMealPlan(MealPlanInfo plan)
         {
-            if (_selectedMealPlanId == null || dgvMealLogs.CurrentRow == null)
+            var previousPlanId = _selectedMealPlanId;
+            if (previousPlanId.HasValue && plan?.MealPlanId != previousPlanId.Value)
             {
-                txtMenuCode.Text = "선택 없음";
-                _currentPlanStart = null;
-                _currentPlanEnd = null;
-                _selectedWeekOption = null;
-                _selectedWeekdayIndex = -1;
-                _currentMealPlanStatus = null;
+                SaveMealRecipesForCurrentPlan();
+            }
+
+            _selectedMealPlanInfo = plan;
+            _selectedMealPlanId = plan?.MealPlanId;
+            _currentPlanStart = plan?.PeriodStart;
+            _currentPlanEnd = plan?.PeriodEnd;
+            _currentMealPlanStatus = plan?.Status;
+
+            DisplaySelectedMealPlan();
+
+            if (plan == null)
+            {
                 ClearWeeklyMealsGrid();
                 _suppressMealBoardUpdate = true;
                 _selectedMealMenus.Clear();
                 _suppressMealBoardUpdate = false;
                 RefreshMealBoard();
                 UpdateNutritionSummary();
-                UpdateSelectedDayLabel(null, -1);
+                UpdateAllergyAlertSummary();
                 UpdateMealPlanInteractionState();
                 return;
             }
 
-            _currentPlanStart = ToNullableDate(dgvMealLogs.CurrentRow.Cells["PERIODSTART"]?.Value);
-            _currentPlanEnd = ToNullableDate(dgvMealLogs.CurrentRow.Cells["PERIODEND"]?.Value);
-
-            var name = dgvMealLogs.CurrentRow.Cells["PLANNAME"].Value?.ToString() ?? string.Empty;
-            var status = dgvMealLogs.CurrentRow.Cells["STATUS"].Value?.ToString() ?? string.Empty;
-            _currentMealPlanStatus = status;
-            txtMenuCode.Text = $"{name} ({status})";
-
-            if (dtpMealMonth != null && _currentPlanStart.HasValue)
-            {
-                SetMealMonthWithoutEvents(new DateTime(_currentPlanStart.Value.Year, _currentPlanStart.Value.Month, 1));
-            }
-            else
-            {
-                UpdateMealWeekOptions();
-            }
-
+            RefreshWeeklyMealBoard();
+            UpdateAllergyAlertSummary();
             UpdateMealPlanInteractionState();
+        }
+
+        private void DisplaySelectedMealPlan()
+        {
+            UpdateMealPlanStatusLabel();
+
+            if (_selectedWeekdayIndex >= 0 &&
+                _selectedWeekdayIndex < _currentWeekDates.Length &&
+                _currentWeekDates[_selectedWeekdayIndex] != DateTime.MinValue)
+            {
+                return;
+            }
+
+            if (dgvWeeklyMeals == null || dgvWeeklyMeals.Rows.Count == 0)
+            {
+                return;
+            }
+
+            for (var column = 0; column < _currentWeekDates.Length; column++)
+            {
+                if (_currentWeekDates[column] == DateTime.MinValue)
+                {
+                    continue;
+                }
+
+                var cellValue = dgvWeeklyMeals.Rows[0].Cells[column].Value;
+                if (cellValue == null || string.IsNullOrWhiteSpace(cellValue.ToString()))
+                {
+                    continue;
+                }
+
+                SelectWeekday(column);
+                return;
+            }
+
+            _suppressMealBoardUpdate = true;
+            _selectedMealMenus.Clear();
+            _suppressMealBoardUpdate = false;
+            RefreshMealBoard();
+            UpdateNutritionSummary();
+            UpdateAllergyAlertSummary();
+            ShowAllergyAlertModalForSelectedMeals();
         }
 
         private void UpdateMealPlanInteractionState()
@@ -1905,6 +2415,13 @@ namespace nutritionist
             if (grpMealPlanDetail != null)
             {
                 grpMealPlanDetail.Enabled = canEdit;
+            }
+
+            if (btnDeleteMealPlan != null)
+            {
+                var canDeletePlan = hasPlan &&
+                                    string.Equals(_currentMealPlanStatus, MealPlanStatusDraft, StringComparison.OrdinalIgnoreCase);
+                btnDeleteMealPlan.Enabled = canDeletePlan;
             }
 
             UpdateApprovalRequestAvailability();
@@ -2226,66 +2743,12 @@ namespace nutritionist
         {
             planStart = _currentPlanStart;
             planEnd = _currentPlanEnd;
-
-            if (!planStart.HasValue || !planEnd.HasValue)
-            {
-                var row = GetCurrentMealPlanRow();
-                if (row != null)
-                {
-                    planStart ??= ToNullableDate(row.Cells["PERIODSTART"]?.Value);
-                    planEnd ??= ToNullableDate(row.Cells["PERIODEND"]?.Value);
-                }
-            }
-
-            if (planStart.HasValue && mealDate.Date < planStart.Value.Date)
-            {
-                return false;
-            }
-
-            if (planEnd.HasValue && mealDate.Date > planEnd.Value.Date)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool IsWeekWithinSelectedPlan(DateTime weekStart, DateTime weekEnd)
-        {
-            if (!IsMealDateWithinSelectedPlan(weekStart, out var planStart, out var planEnd))
-            {
-                return false;
-            }
-
             if (!planStart.HasValue || !planEnd.HasValue)
             {
                 return false;
             }
 
-            return weekEnd.Date <= planEnd.Value.Date;
-        }
-
-        private DataGridViewRow GetCurrentMealPlanRow()
-        {
-            if (_selectedMealPlanId == null || dgvMealLogs == null)
-            {
-                return null;
-            }
-
-            foreach (DataGridViewRow row in dgvMealLogs.Rows)
-            {
-                if (row.Cells["MEALPLANID"]?.Value == null)
-                {
-                    continue;
-                }
-
-                if (ToInt(row.Cells["MEALPLANID"].Value) == _selectedMealPlanId)
-                {
-                    return row;
-                }
-            }
-
-            return null;
+            return mealDate.Date >= planStart.Value.Date && mealDate.Date <= planEnd.Value.Date;
         }
 
         private static DateTime? ToNullableDate(object value)
@@ -2328,6 +2791,7 @@ namespace nutritionist
                         }
 
                         InsertMealComponents(conn, transaction, mealId);
+                        SaveAltAssignments(conn, transaction, planId, mealId, mealDate);
                         transaction.Commit();
                         MessageBox.Show("식단이 등록되었습니다.", "완료");
                         RefreshWeeklyMealBoard();
@@ -2353,6 +2817,16 @@ namespace nutritionist
                 var result = cmd.ExecuteScalar();
                 return ToInt(result);
             }
+        }
+
+        private int GetExistingMealId(int planId, DateTime mealDate)
+        {
+            const string sql =
+                "SELECT MealID FROM Meal WHERE MealPlanID = :PLANID AND MealDate = :MEALDATE";
+            var result = ExecuteScalar(sql,
+                new OracleParameter("PLANID", planId),
+                new OracleParameter("MEALDATE", mealDate));
+            return ToInt(result);
         }
 
         private static int GetNextMealId(OracleConnection conn, OracleTransaction transaction)
@@ -2433,6 +2907,73 @@ namespace nutritionist
                 }
 
                 isFirst = false;
+            }
+        }
+
+        private void SaveAltAssignments(OracleConnection conn, OracleTransaction transaction, int planId, int mealId, DateTime mealDate)
+        {
+            DeleteAltAssignments(conn, transaction, mealId);
+
+            var key = BuildMealPlanKey(planId, mealDate);
+            if (!_pendingAltAssignments.TryGetValue(key, out var assignments) || assignments.Count == 0)
+            {
+                return;
+            }
+
+            var nextId = GetNextAltAssignId(conn, transaction);
+            foreach (var assignment in assignments)
+            {
+                InsertAltAssignment(conn, transaction, ref nextId, mealId, assignment);
+            }
+        }
+
+        private static void DeleteAltAssignments(OracleConnection conn, OracleTransaction transaction, int mealId)
+        {
+            using (var cmd = new OracleCommand(
+                       "DELETE FROM AltReview WHERE AltAssignID IN (SELECT AltAssignID FROM AltAssign WHERE MealID = :MEALID)", conn))
+            {
+                cmd.Transaction = transaction;
+                cmd.Parameters.Add(new OracleParameter("MEALID", mealId));
+                cmd.ExecuteNonQuery();
+            }
+
+            using (var cmd = new OracleCommand("DELETE FROM AltAssign WHERE MealID = :MEALID", conn))
+            {
+                cmd.Transaction = transaction;
+                cmd.Parameters.Add(new OracleParameter("MEALID", mealId));
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        private static int GetNextAltAssignId(OracleConnection conn, OracleTransaction transaction)
+        {
+            using (var cmd = new OracleCommand("SELECT NVL(MAX(AltAssignID), 0) + 1 FROM AltAssign", conn))
+            {
+                cmd.Transaction = transaction;
+                var result = cmd.ExecuteScalar();
+                return ToInt(result);
+            }
+        }
+
+        private void InsertAltAssignment(OracleConnection conn, OracleTransaction transaction, ref int nextId, int mealId, AlternativeAssignment assignment)
+        {
+            const string sql =
+                "INSERT INTO AltAssign (AltAssignID, MealID, TargetFinalMenuID, AllergyID, FinalMenuID, TargetConsumerCount) " +
+                "VALUES (:ID, :MEALID, :TARGETMENU, :ALLERGY, :ALTMENU, :COUNT)";
+
+            using (var cmd = new OracleCommand(sql, conn))
+            {
+                cmd.Transaction = transaction;
+                cmd.Parameters.Add(new OracleParameter("ID", nextId++));
+                cmd.Parameters.Add(new OracleParameter("MEALID", mealId));
+                cmd.Parameters.Add(new OracleParameter("TARGETMENU", assignment.TargetMenuId));
+                cmd.Parameters.Add(new OracleParameter("ALLERGY", assignment.AllergyId));
+                cmd.Parameters.Add(new OracleParameter("ALTMENU", assignment.AlternativeMenuId));
+                object consumerCount = assignment.RiskConsumerCount > 0
+                    ? assignment.RiskConsumerCount
+                    : (object)DBNull.Value;
+                cmd.Parameters.Add(new OracleParameter("COUNT", consumerCount));
+                cmd.ExecuteNonQuery();
             }
         }
 
@@ -3092,6 +3633,28 @@ namespace nutritionist
             return set;
         }
 
+        private HashSet<int> GetOrCreateMenuAllergySet(int finalMenuId)
+        {
+            if (!_menuAllergyMap.TryGetValue(finalMenuId, out var set))
+            {
+                set = new HashSet<int>();
+                _menuAllergyMap[finalMenuId] = set;
+            }
+
+            return set;
+        }
+
+        private List<MenuAllergyDetail> GetOrCreateMenuAllergyDetails(int finalMenuId)
+        {
+            if (!_menuAllergyDetails.TryGetValue(finalMenuId, out var list))
+            {
+                list = new List<MenuAllergyDetail>();
+                _menuAllergyDetails[finalMenuId] = list;
+            }
+
+            return list;
+        }
+
         private Dictionary<string, decimal> GetOrCreateNutrientAmountMap(int key)
         {
             if (!_menuNutrientAmounts.TryGetValue(key, out var map))
@@ -3101,6 +3664,48 @@ namespace nutritionist
             }
 
             return map;
+        }
+
+        private sealed class MealPlanInfo
+        {
+            public MealPlanInfo(int mealPlanId, string planName, DateTime periodStart, DateTime periodEnd, string status)
+            {
+                MealPlanId = mealPlanId;
+                PlanName = planName ?? string.Empty;
+                PeriodStart = periodStart.Date;
+                PeriodEnd = periodEnd.Date;
+                Status = status ?? string.Empty;
+            }
+
+            public int MealPlanId { get; }
+            public string PlanName { get; }
+            public DateTime PeriodStart { get; }
+            public DateTime PeriodEnd { get; }
+            public string Status { get; private set; }
+
+            public string DisplayText
+            {
+                get
+                {
+                    var statusText = NutritionistForm.GetMealPlanStatusDisplayText(Status);
+                    return $"{PlanName} ({PeriodStart:MM/dd}~{PeriodEnd:MM/dd}) - {statusText}";
+                }
+            }
+
+            public bool Covers(DateTime weekStart, DateTime weekEnd)
+            {
+                return PeriodStart.Date <= weekStart.Date && PeriodEnd.Date >= weekEnd.Date;
+            }
+
+            public void UpdateStatus(string status)
+            {
+                Status = status ?? string.Empty;
+            }
+
+            public override string ToString()
+            {
+                return DisplayText;
+            }
         }
 
         private sealed class MenuTagOption
@@ -3124,6 +3729,81 @@ namespace nutritionist
                 }
 
                 return $"{Name} ({Type})";
+            }
+        }
+
+        private sealed class AlternativeAssignment
+        {
+            public AlternativeAssignment(int targetMenuId, string targetMenuName, string menuType, int allergyId,
+                string allergyName, int alternativeMenuId, string alternativeMenuName, int riskConsumerCount)
+            {
+                TargetMenuId = targetMenuId;
+                TargetMenuName = targetMenuName ?? string.Empty;
+                MenuType = menuType ?? string.Empty;
+                AllergyId = allergyId;
+                AllergyName = allergyName ?? string.Empty;
+                AlternativeMenuId = alternativeMenuId;
+                AlternativeMenuName = alternativeMenuName ?? string.Empty;
+                RiskConsumerCount = Math.Max(0, riskConsumerCount);
+            }
+
+            public int TargetMenuId { get; }
+            public string TargetMenuName { get; }
+            public string MenuType { get; }
+            public int AllergyId { get; }
+            public string AllergyName { get; }
+            public int AlternativeMenuId { get; }
+            public string AlternativeMenuName { get; }
+            public int RiskConsumerCount { get; }
+        }
+
+        private sealed class MenuAllergyDetail
+        {
+            public MenuAllergyDetail(int rawId, string rawName, int allergyId, string allergyName)
+            {
+                RawId = rawId;
+                RawName = rawName ?? string.Empty;
+                AllergyId = allergyId;
+                AllergyName = allergyName ?? string.Empty;
+            }
+
+            public int RawId { get; }
+            public string RawName { get; }
+            public int AllergyId { get; }
+            public string AllergyName { get; }
+        }
+
+        private sealed class AllergyAlertAggregate
+        {
+            private readonly List<MenuAssignmentTarget> _menus = new List<MenuAssignmentTarget>();
+
+            public AllergyAlertAggregate(int allergyId, string allergyName, int riskConsumerCount)
+            {
+                AllergyId = allergyId;
+                AllergyName = allergyName ?? string.Empty;
+                RiskConsumerCount = Math.Max(0, riskConsumerCount);
+            }
+
+            public int AllergyId { get; }
+            public string AllergyName { get; }
+            public int RiskConsumerCount { get; }
+            public IEnumerable<string> MenuNames => _menus.Select(menu => menu.DisplayName);
+            public IReadOnlyList<MenuAssignmentTarget> TargetMenus => _menus;
+            public int RequiredAlternateCount => RiskConsumerCount;
+
+            public void AddMenu(FinalMenuOption menu)
+            {
+                if (menu == null)
+                {
+                    return;
+                }
+
+                if (_menus.Any(existing => existing.MenuId == menu.FinalMenuId))
+                {
+                    return;
+                }
+
+                _menus.Add(new MenuAssignmentTarget(menu.FinalMenuId, menu.DisplayName, menu.MenuType ?? string.Empty));
             }
         }
 
@@ -3417,8 +4097,7 @@ namespace nutritionist
                 return;
             }
 
-            var row = GetCurrentMealPlanRow();
-            var status = row?.Cells["STATUS"]?.Value?.ToString() ?? _currentMealPlanStatus;
+            var status = _selectedMealPlanInfo?.Status ?? _currentMealPlanStatus;
             if (!string.Equals(status, MealPlanStatusPending, StringComparison.OrdinalIgnoreCase))
             {
                 MessageBox.Show("승인 요청된 식단만 승인할 수 있습니다.", "안내");
@@ -3909,6 +4588,38 @@ namespace nutritionist
 
             RefreshMealBoard();
             UpdateNutritionSummary();
+            UpdateAllergyAlertSummary();
+        }
+
+        private void LvAllergyAlerts_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (lvAllergyAlerts == null || e.Button != MouseButtons.Right)
+            {
+                return;
+            }
+
+            var hit = lvAllergyAlerts.HitTest(e.Location);
+            if (hit.Item != null)
+            {
+                lvAllergyAlerts.SelectedItems.Clear();
+                hit.Item.Selected = true;
+            }
+        }
+
+        private void MenuAssignAlternative_Click(object sender, EventArgs e)
+        {
+            if (lvAllergyAlerts?.SelectedItems == null || lvAllergyAlerts.SelectedItems.Count == 0)
+            {
+                return;
+            }
+
+            if (lvAllergyAlerts.SelectedItems[0].Tag is not AllergyAlertAggregate aggregate)
+            {
+                MessageBox.Show("알레르기 정보를 찾을 수 없습니다.", "안내");
+                return;
+            }
+
+            ShowAlternativeAssignmentDialog(aggregate);
         }
 
         private void RefreshMealBoard()
@@ -3994,6 +4705,325 @@ namespace nutritionist
             _nutrientSummary.ResetBindings();
         }
 
+        private List<AllergyAlertAggregate> GetCurrentAllergyAggregates()
+        {
+            var result = new List<AllergyAlertAggregate>();
+            if (_selectedMealMenus.Count == 0)
+            {
+                return result;
+            }
+
+            var aggregates = new Dictionary<int, AllergyAlertAggregate>();
+            foreach (var menu in _selectedMealMenus)
+            {
+                if (!_menuAllergyMap.TryGetValue(menu.FinalMenuId, out var allergyIds) || allergyIds.Count == 0)
+                {
+                    continue;
+                }
+
+                foreach (var allergyId in allergyIds)
+                {
+                    if (!aggregates.TryGetValue(allergyId, out var aggregate))
+                    {
+                        var allergyName = _allergyNameLookup.TryGetValue(allergyId, out var name)
+                            ? name
+                            : $"알레르기 {allergyId}";
+                        var riskCount = _allergyConsumerCounts.TryGetValue(allergyId, out var risk)
+                            ? risk
+                            : 0;
+                        aggregate = new AllergyAlertAggregate(allergyId, allergyName, riskCount);
+                        aggregates[allergyId] = aggregate;
+                    }
+
+                    aggregate.AddMenu(menu);
+                }
+            }
+
+            if (aggregates.Count == 0)
+            {
+                return result;
+            }
+
+            result.AddRange(aggregates.Values
+                .OrderByDescending(a => a.RiskConsumerCount)
+                .ThenBy(a => a.AllergyName, StringComparer.OrdinalIgnoreCase));
+            return result;
+        }
+
+        private void ShowAlternativeAssignmentDialog(AllergyAlertAggregate aggregate)
+        {
+            if (aggregate == null)
+            {
+                return;
+            }
+
+            if (_selectedMealPlanId == null || dtpMealDate == null)
+            {
+                MessageBox.Show("식단 계획과 일자를 먼저 선택해 주세요.", "안내");
+                return;
+            }
+
+            var targets = aggregate.TargetMenus?.ToList() ?? new List<MenuAssignmentTarget>();
+            if (targets.Count == 0)
+            {
+                MessageBox.Show("대체가 필요한 메뉴가 없습니다.", "안내");
+                return;
+            }
+
+            var candidateMap = new Dictionary<int, List<FinalMenuOption>>();
+            foreach (var target in targets)
+            {
+                candidateMap[target.MenuId] = GetAlternativeMenuCandidates(target, aggregate.AllergyId);
+            }
+
+            if (candidateMap.Values.All(list => list == null || list.Count == 0))
+            {
+                MessageBox.Show("조건에 맞는 대체 메뉴가 없습니다.", "안내");
+                return;
+            }
+
+            using (var dialog = new AlternativeMenuDialog(aggregate.AllergyName, targets, candidateMap))
+            {
+                if (dialog.ShowDialog(this) != DialogResult.OK)
+                {
+                    return;
+                }
+
+                var selectedTarget = dialog.SelectedTarget;
+                var selectedAlternative = dialog.SelectedAlternative;
+                if (selectedTarget == null || selectedAlternative == null)
+                {
+                    MessageBox.Show("대체할 메뉴를 선택해 주세요.", "안내");
+                    return;
+                }
+
+                var key = GetCurrentMealPlanKey();
+                if (string.IsNullOrEmpty(key))
+                {
+                    MessageBox.Show("식단 일자를 선택해 주세요.", "안내");
+                    return;
+                }
+
+                var assignment = new AlternativeAssignment(
+                    selectedTarget.MenuId,
+                    selectedTarget.DisplayName,
+                    selectedTarget.MenuType,
+                    aggregate.AllergyId,
+                    aggregate.AllergyName,
+                    selectedAlternative.FinalMenuId,
+                    selectedAlternative.DisplayName,
+                    aggregate.RiskConsumerCount);
+
+                AddOrUpdateAltAssignment(key, assignment);
+                UpdateAllergyAlertSummary();
+                MessageBox.Show($"'{selectedTarget.DisplayName}'의 대체 메뉴가 임시 저장되었습니다.", "대체 메뉴", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private List<FinalMenuOption> GetAlternativeMenuCandidates(MenuAssignmentTarget target, int allergyId)
+        {
+            if (target == null)
+            {
+                return new List<FinalMenuOption>();
+            }
+
+            var menuType = target.MenuType ?? string.Empty;
+            return _finalMenuOptions
+                .Where(menu => menu.FinalMenuId != target.MenuId)
+                .Where(menu => string.IsNullOrWhiteSpace(menuType) ||
+                               string.Equals(menu.MenuType, menuType, StringComparison.OrdinalIgnoreCase))
+                .Where(menu => !MenuContainsAllergy(menu.FinalMenuId, allergyId))
+                .OrderBy(menu => menu.DisplayName, StringComparer.OrdinalIgnoreCase)
+                .ToList();
+        }
+
+        private bool MenuContainsAllergy(int finalMenuId, int allergyId)
+        {
+            return _menuAllergyMap.TryGetValue(finalMenuId, out var allergies) && allergies.Contains(allergyId);
+        }
+
+        private IReadOnlyList<AlternativeAssignment> GetAltAssignmentsForCurrentMeal()
+        {
+            var key = GetCurrentMealPlanKey();
+            if (string.IsNullOrEmpty(key))
+            {
+                return Array.Empty<AlternativeAssignment>();
+            }
+
+            return _pendingAltAssignments.TryGetValue(key, out var list)
+                ? list
+                : Array.Empty<AlternativeAssignment>();
+        }
+
+        private void AddOrUpdateAltAssignment(string key, AlternativeAssignment assignment)
+        {
+            if (string.IsNullOrEmpty(key) || assignment == null)
+            {
+                return;
+            }
+
+            var list = GetOrCreateAltAssignmentList(key);
+            var existing = list.FirstOrDefault(item =>
+                item.TargetMenuId == assignment.TargetMenuId &&
+                item.AllergyId == assignment.AllergyId);
+            if (existing != null)
+            {
+                list.Remove(existing);
+            }
+
+            list.Add(assignment);
+        }
+
+        private List<AlternativeAssignment> GetOrCreateAltAssignmentList(string key)
+        {
+            if (!_pendingAltAssignments.TryGetValue(key, out var list))
+            {
+                list = new List<AlternativeAssignment>();
+                _pendingAltAssignments[key] = list;
+            }
+
+            return list;
+        }
+
+        private void UpdateAllergyAlertSummary()
+        {
+            var listView = lvAllergyAlerts;
+            if (listView == null)
+            {
+                return;
+            }
+
+            listView.BeginUpdate();
+            listView.Items.Clear();
+
+            var aggregates = GetCurrentAllergyAggregates();
+            var riskAggregates = aggregates
+                .Where(aggregate => aggregate.RiskConsumerCount > 0)
+                .ToList();
+
+            if (riskAggregates.Count == 0)
+            {
+                listView.EndUpdate();
+                return;
+            }
+
+            var currentAssignments = GetAltAssignmentsForCurrentMeal();
+
+            foreach (var aggregate in riskAggregates)
+            {
+                var assignmentsForAllergy = currentAssignments
+                    .Where(a => a.AllergyId == aggregate.AllergyId)
+                    .ToList();
+                var assignmentText = assignmentsForAllergy.Count > 0
+                    ? string.Join(", ", assignmentsForAllergy.Select(a =>
+                        string.IsNullOrWhiteSpace(a.AlternativeMenuName)
+                            ? a.TargetMenuName
+                            : $"{a.TargetMenuName}→{a.AlternativeMenuName}"))
+                    : string.Empty;
+
+                var item = new ListViewItem(aggregate.AllergyName)
+                {
+                    Tag = aggregate
+                };
+                item.SubItems.Add(string.Join(", ", aggregate.MenuNames));
+                item.SubItems.Add(aggregate.RiskConsumerCount > 0
+                    ? aggregate.RiskConsumerCount.ToString()
+                    : "-");
+                item.SubItems.Add(aggregate.RequiredAlternateCount > 0
+                    ? aggregate.RequiredAlternateCount.ToString()
+                    : "-");
+                item.SubItems.Add(string.IsNullOrWhiteSpace(assignmentText) ? "-" : assignmentText);
+
+                if (assignmentsForAllergy.Count > 0)
+                {
+                    item.BackColor = Color.Honeydew;
+                }
+                else if (aggregate.RiskConsumerCount > 0)
+                {
+                    item.BackColor = Color.MistyRose;
+                }
+
+                listView.Items.Add(item);
+            }
+
+            listView.EndUpdate();
+        }
+
+        private void ShowAllergyAlertModalForSelectedMeals()
+        {
+            const string caption = "알레르기 정보";
+            if (_selectedMealMenus.Count == 0)
+            {
+                MessageBox.Show("선택된 식단에 등록된 메뉴가 없습니다.", caption,
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            var aggregates = GetCurrentAllergyAggregates();
+            if (aggregates.Count == 0)
+            {
+                var menus = string.Join(", ", _selectedMealMenus.Select(menu => menu.DisplayName));
+                var message = string.IsNullOrWhiteSpace(menus)
+                    ? "선택된 식단에 알레르기 정보가 없습니다."
+                    : $"선택된 식단에 알레르기 정보가 없습니다.\n메뉴: {menus}";
+                MessageBox.Show(message, caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            var builder = new StringBuilder();
+            builder.AppendLine("선택된 식단의 알레르기 정보");
+            builder.AppendLine();
+
+            foreach (var aggregate in aggregates)
+            {
+                builder.AppendLine($"- {aggregate.AllergyName} (위험 인원: {aggregate.RiskConsumerCount})");
+                builder.AppendLine($"  메뉴: {string.Join(", ", aggregate.MenuNames)}");
+                builder.AppendLine();
+            }
+
+            MessageBox.Show(builder.ToString().Trim(), caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void ShowInitialAllergyTraceModal()
+        {
+            if (_initialAllergyModalShown)
+            {
+                return;
+            }
+
+            _initialAllergyModalShown = true;
+
+            const string targetMenuName = "새우튀김";
+            var targetMenu = _finalMenuOptions.FirstOrDefault(menu =>
+                string.Equals(menu.MenuName, targetMenuName, StringComparison.OrdinalIgnoreCase));
+            if (targetMenu == null)
+            {
+                return;
+            }
+
+            if (!_menuAllergyDetails.TryGetValue(targetMenu.FinalMenuId, out var details) || details.Count == 0)
+            {
+                return;
+            }
+
+            var builder = new StringBuilder();
+            builder.AppendLine("알레르기 연결 정보 예시");
+            builder.AppendLine();
+
+            foreach (var detail in details)
+            {
+                var rawName = string.IsNullOrWhiteSpace(detail.RawName)
+                    ? $"원재료 {detail.RawId}"
+                    : detail.RawName;
+                var allergyName = string.IsNullOrWhiteSpace(detail.AllergyName)
+                    ? $"알레르기 {detail.AllergyId}"
+                    : detail.AllergyName;
+                builder.AppendLine($"새우튀김 -> {rawName} -> {allergyName}");
+            }
+
+            MessageBox.Show(builder.ToString().Trim(), "알레르기 연결 정보", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         private string GetCurrentMealPlanKey()
         {
             if (_selectedMealPlanId == null || dtpMealDate == null)
@@ -4001,7 +5031,12 @@ namespace nutritionist
                 return string.Empty;
             }
 
-            return $"{_selectedMealPlanId.Value}_{dtpMealDate.Value:yyyyMMdd}";
+            return BuildMealPlanKey(_selectedMealPlanId.Value, dtpMealDate.Value);
+        }
+
+        private static string BuildMealPlanKey(int planId, DateTime mealDate)
+        {
+            return $"{planId}_{mealDate:yyyyMMdd}";
         }
 
         private void SaveMealRecipesForCurrentPlan()
@@ -4015,6 +5050,7 @@ namespace nutritionist
             if (_selectedMealMenus.Count == 0)
             {
                 _mealPlanSelections.Remove(key);
+                _pendingAltAssignments.Remove(key);
                 return;
             }
 
@@ -4044,9 +5080,78 @@ namespace nutritionist
                     _selectedMealMenus.Add(menu);
                 }
             }
+
+            if (dtpMealDate != null)
+            {
+                LoadAltAssignmentsForMealDate(dtpMealDate.Value.Date);
+            }
             _suppressMealBoardUpdate = false;
             RefreshMealBoard();
             UpdateNutritionSummary();
+            UpdateAllergyAlertSummary();
+            ShowAllergyAlertModalForSelectedMeals();
+        }
+
+        private void LoadAltAssignmentsForMealDate(DateTime mealDate)
+        {
+            if (_selectedMealPlanId == null)
+            {
+                return;
+            }
+
+            var key = BuildMealPlanKey(_selectedMealPlanId.Value, mealDate);
+            if (_pendingAltAssignments.ContainsKey(key))
+            {
+                return;
+            }
+            var mealId = GetExistingMealId(_selectedMealPlanId.Value, mealDate);
+            if (mealId <= 0)
+            {
+                _pendingAltAssignments.Remove(key);
+                return;
+            }
+
+            const string sql =
+                "SELECT aa.AllergyID, NVL(a.AllergyName, '알레르기 ' || aa.AllergyID) AS AllergyName, " +
+                "       aa.TargetFinalMenuID, tm.MenuName AS TargetMenuName, tm.MenuType AS TargetMenuType, " +
+                "       aa.FinalMenuID, fm.MenuName AS AltMenuName, NVL(aa.TargetConsumerCount, 0) AS TargetConsumerCount " +
+                "FROM AltAssign aa " +
+                "JOIN FinalMenu fm ON fm.FinalMenuID = aa.FinalMenuID " +
+                "JOIN FinalMenu tm ON tm.FinalMenuID = aa.TargetFinalMenuID " +
+                "LEFT JOIN Allergy a ON a.AllergyID = aa.AllergyID " +
+                "WHERE aa.MealID = :MEALID";
+
+            var table = ExecuteDataTable(sql, new OracleParameter("MEALID", mealId));
+            var list = new List<AlternativeAssignment>();
+            foreach (DataRow row in table.Rows)
+            {
+                var targetMenuId = ToInt(row["TARGETFINALMENUID"]);
+                var alternativeMenuId = ToInt(row["FINALMENUID"]);
+                if (targetMenuId <= 0 || alternativeMenuId <= 0)
+                {
+                    continue;
+                }
+
+                var assignment = new AlternativeAssignment(
+                    targetMenuId,
+                    row["TARGETMENUNAME"]?.ToString() ?? string.Empty,
+                    row["TARGETMENUTYPE"]?.ToString() ?? string.Empty,
+                    ToInt(row["ALLERGYID"]),
+                    row["ALLERGYNAME"]?.ToString() ?? string.Empty,
+                    alternativeMenuId,
+                    row["ALTMENUNAME"]?.ToString() ?? string.Empty,
+                    ToInt(row["TARGETCONSUMERCOUNT"]));
+                list.Add(assignment);
+            }
+
+            if (list.Count > 0)
+            {
+                _pendingAltAssignments[key] = list;
+            }
+            else
+            {
+                _pendingAltAssignments.Remove(key);
+            }
         }
 
         private sealed class WeekOption

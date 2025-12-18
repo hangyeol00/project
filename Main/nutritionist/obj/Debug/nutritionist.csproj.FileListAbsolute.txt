@@ -52,3 +52,6 @@ C:\Users\leesunwoo\Desktop\workspaces\cs_programing\project\Main\nutritionist\bi
 C:\Users\leesunwoo\Desktop\workspaces\cs_programing\project\Main\nutritionist\obj\Debug\nutritionist.csproj.SuggestedBindingRedirects.cache
 C:\Users\leesunwoo\Desktop\workspaces\cs_programing\project\Main\nutritionist\obj\Debug\nutritionist.exe.config
 C:\Users\leesunwoo\Desktop\workspaces\cs_programing\project\Main\nutritionist\obj\Debug\nutritionist.Tabs.Management.MealPlansTabPage.resources
+C:\Users\leesunwoo\Desktop\workspaces\cs_programing\project\Main\nutritionist\obj\Debug\nutritionist.Tabs.Management.NutrientsTabPage.resources
+C:\Users\leesunwoo\Desktop\workspaces\cs_programing\project\Main\nutritionist\obj\Debug\nutritionist.Tabs.Management.UsersTabPage.resources
+C:\Users\leesunwoo\Desktop\workspaces\cs_programing\project\Main\nutritionist\obj\Debug\nutritionist.AlternativeMenuDialog.resources

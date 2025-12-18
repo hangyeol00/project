@@ -49,8 +49,6 @@ namespace nutritionist.Tabs
             this.grpAction = new System.Windows.Forms.GroupBox();
             this.btnCancelMeal = new System.Windows.Forms.Button();
             this.btnServeMeal = new System.Windows.Forms.Button();
-            this.txtMenuCode = new System.Windows.Forms.TextBox();
-            this.lblMenuCode = new System.Windows.Forms.Label();
             this.txtStudentId = new System.Windows.Forms.TextBox();
             this.lblStudentId = new System.Windows.Forms.Label();
             this.layoutDashboard.SuspendLayout();
@@ -391,8 +389,6 @@ namespace nutritionist.Tabs
             this.layoutDashboard.SetColumnSpan(this.grpAction, 2);
             this.grpAction.Controls.Add(this.btnCancelMeal);
             this.grpAction.Controls.Add(this.btnServeMeal);
-            this.grpAction.Controls.Add(this.txtMenuCode);
-            this.grpAction.Controls.Add(this.lblMenuCode);
             this.grpAction.Controls.Add(this.txtStudentId);
             this.grpAction.Controls.Add(this.lblStudentId);
             this.grpAction.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -428,25 +424,6 @@ namespace nutritionist.Tabs
             this.btnServeMeal.Text = "식단 계획 등록";
             this.btnServeMeal.UseVisualStyleBackColor = true;
             // 
-            // txtMenuCode
-            // 
-            this.txtMenuCode.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txtMenuCode.Location = new System.Drawing.Point(125, 60);
-            this.txtMenuCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtMenuCode.Name = "txtMenuCode";
-            this.txtMenuCode.ReadOnly = true;
-            this.txtMenuCode.Size = new System.Drawing.Size(190, 23);
-            this.txtMenuCode.TabIndex = 3;
-            this.txtMenuCode.TabStop = false;
-            // 
-            // lblMenuCode
-            // 
-            this.lblMenuCode.AutoSize = true;
-            this.lblMenuCode.Location = new System.Drawing.Point(21, 64);
-            this.lblMenuCode.Name = "lblMenuCode";
-            this.lblMenuCode.Size = new System.Drawing.Size(98, 15);
-            this.lblMenuCode.TabIndex = 2;
-            this.lblMenuCode.Text = "선택 식단 계획:";
             // 
             // txtStudentId
             // 
@@ -526,8 +503,6 @@ namespace nutritionist.Tabs
         internal System.Windows.Forms.GroupBox grpAction;
         internal System.Windows.Forms.Button btnCancelMeal;
         internal System.Windows.Forms.Button btnServeMeal;
-        internal System.Windows.Forms.TextBox txtMenuCode;
-        internal System.Windows.Forms.Label lblMenuCode;
         internal System.Windows.Forms.TextBox txtStudentId;
         internal System.Windows.Forms.Label lblStudentId;
     }
