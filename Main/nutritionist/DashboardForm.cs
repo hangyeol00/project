@@ -280,9 +280,10 @@ namespace nutritionist
             }
 
             const string sql =
-                "SELECT r.RawName, COUNT(*) AS PendingRequests, " +
+                "SELECT r.RawID, r.RawName, COUNT(*) AS PendingRequests, " +
                 "       MIN(pr.ExpectedDeliveryDate) AS EarliestEta, " +
-                "       MIN(pr.RequestedDate) AS FirstRequested " +
+                "       MIN(pr.RequestedDate) AS FirstRequested, " +
+                "       MIN(pr.PurchaseRequestID) AS PurchaseRequestID " +
                 "FROM PurchaseRequest pr " +
                 "JOIN RawMaterial r ON pr.RawID = r.RawID " +
                 "WHERE UPPER(pr.Status) = :STATUS " +
@@ -331,14 +332,25 @@ namespace nutritionist
 
         private void DgvShortageRaw_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // dgvShortageRaw는 부족 원재료 목록을 표시하므로 특별한 선택 동작은 없음
-            // 필요시 여기에 추가 로직 구현 가능
+            if (e.RowIndex < 0 || dgvShortageRaw?.Rows == null || e.RowIndex >= dgvShortageRaw.Rows.Count)
+            {
+                return;
+            }
+
+            var row = dgvShortageRaw.Rows[e.RowIndex];
+            SetSelectedPurchaseRequestFromRow(row);
         }
 
         private void SetSelectedPurchaseRequestFromRow(DataGridViewRow row)
         {
-            // dgvShortageRaw에는 PurchaseRequestID가 없으므로 이 메서드는 사용하지 않음
-            // 필요시 PurchaseRequest를 별도로 로드해야 함
+            if (row?.Cells["PURCHASEREQUESTID"]?.Value != null)
+            {
+                _selectedPurchaseRequestId = DatabaseHelper.ToIntNullable(row.Cells["PURCHASEREQUESTID"].Value);
+            }
+            else
+            {
+                _selectedPurchaseRequestId = null;
+            }
         }
 
         private void SetSelectedMealPlanFromRow(DataGridViewRow row)

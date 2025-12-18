@@ -167,11 +167,6 @@ namespace nutritionist
 
                     var hash = reader["PASSWORDHASH"]?.ToString();
                     var salt = reader["PASSWORDSALT"]?.ToString();
-                    MessageBox.Show(
-                        $"입력 비밀번호: {password}\n계산된 해시: {ComputeHashPreview(password, salt)}\nDB 해시: {hash}",
-                        "디버그",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
                     if (!VerifyPassword(password, hash, salt))
                     {
                         IncrementFailedLoginCount(conn, userId);

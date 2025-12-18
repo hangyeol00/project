@@ -13,7 +13,6 @@ namespace nutritionist
         private DataTable _rawMaterialTable;
         private int? _selectedRawMaterialId;
         private readonly HashSet<string> _collapsedCategories = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        private int _groupRowSerial = -1;
 
         public RawMaterialsForm(UserSession session)
         {

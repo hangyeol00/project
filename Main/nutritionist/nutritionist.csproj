@@ -56,8 +56,27 @@
     <Compile Include="AdminForm.Designer.cs">
       <DependentUpon>AdminForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PurchaseApprovalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PurchaseApprovalForm.Designer.cs">
+      <DependentUpon>PurchaseApprovalForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MealPlanApprovalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MealPlanApprovalForm.Designer.cs">
+      <DependentUpon>MealPlanApprovalForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StudentAllergyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StudentAllergyForm.Designer.cs">
+      <DependentUpon>StudentAllergyForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseConfig.cs" />
     <Compile Include="DatabaseHelper.cs" />
+    <Compile Include="DatabaseInitializer.cs" />
     <Compile Include="DashboardForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Oracle.DataAccess.Client;
 
 namespace nutritionist
 {
@@ -19,6 +20,9 @@ namespace nutritionist
 
             try
             {
+                // 데이터베이스 초기화는 로그인 후 필요할 때 수행
+                // (시작 시 초기화하면 프로세스 종료 문제 발생 가능)
+                
                 using (var loginForm = new LoginForm())
                 {
                     var result = loginForm.ShowDialog();
@@ -36,6 +40,26 @@ namespace nutritionist
                     {
                         Application.Run(new NutritionistForm(session));
                     }
+                }
+            }
+            catch (OracleException ex)
+            {
+                if (ex.Number == 1017 || ex.Number == 1034) // 로그인 실패
+                {
+                    MessageBox.Show(
+                        "데이터베이스 연결에 실패했습니다.\n" +
+                        "데이터베이스가 실행 중인지 확인해 주세요.",
+                        "연결 오류",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show(
+                        $"데이터베이스 오류가 발생했습니다.\n\n오류 코드: {ex.Number}\n오류 메시지: {ex.Message}",
+                        "데이터베이스 오류",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)

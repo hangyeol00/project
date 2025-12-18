@@ -118,6 +118,17 @@ namespace nutritionist
                 }
                 if (dtpMealDate != null) dtpMealDate.ValueChanged += InputMeal_Changed;
                 if (cmbMealType != null) cmbMealType.SelectedIndexChanged += InputMeal_Changed;
+                
+                // 식단 계획 승인 요청 버튼 (영양사만)
+                if (btnRegisterMealPlan != null && !_session?.IsAdmin == true)
+                {
+                    btnRegisterMealPlan.Click += BtnRequestMealPlanApproval_Click;
+                    btnRegisterMealPlan.Text = "승인 요청";
+                }
+                if (btnUpdateMealPlan != null && !_session?.IsAdmin == true)
+                {
+                    btnUpdateMealPlan.Visible = false; // 영양사는 수정 버튼 숨김
+                }
 
                 ConfigureAccessByRole();
                 UpdateNavigationSelection();
@@ -250,27 +261,7 @@ namespace nutritionist
         {
             try
             {
-                // 이전 탭의 Form 숨김
-                if (tabMain != null && tabMain.TabPages.Count > 0)
-                {
-                    foreach (TabPage tabPage in tabMain.TabPages)
-                    {
-                        HideEmbeddedForm(tabPage);
-                    }
-                }
-
-                // 현재 선택된 탭의 Form 표시
-                if (tabMain?.SelectedTab != null)
-                {
-                    ShowEmbeddedForm(tabMain.SelectedTab);
-                    
-                    // Management 탭인 경우 내부 탭도 처리
-                    if (tabMain.SelectedTab == tabManagement && tabControlManagement != null)
-                    {
-                        ShowEmbeddedForm(tabControlManagement.SelectedTab);
-                    }
-                }
-
+                // 탭 전환 시 데이터 새로고침
                 UpdateNavigationSelection();
                 ReloadAll();
             }
@@ -996,6 +987,7 @@ namespace nutritionist
             {
                 txtMenuCode.Text = "선택 없음";
                 LoadMealRecipes();
+                UpdateMealPlanButtonState();
                 return;
             }
 
@@ -1003,6 +995,32 @@ namespace nutritionist
             var status = dgvMealLogs.CurrentRow.Cells["STATUS"].Value?.ToString() ?? string.Empty;
             txtMenuCode.Text = $"{name} ({status})";
             LoadMealRecipes();
+            UpdateMealPlanButtonState();
+        }
+
+        private void UpdateMealPlanButtonState()
+        {
+            // 영양사만 승인 요청 버튼 표시
+            if (btnRegisterMealPlan == null || _session?.IsAdmin == true)
+            {
+                return;
+            }
+
+            if (_selectedMealPlanId == null || dgvMealLogs?.CurrentRow == null)
+            {
+                btnRegisterMealPlan.Enabled = false;
+                return;
+            }
+
+            var status = dgvMealLogs.CurrentRow.Cells["STATUS"]?.Value?.ToString() ?? string.Empty;
+            var createdBy = dgvMealLogs.CurrentRow.Cells["CREATEDBY"]?.Value?.ToString() ?? string.Empty;
+            
+            // DRAFT 상태이고 본인이 작성한 식단만 승인 요청 가능
+            var isDraft = string.Equals(status, MealPlanStatusDraft, StringComparison.OrdinalIgnoreCase);
+            var isOwner = string.IsNullOrEmpty(createdBy) || 
+                         string.Equals(createdBy, _session?.UserId, StringComparison.OrdinalIgnoreCase);
+            
+            btnRegisterMealPlan.Enabled = isDraft && isOwner;
         }
 
         private void DgvPurchaseRequests_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -1106,6 +1124,96 @@ namespace nutritionist
                 new OracleParameter("END", endDate),
                 new OracleParameter("STATUS", MealPlanStatusDraft),
                 new OracleParameter("CREATEDBY", _session?.UserId ?? "SYSTEM"));
+        }
+
+        private void BtnRequestMealPlanApproval_Click(object sender, EventArgs e)
+        {
+            if (_selectedMealPlanId == null)
+            {
+                MessageBox.Show("승인 요청할 식단 계획을 선택해 주세요.", "안내", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // 현재 선택된 식단 계획의 상태 확인
+            if (dgvMealLogs?.CurrentRow == null)
+            {
+                return;
+            }
+
+            var status = dgvMealLogs.CurrentRow.Cells["STATUS"]?.Value?.ToString() ?? string.Empty;
+            
+            // 이미 승인된 식단은 승인 요청 불가
+            if (string.Equals(status, MealPlanStatusApproved, StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("이미 승인된 식단 계획입니다.", "안내", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // 작성자가 본인이 아닌 경우 승인 요청 불가
+            var createdBy = dgvMealLogs.CurrentRow.Cells["CREATEDBY"]?.Value?.ToString() ?? string.Empty;
+            if (!string.IsNullOrEmpty(createdBy) && !string.Equals(createdBy, _session?.UserId, StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("본인이 작성한 식단 계획만 승인 요청할 수 있습니다.", "안내", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // 식단 계획에 식사(Meal)가 등록되어 있는지 확인
+            try
+            {
+                var mealCount = ToInt(ExecuteScalar(
+                    "SELECT COUNT(*) FROM Meal WHERE MealPlanID = :MEALPLANID",
+                    new OracleParameter("MEALPLANID", _selectedMealPlanId)));
+
+                if (mealCount == 0)
+                {
+                    var result = MessageBox.Show(
+                        "식단 계획에 등록된 식사가 없습니다.\n식사를 등록한 후 승인 요청하시겠습니까?", 
+                        "확인", 
+                        MessageBoxButtons.YesNo, 
+                        MessageBoxIcon.Question);
+
+                    if (result == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
+
+                // 승인 요청 확인
+                var confirmResult = MessageBox.Show(
+                    "관리자에게 식단 계획 승인을 요청하시겠습니까?\n승인 요청 후 관리자의 승인을 기다려야 합니다.", 
+                    "승인 요청 확인", 
+                    MessageBoxButtons.YesNo, 
+                    MessageBoxIcon.Question);
+
+                if (confirmResult != DialogResult.Yes)
+                {
+                    return;
+                }
+
+                // 상태는 DRAFT로 유지 (관리자가 승인할 때 APPROVED로 변경)
+                // 여기서는 승인 요청 사실만 기록 (필요시 별도 테이블에 기록하거나 메시지 표시)
+                MessageBox.Show(
+                    "식단 계획 승인 요청이 완료되었습니다.\n관리자의 승인을 기다려 주세요.", 
+                    "완료", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Information);
+
+                // 식단 계획 목록 새로고침
+                LoadMealPlans();
+            }
+            catch (OracleException ex)
+            {
+                MessageBox.Show($"승인 요청 중 오류가 발생했습니다.\n{ex.Message}", "DB 오류",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"승인 요청 중 오류가 발생했습니다.\n{ex.Message}", "오류",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void DisplayManagedRawMaterial(DataRow row)

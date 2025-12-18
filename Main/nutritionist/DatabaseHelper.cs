@@ -28,9 +28,10 @@ namespace nutritionist
                     return table;
                 }
             }
-            catch (OracleException ex)
+            catch (OracleException)
             {
-                throw new Exception($"데이터베이스 오류: {ex.Message}", ex);
+                // OracleException은 그대로 다시 throw (원래 예외 정보 유지)
+                throw;
             }
             catch (Exception ex)
             {
@@ -57,9 +58,10 @@ namespace nutritionist
                     return cmd.ExecuteScalar();
                 }
             }
-            catch (OracleException ex)
+            catch (OracleException)
             {
-                throw new Exception($"데이터베이스 오류: {ex.Message}", ex);
+                // OracleException은 그대로 다시 throw (원래 예외 정보 유지)
+                throw;
             }
             catch (Exception ex)
             {
@@ -86,9 +88,10 @@ namespace nutritionist
                     return cmd.ExecuteNonQuery();
                 }
             }
-            catch (OracleException ex)
+            catch (OracleException)
             {
-                throw new Exception($"데이터베이스 오류: {ex.Message}", ex);
+                // OracleException은 그대로 다시 throw (원래 예외 정보 유지)
+                throw;
             }
             catch (Exception ex)
             {

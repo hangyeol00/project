@@ -7,6 +7,17 @@
       "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|nutritionist||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\dashboardform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\dashboardform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\databaseconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\databaseconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\nutritionistform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\nutritionistform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -39,16 +50,8 @@
       "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\databaseconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\databaseconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\dashboardform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\dashboardform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\dashboardform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\dashboardform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -88,7 +91,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -108,18 +111,49 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "NutrientsForm.cs [\uB514\uC790\uC778]",
-              "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\NutrientsForm.cs",
-              "RelativeDocumentMoniker": "nutritionist\\NutrientsForm.cs",
-              "ToolTip": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\NutrientsForm.cs [\uB514\uC790\uC778]",
-              "RelativeToolTip": "nutritionist\\NutrientsForm.cs [\uB514\uC790\uC778]",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\Program.cs",
+              "RelativeDocumentMoniker": "nutritionist\\Program.cs",
+              "ToolTip": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\Program.cs",
+              "RelativeToolTip": "nutritionist\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-18T18:28:15.06Z"
+              "WhenOpened": "2025-12-05T16:21:24.525Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 20,
+              "Title": "Form1.Designer.cs",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\Form1.Designer.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\Form1.Designer.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-27T09:59:24.761Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "nutritionist",
+              "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\nutritionist.csproj",
+              "RelativeDocumentMoniker": "nutritionist\\nutritionist.csproj",
+              "ToolTip": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\nutritionist.csproj",
+              "RelativeToolTip": "nutritionist\\nutritionist.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-12-18T21:56:05.055Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\Form1.cs",
+              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\Form1.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-27T10:05:13.047Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "MealPlansForm.cs [\uB514\uC790\uC778]",
               "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\MealPlansForm.cs",
               "RelativeDocumentMoniker": "nutritionist\\MealPlansForm.cs",
@@ -130,7 +164,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "MealEvaluationsForm.cs [\uB514\uC790\uC778]",
               "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\MealEvaluationsForm.cs",
               "RelativeDocumentMoniker": "nutritionist\\MealEvaluationsForm.cs",
@@ -141,7 +175,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "IngredientsForm.cs [\uB514\uC790\uC778]",
               "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\IngredientsForm.cs",
               "RelativeDocumentMoniker": "nutritionist\\IngredientsForm.cs",
@@ -152,7 +186,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "NutritionistForm.cs [Design]",
               "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\NutritionistForm.cs",
               "RelativeDocumentMoniker": "nutritionist\\NutritionistForm.cs",
@@ -163,20 +197,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\Program.cs",
-              "RelativeDocumentMoniker": "nutritionist\\Program.cs",
-              "ToolTip": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\Program.cs",
-              "RelativeToolTip": "nutritionist\\Program.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABoAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-05T16:21:24.525Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "NutritionistForm.cs",
               "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\NutritionistForm.cs",
               "RelativeDocumentMoniker": "nutritionist\\NutritionistForm.cs",
@@ -188,7 +209,42 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 3,
+              "Title": "DatabaseConfig.cs",
+              "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\DatabaseConfig.cs",
+              "RelativeDocumentMoniker": "nutritionist\\DatabaseConfig.cs",
+              "ToolTip": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\DatabaseConfig.cs",
+              "RelativeToolTip": "nutritionist\\DatabaseConfig.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-01T04:14:45.578Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DashboardForm.cs",
+              "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\DashboardForm.cs",
+              "RelativeDocumentMoniker": "nutritionist\\DashboardForm.cs",
+              "ToolTip": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\DashboardForm.cs",
+              "RelativeToolTip": "nutritionist\\DashboardForm.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAQwCYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-18T18:27:04.788Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "NutrientsForm.cs [\uB514\uC790\uC778]",
+              "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\NutrientsForm.cs",
+              "RelativeDocumentMoniker": "nutritionist\\NutrientsForm.cs",
+              "ToolTip": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\NutrientsForm.cs [\uB514\uC790\uC778]",
+              "RelativeToolTip": "nutritionist\\NutrientsForm.cs [\uB514\uC790\uC778]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-18T18:28:15.06Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
               "Title": "DashboardForm.cs [\uB514\uC790\uC778]",
               "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\DashboardForm.cs",
               "RelativeDocumentMoniker": "nutritionist\\DashboardForm.cs",
@@ -199,19 +255,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "DashboardForm.cs",
-              "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\DashboardForm.cs",
-              "RelativeDocumentMoniker": "nutritionist\\DashboardForm.cs",
-              "ToolTip": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\DashboardForm.cs",
-              "RelativeToolTip": "nutritionist\\DashboardForm.cs",
-              "ViewState": "AgIAADcCAAAAAAAAAAAAAF8CAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-18T18:27:04.788Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "MealPlanDialog.cs [\uB514\uC790\uC778]",
               "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\MealPlanDialog.cs",
               "RelativeDocumentMoniker": "nutritionist\\MealPlanDialog.cs",
@@ -222,7 +266,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "RawMaterialDialog.cs [\uB514\uC790\uC778]",
               "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\RawMaterialDialog.cs",
               "RelativeDocumentMoniker": "nutritionist\\RawMaterialDialog.cs",
@@ -233,7 +277,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "LoginForm.cs [\uB514\uC790\uC778]",
               "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\LoginForm.cs",
               "RelativeDocumentMoniker": "nutritionist\\LoginForm.cs",
@@ -244,19 +288,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "DatabaseConfig.cs",
-              "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\DatabaseConfig.cs",
-              "RelativeDocumentMoniker": "nutritionist\\DatabaseConfig.cs",
-              "ToolTip": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\DatabaseConfig.cs",
-              "RelativeToolTip": "nutritionist\\DatabaseConfig.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-01T04:14:45.578Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "PurchaseRequestDialog.cs [\uB514\uC790\uC778]",
               "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\PurchaseRequestDialog.cs",
               "RelativeDocumentMoniker": "nutritionist\\PurchaseRequestDialog.cs",
@@ -267,16 +299,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "Form1.cs",
-              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\Form1.cs",
-              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\Form1.cs",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-27T10:05:13.047Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "RawMaterialOption.cs",
               "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\RawMaterialOption.cs",
               "RelativeDocumentMoniker": "nutritionist\\RawMaterialOption.cs",
@@ -288,16 +311,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "Form1.Designer.cs",
-              "DocumentMoniker": "D:\\workspace\\cs_db\\Main\\nutritionist\\Form1.Designer.cs",
-              "ToolTip": "D:\\workspace\\cs_db\\Main\\nutritionist\\Form1.Designer.cs",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-27T09:59:24.761Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "AdminForm.cs [\uB514\uC790\uC778]",
               "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\AdminForm.cs",
               "RelativeDocumentMoniker": "nutritionist\\AdminForm.cs",
@@ -308,7 +322,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "LoginForm.cs",
               "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\LoginForm.cs",
               "RelativeDocumentMoniker": "nutritionist\\LoginForm.cs",
@@ -320,7 +334,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "AdminForm.cs",
               "DocumentMoniker": "C:\\Androidapp_Project_convergence\\C#_project\\Main\\nutritionist\\AdminForm.cs",
               "RelativeDocumentMoniker": "nutritionist\\AdminForm.cs",
