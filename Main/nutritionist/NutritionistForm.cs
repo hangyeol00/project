@@ -95,6 +95,7 @@ namespace nutritionist
         private DateTime? _currentPlanEnd;
         private string _currentMealPlanStatus;
         private bool _isCurrentWeekComplete;
+        private bool _isWeekWithinPlanPeriod;
 
         private NutritionDashboardControl Dashboard => dashboardTabControl;
         private TableLayoutPanel layoutDashboard => Dashboard?.layoutDashboard;
@@ -211,6 +212,7 @@ namespace nutritionist
         private DateTimePicker dtpMealMonth => MealPlansTab?.dtpMealMonth;
         private ComboBox cmbMealWeek => MealPlansTab?.cmbMealWeek;
         private Label lblSelectedMealDay => MealPlansTab?.lblSelectedMealDay;
+        private Label lblMealPlanStatus => MealPlansTab?.lblMealPlanStatus;
         private DataGridView dgvWeeklyMeals => MealPlansTab?.dgvWeeklyMeals;
         private TextBox txtMealNotes => MealPlansTab?.txtMealNotes;
         private CheckedListBox clbMenuTags => MealPlansTab?.clbMenuTags;
@@ -575,6 +577,30 @@ namespace nutritionist
             return firstDay.AddDays(offset);
         }
 
+        private bool TryGetSelectedWeekRange(out DateTime weekStart, out DateTime weekEnd, out string planNameSuggestion)
+        {
+            planNameSuggestion = null;
+            var weekOption = _selectedWeekOption ?? cmbMealWeek?.SelectedItem as WeekOption;
+            if (weekOption == null && cmbMealWeek != null && cmbMealWeek.Items.Count > 0)
+            {
+                weekOption = cmbMealWeek.Items[0] as WeekOption;
+            }
+
+            if (weekOption != null)
+            {
+                weekStart = weekOption.StartDate;
+                weekEnd = weekOption.EndDate;
+                planNameSuggestion = $"{weekStart:yyyy년 M월} {weekOption.Index}주차";
+                return true;
+            }
+
+            var baseDate = dtpMealMonth?.Value ?? DateTime.Today;
+            weekStart = GetFirstMondayOfMonth(baseDate.Year, baseDate.Month);
+            weekEnd = weekStart.AddDays(4);
+            planNameSuggestion = $"{weekStart:yyyy년 M월} 1주차";
+            return true;
+        }
+
         private void RefreshWeeklyMealBoard()
         {
             if (dgvWeeklyMeals == null)
@@ -597,6 +623,9 @@ namespace nutritionist
                 ClearWeeklyMealsGrid();
                 return;
             }
+
+            _isWeekWithinPlanPeriod = true;
+            UpdateWeeklyMealSelectionAvailability();
 
             var weekMeals = LoadWeekMealsFromDatabase(start, end);
             var weekComplete = true;
@@ -656,6 +685,8 @@ namespace nutritionist
             UpdateSelectedDayLabel(null, -1);
             _isCurrentWeekComplete = false;
             UpdateApprovalRequestAvailability();
+            _isWeekWithinPlanPeriod = false;
+            UpdateWeeklyMealSelectionAvailability();
         }
 
         private void SelectWeekday(int columnIndex, bool suppressReload = false)
@@ -1865,10 +1896,7 @@ namespace nutritionist
         private void UpdateMealPlanInteractionState()
         {
             var hasPlan = _selectedMealPlanId.HasValue;
-            if (dgvWeeklyMeals != null)
-            {
-                dgvWeeklyMeals.Enabled = hasPlan;
-            }
+            UpdateWeeklyMealSelectionAvailability();
 
             var isDietitian = _session?.IsAdmin != true;
             var canEdit = hasPlan && isDietitian &&
@@ -1880,6 +1908,95 @@ namespace nutritionist
             }
 
             UpdateApprovalRequestAvailability();
+            UpdateMealPlanStatusLabel();
+        }
+
+        private void UpdateMealPlanStatusLabel()
+        {
+            if (lblMealPlanStatus == null)
+            {
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(_currentMealPlanStatus))
+            {
+                lblMealPlanStatus.Text = "계획 상태: -";
+                lblMealPlanStatus.ForeColor = Color.FromArgb(96, 96, 96);
+                return;
+            }
+
+            var displayText = GetMealPlanStatusDisplayText(_currentMealPlanStatus);
+            lblMealPlanStatus.Text = $"계획 상태: {displayText}";
+            lblMealPlanStatus.ForeColor = GetMealPlanStatusColor(_currentMealPlanStatus);
+        }
+
+        private static string GetMealPlanStatusDisplayText(string status)
+        {
+            if (string.IsNullOrWhiteSpace(status))
+            {
+                return "-";
+            }
+
+            var trimmed = status.Trim();
+            if (trimmed.IndexOf("반려", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return "반려";
+            }
+
+            switch (trimmed.ToUpperInvariant())
+            {
+                case MealPlanStatusDraft:
+                    return "작성 중";
+                case MealPlanStatusPending:
+                    return "승인 대기";
+                case MealPlanStatusApproved:
+                    return "승인 완료";
+                case "REJECTED":
+                case "REJECT":
+                case "RETURNED":
+                    return "반려";
+                default:
+                    return trimmed;
+            }
+        }
+
+        private static Color GetMealPlanStatusColor(string status)
+        {
+            if (string.IsNullOrWhiteSpace(status))
+            {
+                return Color.FromArgb(96, 96, 96);
+            }
+
+            var trimmed = status.Trim();
+            if (trimmed.IndexOf("반려", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                trimmed.IndexOf("REJECT", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                trimmed.IndexOf("RETURN", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return Color.Firebrick;
+            }
+
+            if (string.Equals(trimmed, MealPlanStatusApproved, StringComparison.OrdinalIgnoreCase))
+            {
+                return Color.SeaGreen;
+            }
+
+            if (string.Equals(trimmed, MealPlanStatusPending, StringComparison.OrdinalIgnoreCase))
+            {
+                return Color.DarkOrange;
+            }
+
+            return Color.FromArgb(70, 88, 109);
+        }
+
+        private void UpdateWeeklyMealSelectionAvailability()
+        {
+            if (dgvWeeklyMeals == null)
+            {
+                return;
+            }
+
+            var hasPlan = _selectedMealPlanId.HasValue;
+            dgvWeeklyMeals.Enabled = hasPlan && _isWeekWithinPlanPeriod;
         }
 
         private void UpdateApprovalRequestAvailability()
@@ -1982,7 +2099,13 @@ namespace nutritionist
                 return;
             }
 
-            using (var dialog = new MealPlanDialog())
+            if (!TryGetSelectedWeekRange(out var weekStart, out var weekEnd, out var planNameSuggestion))
+            {
+                MessageBox.Show("주간 범위를 선택할 수 없습니다. 월/주차를 먼저 선택해 주세요.", "안내");
+                return;
+            }
+
+            using (var dialog = new MealPlanDialog(weekStart, weekEnd, planNameSuggestion))
             {
                 if (dialog.ShowDialog(this) == DialogResult.OK)
                 {
@@ -2007,13 +2130,13 @@ namespace nutritionist
             var nextId = GetNextId("MEALPLAN", "MEALPLANID");
             const string sql =
                 "INSERT INTO MealPlan (MealPlanID, PlanName, PeriodStart, PeriodEnd, Status, CreatedBy) " +
-                "VALUES (:ID, :NAME, :START, :END, :STATUS, :CREATEDBY)";
+                "VALUES (:ID, :NAME, :PERIODSTART, :PERIODEND, :STATUS, :CREATEDBY)";
 
             ExecuteNonQuery(sql,
                 new OracleParameter("ID", nextId),
                 new OracleParameter("NAME", planName),
-                new OracleParameter("START", startDate),
-                new OracleParameter("END", endDate),
+                new OracleParameter("PERIODSTART", startDate),
+                new OracleParameter("PERIODEND", endDate),
                 new OracleParameter("STATUS", MealPlanStatusDraft),
                 new OracleParameter("CREATEDBY", _session?.UserId ?? "SYSTEM"));
 

@@ -66,6 +66,7 @@ namespace nutritionist.Tabs.Management
             this.colWeekThursday = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colWeekFriday = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblMealMonthTitle = new System.Windows.Forms.Label();
+            this.lblMealPlanStatus = new System.Windows.Forms.Label();
             this.lblMealWeekTitle = new System.Windows.Forms.Label();
             this.lblMealDayTitle = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMealNutrition)).BeginInit();
@@ -390,6 +391,18 @@ namespace nutritionist.Tabs.Management
             this.lblMealMonthTitle.Text = "식단 월";
             this.lblMealMonthTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // lblMealPlanStatus
+            // 
+            this.lblMealPlanStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblMealPlanStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(96)))), ((int)(((byte)(96)))));
+            this.lblMealPlanStatus.Location = new System.Drawing.Point(4, 38);
+            this.lblMealPlanStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 4);
+            this.lblMealPlanStatus.Name = "lblMealPlanStatus";
+            this.lblMealPlanStatus.Size = new System.Drawing.Size(573, 22);
+            this.lblMealPlanStatus.TabIndex = 17;
+            this.lblMealPlanStatus.Text = "계획 상태: -";
+            this.lblMealPlanStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // lblMealWeekTitle
             // 
             this.lblMealWeekTitle.AutoSize = true;
@@ -640,14 +653,16 @@ namespace nutritionist.Tabs.Management
             this.tableMealSchedule.ColumnCount = 1;
             this.tableMealSchedule.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableMealSchedule.Controls.Add(this.flowMealPeriodSelector, 0, 0);
-            this.tableMealSchedule.Controls.Add(this.lblWeeklyMeals, 0, 1);
-            this.tableMealSchedule.Controls.Add(this.dgvWeeklyMeals, 0, 2);
+            this.tableMealSchedule.Controls.Add(this.lblMealPlanStatus, 0, 1);
+            this.tableMealSchedule.Controls.Add(this.lblWeeklyMeals, 0, 2);
+            this.tableMealSchedule.Controls.Add(this.dgvWeeklyMeals, 0, 3);
             this.tableMealSchedule.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableMealSchedule.Location = new System.Drawing.Point(4, 22);
             this.tableMealSchedule.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.tableMealSchedule.Name = "tableMealSchedule";
-            this.tableMealSchedule.RowCount = 3;
+            this.tableMealSchedule.RowCount = 4;
             this.tableMealSchedule.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.tableMealSchedule.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tableMealSchedule.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableMealSchedule.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableMealSchedule.Size = new System.Drawing.Size(581, 452);
@@ -656,7 +671,7 @@ namespace nutritionist.Tabs.Management
             // lblWeeklyMeals
             // 
             this.lblWeeklyMeals.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblWeeklyMeals.Location = new System.Drawing.Point(4, 38);
+            this.lblWeeklyMeals.Location = new System.Drawing.Point(4, 64);
             this.lblWeeklyMeals.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblWeeklyMeals.Name = "lblWeeklyMeals";
             this.lblWeeklyMeals.Size = new System.Drawing.Size(573, 28);
@@ -666,7 +681,7 @@ namespace nutritionist.Tabs.Management
             // 
             // dgvWeeklyMeals
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvWeeklyMeals.AllowUserToAddRows = false;
             this.dgvWeeklyMeals.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -683,7 +698,7 @@ namespace nutritionist.Tabs.Management
             this.colWeekFriday});
             this.dgvWeeklyMeals.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvWeeklyMeals.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvWeeklyMeals.Location = new System.Drawing.Point(4, 68);
+            this.dgvWeeklyMeals.Location = new System.Drawing.Point(4, 96);
             this.dgvWeeklyMeals.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dgvWeeklyMeals.MultiSelect = false;
             this.dgvWeeklyMeals.Name = "dgvWeeklyMeals";
@@ -797,6 +812,7 @@ namespace nutritionist.Tabs.Management
         internal System.Windows.Forms.DataGridViewTextBoxColumn colWeekThursday;
         internal System.Windows.Forms.DataGridViewTextBoxColumn colWeekFriday;
         internal System.Windows.Forms.Label lblMealMonthTitle;
+        internal System.Windows.Forms.Label lblMealPlanStatus;
         internal System.Windows.Forms.Label lblMealWeekTitle;
         internal System.Windows.Forms.Label lblMealDayTitle;
         internal System.Windows.Forms.TableLayoutPanel tableMealDaySelector;

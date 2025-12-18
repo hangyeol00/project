@@ -7,19 +7,23 @@ namespace nutritionist
     public class MealPlanDialog : Form
     {
         private readonly TextBox _txtPlanName;
-        private readonly DateTimePicker _dtpStart;
-        private readonly DateTimePicker _dtpEnd;
+        private readonly Label _lblRangeValue;
         private readonly Button _btnOk;
         private readonly Button _btnCancel;
+        private readonly DateTime _rangeStart;
+        private readonly DateTime _rangeEnd;
 
-        public MealPlanDialog()
+        public MealPlanDialog(DateTime rangeStart, DateTime rangeEnd, string suggestedName)
         {
+            _rangeStart = rangeStart.Date;
+            _rangeEnd = rangeEnd.Date;
+
             Text = "식단 계획 등록";
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
             StartPosition = FormStartPosition.CenterParent;
-            ClientSize = new Size(360, 180);
+            ClientSize = new Size(380, 170);
 
             var lblName = new Label
             {
@@ -31,42 +35,47 @@ namespace nutritionist
             _txtPlanName = new TextBox
             {
                 Location = new Point(100, 16),
-                Width = 220
+                Width = 240,
+                Text = string.IsNullOrWhiteSpace(suggestedName) ? string.Empty : suggestedName
             };
 
-            var lblStart = new Label
+            var lblNameHint = new Label
+            {
+                AutoSize = true,
+                Location = new Point(100, 42),
+                ForeColor = SystemColors.GrayText,
+                Text = string.IsNullOrWhiteSpace(suggestedName)
+                    ? "(예: 2023년 12월 2주차)"
+                    : $"(예: {suggestedName})"
+            };
+
+            var lblRange = new Label
             {
                 AutoSize = true,
                 Location = new Point(20, 60),
-                Text = "시작일"
+                Text = "계획 기간"
             };
 
-            _dtpStart = new DateTimePicker
-            {
-                Location = new Point(100, 56),
-                Format = DateTimePickerFormat.Short,
-                Width = 120
-            };
-
-            var lblEnd = new Label
+            _lblRangeValue = new Label
             {
                 AutoSize = true,
-                Location = new Point(20, 100),
-                Text = "종료일"
+                Location = new Point(100, 60),
+                Text = GetRangeText()
             };
 
-            _dtpEnd = new DateTimePicker
+            var lblHint = new Label
             {
-                Location = new Point(100, 96),
-                Format = DateTimePickerFormat.Short,
-                Width = 120
+                AutoSize = true,
+                Location = new Point(100, 85),
+                ForeColor = SystemColors.GrayText,
+                Text = "(주간 단위로 자동 설정됩니다)"
             };
 
             _btnOk = new Button
             {
                 Text = "확인",
                 DialogResult = DialogResult.None,
-                Location = new Point(100, 135),
+                Location = new Point(110, 120),
                 Width = 90
             };
             _btnOk.Click += BtnOk_Click;
@@ -75,7 +84,7 @@ namespace nutritionist
             {
                 Text = "취소",
                 DialogResult = DialogResult.Cancel,
-                Location = new Point(200, 135),
+                Location = new Point(210, 120),
                 Width = 90
             };
 
@@ -83,16 +92,21 @@ namespace nutritionist
             {
                 lblName,
                 _txtPlanName,
-                lblStart,
-                _dtpStart,
-                lblEnd,
-                _dtpEnd,
+                lblNameHint,
+                lblRange,
+                _lblRangeValue,
+                lblHint,
                 _btnOk,
                 _btnCancel
             });
 
             AcceptButton = _btnOk;
             CancelButton = _btnCancel;
+            if (!string.IsNullOrEmpty(_txtPlanName.Text))
+            {
+                _txtPlanName.SelectionStart = 0;
+                _txtPlanName.SelectionLength = _txtPlanName.Text.Length;
+            }
         }
 
         public MealPlanInput Result { get; private set; }
@@ -107,21 +121,20 @@ namespace nutritionist
                 return;
             }
 
-            if (_dtpStart.Value.Date > _dtpEnd.Value.Date)
-            {
-                MessageBox.Show("종료일은 시작일 이후여야 합니다.", "안내");
-                return;
-            }
-
             Result = new MealPlanInput
             {
                 PlanName = planName,
-                StartDate = _dtpStart.Value.Date,
-                EndDate = _dtpEnd.Value.Date
+                StartDate = _rangeStart,
+                EndDate = _rangeEnd
             };
 
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private string GetRangeText()
+        {
+            return $"{_rangeStart:yyyy-MM-dd} ~ {_rangeEnd:yyyy-MM-dd}";
         }
     }
 
