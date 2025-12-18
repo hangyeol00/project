@@ -57,6 +57,27 @@
     <Compile Include="AdminForm.Designer.cs">
       <DependentUpon>AdminForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\RawMaterialsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\RawMaterialsForm.Logic.cs">
+      <DependentUpon>RawMaterialsForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MealPlansForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MealPlansForm.Logic.cs">
+      <DependentUpon>MealPlansForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\RecipesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\RecipesForm.Logic.cs">
+      <DependentUpon>RecipesForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="DatabaseConfig.cs" />
     <Compile Include="NutritionistForm.cs">
       <SubType>Form</SubType>

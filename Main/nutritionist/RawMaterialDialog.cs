@@ -53,15 +53,23 @@ namespace nutritionist
             {
                 Location = new Point(120, 56),
                 Width = 260,
-                DropDownStyle = ComboBoxStyle.DropDownList,
-                DataSource = _categories
+                DropDownStyle = ComboBoxStyle.DropDownList
             };
             _cmbCategory.DisplayMember = nameof(RawCategoryOption.CategoryName);
             _cmbCategory.ValueMember = nameof(RawCategoryOption.CategoryId);
             if (_categories.Count > 0)
             {
-                _cmbCategory.SelectedIndex = 0;
+                _cmbCategory.DataSource = _categories;
+                _cmbCategory.SelectedIndex = -1;
+                if (_cmbCategory.Items.Count > 0)
+                    _cmbCategory.SelectedIndex = 0;
             }
+            else
+            {
+                _cmbCategory.DataSource = null;
+                _cmbCategory.SelectedIndex = -1;
+                _cmbCategory.Enabled = false;
+            }   
 
             var lblUnit = new Label
             {

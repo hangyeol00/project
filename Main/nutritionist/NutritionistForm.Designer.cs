@@ -68,18 +68,28 @@ namespace nutritionist
             this.tabDashboard.SuspendLayout();
             this.tabManagement.SuspendLayout();
             this.tabControlManagement.SuspendLayout();
+            this.tabRawMaterials.SuspendLayout();
+            this.tabIngredients.SuspendLayout();
+            this.tabNutrients.SuspendLayout();
+            this.tabRecipes.SuspendLayout();
+            this.tabMealPlans.SuspendLayout();
+            this.tabUsers.SuspendLayout();
+            this.tabAllergies.SuspendLayout();
+            this.tabAllergyRelations.SuspendLayout();
+            this.tabMealEvaluations.SuspendLayout();
             this.panelNav.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
             // 
+            this.menuStrip.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuFile});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip.Size = new System.Drawing.Size(1182, 24);
+            this.menuStrip.Padding = new System.Windows.Forms.Padding(7, 3, 0, 3);
+            this.menuStrip.Size = new System.Drawing.Size(1689, 35);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -92,36 +102,36 @@ namespace nutritionist
             this.menuSeparator,
             this.menuExit});
             this.menuFile.Name = "menuFile";
-            this.menuFile.Size = new System.Drawing.Size(43, 20);
+            this.menuFile.Size = new System.Drawing.Size(64, 29);
             this.menuFile.Text = "메뉴";
             // 
             // menuReload
             // 
             this.menuReload.Name = "menuReload";
-            this.menuReload.Size = new System.Drawing.Size(166, 22);
+            this.menuReload.Size = new System.Drawing.Size(252, 34);
             this.menuReload.Text = "새로고침";
             // 
             // menuAddRaw
             // 
             this.menuAddRaw.Name = "menuAddRaw";
-            this.menuAddRaw.Size = new System.Drawing.Size(166, 22);
+            this.menuAddRaw.Size = new System.Drawing.Size(252, 34);
             this.menuAddRaw.Text = "원재료 등록";
             // 
             // menuOpenAdmin
             // 
             this.menuOpenAdmin.Name = "menuOpenAdmin";
-            this.menuOpenAdmin.Size = new System.Drawing.Size(166, 22);
+            this.menuOpenAdmin.Size = new System.Drawing.Size(252, 34);
             this.menuOpenAdmin.Text = "관리자 화면 열기";
             // 
             // menuSeparator
             // 
             this.menuSeparator.Name = "menuSeparator";
-            this.menuSeparator.Size = new System.Drawing.Size(163, 6);
+            this.menuSeparator.Size = new System.Drawing.Size(249, 6);
             // 
             // menuExit
             // 
             this.menuExit.Name = "menuExit";
-            this.menuExit.Size = new System.Drawing.Size(166, 22);
+            this.menuExit.Size = new System.Drawing.Size(252, 34);
             this.menuExit.Text = "종료";
             // 
             // panelWorkspace
@@ -130,9 +140,10 @@ namespace nutritionist
             this.panelWorkspace.Controls.Add(this.tabMain);
             this.panelWorkspace.Controls.Add(this.panelNav);
             this.panelWorkspace.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelWorkspace.Location = new System.Drawing.Point(0, 24);
+            this.panelWorkspace.Location = new System.Drawing.Point(0, 35);
+            this.panelWorkspace.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panelWorkspace.Name = "panelWorkspace";
-            this.panelWorkspace.Size = new System.Drawing.Size(1182, 496);
+            this.panelWorkspace.Size = new System.Drawing.Size(1689, 745);
             this.panelWorkspace.TabIndex = 1;
             // 
             // tabMain
@@ -141,15 +152,15 @@ namespace nutritionist
             this.tabMain.Controls.Add(this.tabDashboard);
             this.tabMain.Controls.Add(this.tabManagement);
             this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabMain.Font = new System.Drawing.Font("Malgun Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.tabMain.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.tabMain.ItemSize = new System.Drawing.Size(0, 1);
-            this.tabMain.Location = new System.Drawing.Point(220, 0);
-            this.tabMain.Margin = new System.Windows.Forms.Padding(0, 0, 3, 2);
+            this.tabMain.Location = new System.Drawing.Point(314, 0);
+            this.tabMain.Margin = new System.Windows.Forms.Padding(0, 0, 4, 3);
             this.tabMain.Multiline = true;
             this.tabMain.Name = "tabMain";
             this.tabMain.Padding = new System.Drawing.Point(0, 0);
             this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(962, 496);
+            this.tabMain.Size = new System.Drawing.Size(1375, 745);
             this.tabMain.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabMain.TabIndex = 2;
             this.tabMain.TabStop = false;
@@ -160,22 +171,23 @@ namespace nutritionist
             this.tabDashboard.BackColor = System.Drawing.Color.White;
             this.tabDashboard.Controls.Add(this.dashboardTabControl);
             this.tabDashboard.Location = new System.Drawing.Point(4, 5);
-            this.tabDashboard.Margin = new System.Windows.Forms.Padding(0, 0, 3, 2);
+            this.tabDashboard.Margin = new System.Windows.Forms.Padding(0, 0, 4, 3);
             this.tabDashboard.Name = "tabDashboard";
-            this.tabDashboard.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabDashboard.Size = new System.Drawing.Size(954, 487);
+            this.tabDashboard.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.tabDashboard.Size = new System.Drawing.Size(1367, 736);
             this.tabDashboard.TabIndex = 0;
             this.tabDashboard.Text = "메인 현황";
             // 
             // dashboardTabControl
             // 
+            this.dashboardTabControl.BackColor = System.Drawing.Color.White;
             this.dashboardTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dashboardTabControl.Font = new System.Drawing.Font("Malgun Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.dashboardTabControl.Location = new System.Drawing.Point(3, 2);
-            this.dashboardTabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dashboardTabControl.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.dashboardTabControl.Location = new System.Drawing.Point(4, 3);
+            this.dashboardTabControl.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dashboardTabControl.Name = "dashboardTabControl";
-            this.dashboardTabControl.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dashboardTabControl.Size = new System.Drawing.Size(948, 483);
+            this.dashboardTabControl.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.dashboardTabControl.Size = new System.Drawing.Size(1359, 730);
             this.dashboardTabControl.TabIndex = 0;
             // 
             // tabManagement
@@ -183,10 +195,10 @@ namespace nutritionist
             this.tabManagement.BackColor = System.Drawing.Color.White;
             this.tabManagement.Controls.Add(this.tabControlManagement);
             this.tabManagement.Location = new System.Drawing.Point(4, 5);
-            this.tabManagement.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabManagement.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabManagement.Name = "tabManagement";
-            this.tabManagement.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabManagement.Size = new System.Drawing.Size(954, 487);
+            this.tabManagement.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.tabManagement.Size = new System.Drawing.Size(1366, 735);
             this.tabManagement.TabIndex = 1;
             this.tabManagement.Text = "상세 관리";
             // 
@@ -202,209 +214,218 @@ namespace nutritionist
             this.tabControlManagement.Controls.Add(this.tabAllergyRelations);
             this.tabControlManagement.Controls.Add(this.tabMealEvaluations);
             this.tabControlManagement.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlManagement.Location = new System.Drawing.Point(3, 2);
-            this.tabControlManagement.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabControlManagement.Location = new System.Drawing.Point(4, 3);
+            this.tabControlManagement.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabControlManagement.Name = "tabControlManagement";
             this.tabControlManagement.SelectedIndex = 0;
-            this.tabControlManagement.Size = new System.Drawing.Size(948, 483);
+            this.tabControlManagement.Size = new System.Drawing.Size(1358, 729);
             this.tabControlManagement.TabIndex = 0;
             // 
             // tabRawMaterials
             // 
             this.tabRawMaterials.Controls.Add(this.rawMaterialsTabPage);
-            this.tabRawMaterials.Location = new System.Drawing.Point(4, 26);
-            this.tabRawMaterials.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabRawMaterials.Location = new System.Drawing.Point(4, 37);
+            this.tabRawMaterials.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabRawMaterials.Name = "tabRawMaterials";
-            this.tabRawMaterials.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabRawMaterials.Size = new System.Drawing.Size(940, 453);
+            this.tabRawMaterials.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.tabRawMaterials.Size = new System.Drawing.Size(1350, 688);
             this.tabRawMaterials.TabIndex = 0;
             this.tabRawMaterials.Text = "재료 관리";
             this.tabRawMaterials.UseVisualStyleBackColor = true;
             // 
             // rawMaterialsTabPage
             // 
+            this.rawMaterialsTabPage.BackColor = System.Drawing.Color.White;
             this.rawMaterialsTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rawMaterialsTabPage.Location = new System.Drawing.Point(3, 2);
-            this.rawMaterialsTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.rawMaterialsTabPage.Location = new System.Drawing.Point(4, 3);
+            this.rawMaterialsTabPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.rawMaterialsTabPage.Name = "rawMaterialsTabPage";
-            this.rawMaterialsTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.rawMaterialsTabPage.Size = new System.Drawing.Size(934, 449);
+            this.rawMaterialsTabPage.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.rawMaterialsTabPage.Size = new System.Drawing.Size(1342, 682);
             this.rawMaterialsTabPage.TabIndex = 0;
             // 
             // tabIngredients
             // 
             this.tabIngredients.Controls.Add(this.ingredientsTabPage);
-            this.tabIngredients.Location = new System.Drawing.Point(4, 26);
-            this.tabIngredients.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabIngredients.Location = new System.Drawing.Point(4, 37);
+            this.tabIngredients.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabIngredients.Name = "tabIngredients";
-            this.tabIngredients.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabIngredients.Size = new System.Drawing.Size(940, 453);
+            this.tabIngredients.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.tabIngredients.Size = new System.Drawing.Size(1346, 683);
             this.tabIngredients.TabIndex = 1;
             this.tabIngredients.Text = "발주 요청";
             this.tabIngredients.UseVisualStyleBackColor = true;
             // 
             // ingredientsTabPage
             // 
+            this.ingredientsTabPage.BackColor = System.Drawing.Color.White;
             this.ingredientsTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ingredientsTabPage.Location = new System.Drawing.Point(3, 2);
-            this.ingredientsTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ingredientsTabPage.Location = new System.Drawing.Point(4, 3);
+            this.ingredientsTabPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.ingredientsTabPage.Name = "ingredientsTabPage";
-            this.ingredientsTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ingredientsTabPage.Size = new System.Drawing.Size(934, 449);
+            this.ingredientsTabPage.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.ingredientsTabPage.Size = new System.Drawing.Size(1338, 677);
             this.ingredientsTabPage.TabIndex = 0;
             // 
             // tabNutrients
             // 
             this.tabNutrients.Controls.Add(this.nutrientsTabPage);
-            this.tabNutrients.Location = new System.Drawing.Point(4, 26);
-            this.tabNutrients.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabNutrients.Location = new System.Drawing.Point(4, 37);
+            this.tabNutrients.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabNutrients.Name = "tabNutrients";
-            this.tabNutrients.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabNutrients.Size = new System.Drawing.Size(940, 453);
+            this.tabNutrients.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.tabNutrients.Size = new System.Drawing.Size(1346, 683);
             this.tabNutrients.TabIndex = 2;
             this.tabNutrients.Text = "영양소 관리";
             this.tabNutrients.UseVisualStyleBackColor = true;
             // 
             // nutrientsTabPage
             // 
+            this.nutrientsTabPage.BackColor = System.Drawing.Color.White;
             this.nutrientsTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nutrientsTabPage.Location = new System.Drawing.Point(3, 2);
-            this.nutrientsTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.nutrientsTabPage.Location = new System.Drawing.Point(4, 3);
+            this.nutrientsTabPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.nutrientsTabPage.Name = "nutrientsTabPage";
-            this.nutrientsTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.nutrientsTabPage.Size = new System.Drawing.Size(934, 449);
+            this.nutrientsTabPage.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.nutrientsTabPage.Size = new System.Drawing.Size(1338, 677);
             this.nutrientsTabPage.TabIndex = 0;
             // 
             // tabRecipes
             // 
             this.tabRecipes.Controls.Add(this.recipesTabPage);
-            this.tabRecipes.Location = new System.Drawing.Point(4, 26);
-            this.tabRecipes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabRecipes.Location = new System.Drawing.Point(4, 37);
+            this.tabRecipes.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabRecipes.Name = "tabRecipes";
-            this.tabRecipes.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabRecipes.Size = new System.Drawing.Size(940, 453);
+            this.tabRecipes.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.tabRecipes.Size = new System.Drawing.Size(1346, 683);
             this.tabRecipes.TabIndex = 3;
             this.tabRecipes.Text = "요리 관리";
             this.tabRecipes.UseVisualStyleBackColor = true;
             // 
             // recipesTabPage
             // 
+            this.recipesTabPage.BackColor = System.Drawing.Color.White;
             this.recipesTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.recipesTabPage.Location = new System.Drawing.Point(3, 2);
-            this.recipesTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.recipesTabPage.Location = new System.Drawing.Point(4, 3);
+            this.recipesTabPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.recipesTabPage.Name = "recipesTabPage";
-            this.recipesTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.recipesTabPage.Size = new System.Drawing.Size(934, 449);
+            this.recipesTabPage.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.recipesTabPage.Size = new System.Drawing.Size(1338, 677);
             this.recipesTabPage.TabIndex = 0;
             // 
             // tabMealPlans
             // 
             this.tabMealPlans.Controls.Add(this.mealPlansTabPage);
-            this.tabMealPlans.Location = new System.Drawing.Point(4, 26);
-            this.tabMealPlans.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabMealPlans.Location = new System.Drawing.Point(4, 37);
+            this.tabMealPlans.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabMealPlans.Name = "tabMealPlans";
-            this.tabMealPlans.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabMealPlans.Size = new System.Drawing.Size(940, 453);
+            this.tabMealPlans.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.tabMealPlans.Size = new System.Drawing.Size(1346, 683);
             this.tabMealPlans.TabIndex = 4;
             this.tabMealPlans.Text = "식단 관리";
             this.tabMealPlans.UseVisualStyleBackColor = true;
             // 
             // mealPlansTabPage
             // 
+            this.mealPlansTabPage.BackColor = System.Drawing.Color.White;
             this.mealPlansTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mealPlansTabPage.Location = new System.Drawing.Point(3, 2);
-            this.mealPlansTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.mealPlansTabPage.Location = new System.Drawing.Point(4, 3);
+            this.mealPlansTabPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.mealPlansTabPage.Name = "mealPlansTabPage";
-            this.mealPlansTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.mealPlansTabPage.Size = new System.Drawing.Size(934, 449);
+            this.mealPlansTabPage.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.mealPlansTabPage.Size = new System.Drawing.Size(1338, 677);
             this.mealPlansTabPage.TabIndex = 0;
             // 
             // tabUsers
             // 
             this.tabUsers.Controls.Add(this.usersTabPage);
-            this.tabUsers.Location = new System.Drawing.Point(4, 26);
-            this.tabUsers.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabUsers.Location = new System.Drawing.Point(4, 37);
+            this.tabUsers.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabUsers.Name = "tabUsers";
-            this.tabUsers.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabUsers.Size = new System.Drawing.Size(940, 453);
+            this.tabUsers.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.tabUsers.Size = new System.Drawing.Size(1346, 683);
             this.tabUsers.TabIndex = 5;
             this.tabUsers.Text = "이용자 관리";
             this.tabUsers.UseVisualStyleBackColor = true;
             // 
             // usersTabPage
             // 
+            this.usersTabPage.BackColor = System.Drawing.Color.White;
             this.usersTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.usersTabPage.Location = new System.Drawing.Point(3, 2);
-            this.usersTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.usersTabPage.Location = new System.Drawing.Point(4, 3);
+            this.usersTabPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.usersTabPage.Name = "usersTabPage";
-            this.usersTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.usersTabPage.Size = new System.Drawing.Size(934, 449);
+            this.usersTabPage.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.usersTabPage.Size = new System.Drawing.Size(1338, 677);
             this.usersTabPage.TabIndex = 0;
             // 
             // tabAllergies
             // 
             this.tabAllergies.Controls.Add(this.allergiesTabPage);
-            this.tabAllergies.Location = new System.Drawing.Point(4, 26);
-            this.tabAllergies.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabAllergies.Location = new System.Drawing.Point(4, 37);
+            this.tabAllergies.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabAllergies.Name = "tabAllergies";
-            this.tabAllergies.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabAllergies.Size = new System.Drawing.Size(940, 453);
+            this.tabAllergies.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.tabAllergies.Size = new System.Drawing.Size(1346, 683);
             this.tabAllergies.TabIndex = 6;
             this.tabAllergies.Text = "알레르기 관리";
             this.tabAllergies.UseVisualStyleBackColor = true;
             // 
             // allergiesTabPage
             // 
+            this.allergiesTabPage.BackColor = System.Drawing.Color.White;
             this.allergiesTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.allergiesTabPage.Location = new System.Drawing.Point(3, 2);
-            this.allergiesTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.allergiesTabPage.Location = new System.Drawing.Point(4, 3);
+            this.allergiesTabPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.allergiesTabPage.Name = "allergiesTabPage";
-            this.allergiesTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.allergiesTabPage.Size = new System.Drawing.Size(934, 449);
+            this.allergiesTabPage.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.allergiesTabPage.Size = new System.Drawing.Size(1338, 677);
             this.allergiesTabPage.TabIndex = 0;
             // 
             // tabAllergyRelations
             // 
             this.tabAllergyRelations.Controls.Add(this.allergyRelationsTabPage);
-            this.tabAllergyRelations.Location = new System.Drawing.Point(4, 26);
-            this.tabAllergyRelations.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabAllergyRelations.Location = new System.Drawing.Point(4, 37);
+            this.tabAllergyRelations.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabAllergyRelations.Name = "tabAllergyRelations";
-            this.tabAllergyRelations.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabAllergyRelations.Size = new System.Drawing.Size(940, 453);
+            this.tabAllergyRelations.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.tabAllergyRelations.Size = new System.Drawing.Size(1346, 683);
             this.tabAllergyRelations.TabIndex = 7;
             this.tabAllergyRelations.Text = "알레르기 관계";
             this.tabAllergyRelations.UseVisualStyleBackColor = true;
             // 
             // allergyRelationsTabPage
             // 
+            this.allergyRelationsTabPage.BackColor = System.Drawing.Color.White;
             this.allergyRelationsTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.allergyRelationsTabPage.Location = new System.Drawing.Point(3, 2);
-            this.allergyRelationsTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.allergyRelationsTabPage.Location = new System.Drawing.Point(4, 3);
+            this.allergyRelationsTabPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.allergyRelationsTabPage.Name = "allergyRelationsTabPage";
-            this.allergyRelationsTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.allergyRelationsTabPage.Size = new System.Drawing.Size(934, 449);
+            this.allergyRelationsTabPage.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.allergyRelationsTabPage.Size = new System.Drawing.Size(1338, 677);
             this.allergyRelationsTabPage.TabIndex = 0;
             // 
             // tabMealEvaluations
             // 
             this.tabMealEvaluations.Controls.Add(this.mealEvaluationsTabPage);
-            this.tabMealEvaluations.Location = new System.Drawing.Point(4, 26);
-            this.tabMealEvaluations.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabMealEvaluations.Location = new System.Drawing.Point(4, 37);
+            this.tabMealEvaluations.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabMealEvaluations.Name = "tabMealEvaluations";
-            this.tabMealEvaluations.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabMealEvaluations.Size = new System.Drawing.Size(940, 453);
+            this.tabMealEvaluations.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.tabMealEvaluations.Size = new System.Drawing.Size(1346, 683);
             this.tabMealEvaluations.TabIndex = 8;
             this.tabMealEvaluations.Text = "식단 평가";
             this.tabMealEvaluations.UseVisualStyleBackColor = true;
             // 
             // mealEvaluationsTabPage
             // 
+            this.mealEvaluationsTabPage.BackColor = System.Drawing.Color.White;
             this.mealEvaluationsTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mealEvaluationsTabPage.Location = new System.Drawing.Point(3, 2);
-            this.mealEvaluationsTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.mealEvaluationsTabPage.Location = new System.Drawing.Point(4, 3);
+            this.mealEvaluationsTabPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.mealEvaluationsTabPage.Name = "mealEvaluationsTabPage";
-            this.mealEvaluationsTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.mealEvaluationsTabPage.Size = new System.Drawing.Size(934, 449);
+            this.mealEvaluationsTabPage.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.mealEvaluationsTabPage.Size = new System.Drawing.Size(1338, 677);
             this.mealEvaluationsTabPage.TabIndex = 0;
             // 
             // panelNav
@@ -416,8 +437,8 @@ namespace nutritionist
             this.panelNav.Location = new System.Drawing.Point(0, 0);
             this.panelNav.Margin = new System.Windows.Forms.Padding(0);
             this.panelNav.Name = "panelNav";
-            this.panelNav.Padding = new System.Windows.Forms.Padding(15, 20, 0, 20);
-            this.panelNav.Size = new System.Drawing.Size(220, 496);
+            this.panelNav.Padding = new System.Windows.Forms.Padding(21, 30, 0, 30);
+            this.panelNav.Size = new System.Drawing.Size(314, 745);
             this.panelNav.TabIndex = 0;
             // 
             // btnNavManagement
@@ -428,13 +449,13 @@ namespace nutritionist
             this.btnNavManagement.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(88)))), ((int)(((byte)(109)))));
             this.btnNavManagement.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(79)))), ((int)(((byte)(99)))));
             this.btnNavManagement.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNavManagement.Font = new System.Drawing.Font("Malgun Gothic", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnNavManagement.Font = new System.Drawing.Font("맑은 고딕", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnNavManagement.ForeColor = System.Drawing.Color.White;
-            this.btnNavManagement.Location = new System.Drawing.Point(15, 90);
-            this.btnNavManagement.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
+            this.btnNavManagement.Location = new System.Drawing.Point(21, 135);
+            this.btnNavManagement.Margin = new System.Windows.Forms.Padding(4, 15, 4, 0);
             this.btnNavManagement.Name = "btnNavManagement";
-            this.btnNavManagement.Padding = new System.Windows.Forms.Padding(10);
-            this.btnNavManagement.Size = new System.Drawing.Size(205, 70);
+            this.btnNavManagement.Padding = new System.Windows.Forms.Padding(14, 15, 14, 15);
+            this.btnNavManagement.Size = new System.Drawing.Size(293, 105);
             this.btnNavManagement.TabIndex = 2;
             this.btnNavManagement.Text = "상세 관리";
             this.btnNavManagement.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -449,13 +470,13 @@ namespace nutritionist
             this.btnNavDashboard.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(88)))), ((int)(((byte)(109)))));
             this.btnNavDashboard.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(79)))), ((int)(((byte)(99)))));
             this.btnNavDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNavDashboard.Font = new System.Drawing.Font("Malgun Gothic", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnNavDashboard.Font = new System.Drawing.Font("맑은 고딕", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnNavDashboard.ForeColor = System.Drawing.Color.White;
-            this.btnNavDashboard.Location = new System.Drawing.Point(15, 20);
-            this.btnNavDashboard.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
+            this.btnNavDashboard.Location = new System.Drawing.Point(21, 30);
+            this.btnNavDashboard.Margin = new System.Windows.Forms.Padding(4, 15, 4, 0);
             this.btnNavDashboard.Name = "btnNavDashboard";
-            this.btnNavDashboard.Padding = new System.Windows.Forms.Padding(10);
-            this.btnNavDashboard.Size = new System.Drawing.Size(205, 70);
+            this.btnNavDashboard.Padding = new System.Windows.Forms.Padding(14, 15, 14, 15);
+            this.btnNavDashboard.Size = new System.Drawing.Size(293, 105);
             this.btnNavDashboard.TabIndex = 1;
             this.btnNavDashboard.Text = "메인 현황";
             this.btnNavDashboard.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -464,13 +485,13 @@ namespace nutritionist
             // 
             // NutritionistForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1182, 520);
+            this.ClientSize = new System.Drawing.Size(1689, 780);
             this.Controls.Add(this.panelWorkspace);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "NutritionistForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "학교 급양 관리 시스템";
@@ -482,6 +503,15 @@ namespace nutritionist
             this.tabDashboard.ResumeLayout(false);
             this.tabManagement.ResumeLayout(false);
             this.tabControlManagement.ResumeLayout(false);
+            this.tabRawMaterials.ResumeLayout(false);
+            this.tabIngredients.ResumeLayout(false);
+            this.tabNutrients.ResumeLayout(false);
+            this.tabRecipes.ResumeLayout(false);
+            this.tabMealPlans.ResumeLayout(false);
+            this.tabUsers.ResumeLayout(false);
+            this.tabAllergies.ResumeLayout(false);
+            this.tabAllergyRelations.ResumeLayout(false);
+            this.tabMealEvaluations.ResumeLayout(false);
             this.panelNav.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
