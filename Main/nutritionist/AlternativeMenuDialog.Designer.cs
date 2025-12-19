@@ -42,12 +42,12 @@ namespace nutritionist
             this.tableLayoutPanel1.Location = new System.Drawing.Point(10, 10);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 6;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(414, 361);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
@@ -55,11 +55,11 @@ namespace nutritionist
             // 
             this.lblAllergyInfo.AutoSize = true;
             this.lblAllergyInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblAllergyInfo.Font = new System.Drawing.Font("Malgun Gothic", 9F, System.Drawing.FontStyle.Bold);
+            this.lblAllergyInfo.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold);
             this.lblAllergyInfo.Location = new System.Drawing.Point(3, 0);
             this.lblAllergyInfo.Margin = new System.Windows.Forms.Padding(3, 0, 3, 8);
             this.lblAllergyInfo.Name = "lblAllergyInfo";
-            this.lblAllergyInfo.Size = new System.Drawing.Size(408, 17);
+            this.lblAllergyInfo.Size = new System.Drawing.Size(408, 25);
             this.lblAllergyInfo.TabIndex = 0;
             this.lblAllergyInfo.Text = "알레르기";
             // 
@@ -67,10 +67,10 @@ namespace nutritionist
             // 
             this.lblTargetMenu.AutoSize = true;
             this.lblTargetMenu.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblTargetMenu.Location = new System.Drawing.Point(3, 25);
+            this.lblTargetMenu.Location = new System.Drawing.Point(3, 33);
             this.lblTargetMenu.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
             this.lblTargetMenu.Name = "lblTargetMenu";
-            this.lblTargetMenu.Size = new System.Drawing.Size(408, 17);
+            this.lblTargetMenu.Size = new System.Drawing.Size(408, 25);
             this.lblTargetMenu.TabIndex = 1;
             this.lblTargetMenu.Text = "대체할 메뉴";
             // 
@@ -79,20 +79,20 @@ namespace nutritionist
             this.cmbTargetMenu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmbTargetMenu.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTargetMenu.FormattingEnabled = true;
-            this.cmbTargetMenu.Location = new System.Drawing.Point(3, 44);
+            this.cmbTargetMenu.Location = new System.Drawing.Point(3, 60);
             this.cmbTargetMenu.Margin = new System.Windows.Forms.Padding(3, 0, 3, 8);
             this.cmbTargetMenu.Name = "cmbTargetMenu";
-            this.cmbTargetMenu.Size = new System.Drawing.Size(408, 25);
+            this.cmbTargetMenu.Size = new System.Drawing.Size(408, 33);
             this.cmbTargetMenu.TabIndex = 2;
             // 
             // lblAlternatives
             // 
             this.lblAlternatives.AutoSize = true;
             this.lblAlternatives.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblAlternatives.Location = new System.Drawing.Point(3, 77);
+            this.lblAlternatives.Location = new System.Drawing.Point(3, 94);
             this.lblAlternatives.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
             this.lblAlternatives.Name = "lblAlternatives";
-            this.lblAlternatives.Size = new System.Drawing.Size(408, 17);
+            this.lblAlternatives.Size = new System.Drawing.Size(408, 25);
             this.lblAlternatives.TabIndex = 3;
             this.lblAlternatives.Text = "대체 가능한 메뉴";
             // 
@@ -100,10 +100,10 @@ namespace nutritionist
             // 
             this.lstAlternatives.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstAlternatives.FormattingEnabled = true;
-            this.lstAlternatives.ItemHeight = 17;
-            this.lstAlternatives.Location = new System.Drawing.Point(3, 96);
+            this.lstAlternatives.ItemHeight = 25;
+            this.lstAlternatives.Location = new System.Drawing.Point(3, 124);
             this.lstAlternatives.Name = "lstAlternatives";
-            this.lstAlternatives.Size = new System.Drawing.Size(408, 215);
+            this.lstAlternatives.Size = new System.Drawing.Size(408, 187);
             this.lstAlternatives.TabIndex = 4;
             // 
             // flowButtons
@@ -113,15 +113,15 @@ namespace nutritionist
             this.flowButtons.Controls.Add(this.btnCancel);
             this.flowButtons.Dock = System.Windows.Forms.DockStyle.Right;
             this.flowButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowButtons.Location = new System.Drawing.Point(207, 317);
+            this.flowButtons.Location = new System.Drawing.Point(209, 317);
             this.flowButtons.Name = "flowButtons";
             this.flowButtons.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
-            this.flowButtons.Size = new System.Drawing.Size(204, 41);
+            this.flowButtons.Size = new System.Drawing.Size(202, 41);
             this.flowButtons.TabIndex = 5;
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(101, 11);
+            this.btnOk.Location = new System.Drawing.Point(104, 11);
             this.btnOk.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(98, 27);
@@ -142,11 +142,11 @@ namespace nutritionist
             // 
             // AlternativeMenuDialog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(434, 381);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Font = new System.Drawing.Font("Malgun Gothic", 9F);
+            this.Font = new System.Drawing.Font("맑은 고딕", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;

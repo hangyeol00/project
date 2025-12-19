@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using Oracle.DataAccess.Client;
 using nutritionist;
-using nutritionist.Tabs.Management;
 
 namespace nutritionist.Forms
 {
@@ -31,6 +32,7 @@ namespace nutritionist.Forms
         private void InitializeLogic()
         {
             InitializeMenuControls();
+            InitializeMealPlanControls();
             LoadFinalMenus();
             LoadMenuTags();
         }
@@ -407,12 +409,6 @@ namespace nutritionist.Forms
             lstAvailableMenus.DoDragDrop(item, DragDropEffects.Copy);
         }
 
-        private MealPlansTabPage MealPlansTab => _view;
-        private ListBox lstAvailableMenus => MealPlansTab?.lstAvailableMenus;
-        private ComboBox cmbMenuTypeFilter => MealPlansTab?.cmbMenuTypeFilter;
-        private ComboBox cmbMenuSort => MealPlansTab?.cmbMenuSort;
-        private CheckedListBox clbMenuTags => MealPlansTab?.clbMenuTags;
-        private Button btnResetMenuFilter => MealPlansTab?.btnResetMenuFilter;
         #endregion
 
         #region 하위 모델/유틸
@@ -499,6 +495,42 @@ namespace nutritionist.Forms
         private decimal GetMenuNutrientAmount(int menuId, string nutrientCode)
         {
             return _recipesForm?.GetMenuNutrientAmount(menuId, nutrientCode) ?? 0m;
+        }
+
+        private object ExecuteScalar(string sql, params OracleParameter[] parameters)
+        {
+            using (var conn = new OracleConnection(DatabaseConfig.ConnectionString))
+            using (var cmd = new OracleCommand(sql, conn))
+            {
+                if (parameters != null)
+                {
+                    foreach (var parameter in parameters)
+                    {
+                        cmd.Parameters.Add(parameter);
+                    }
+                }
+
+                conn.Open();
+                return cmd.ExecuteScalar();
+            }
+        }
+
+        private int ExecuteNonQuery(string sql, params OracleParameter[] parameters)
+        {
+            using (var conn = new OracleConnection(DatabaseConfig.ConnectionString))
+            using (var cmd = new OracleCommand(sql, conn))
+            {
+                if (parameters != null)
+                {
+                    foreach (var parameter in parameters)
+                    {
+                        cmd.Parameters.Add(parameter);
+                    }
+                }
+
+                conn.Open();
+                return cmd.ExecuteNonQuery();
+            }
         }
 
         private DataTable ExecuteDataTable(string sql, params OracleParameter[] parameters)

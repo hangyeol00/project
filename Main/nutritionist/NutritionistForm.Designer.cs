@@ -42,15 +42,12 @@ namespace nutritionist
             this.tabManagement = new System.Windows.Forms.TabPage();
             this.tabControlManagement = new System.Windows.Forms.TabControl();
             this.tabRawMaterials = new System.Windows.Forms.TabPage();
-            this.rawMaterialsTabPage = new nutritionist.Tabs.Management.RawMaterialsTabPage();
             this.tabIngredients = new System.Windows.Forms.TabPage();
             this.ingredientsTabPage = new nutritionist.Tabs.Management.IngredientsTabPage();
             this.tabNutrients = new System.Windows.Forms.TabPage();
             this.nutrientsTabPage = new nutritionist.Tabs.Management.NutrientsTabPage();
             this.tabRecipes = new System.Windows.Forms.TabPage();
-            this.recipesTabPage = new nutritionist.Tabs.Management.RecipesTabPage();
             this.tabMealPlans = new System.Windows.Forms.TabPage();
-            this.mealPlansTabPage = new nutritionist.Tabs.Management.MealPlansTabPage();
             this.tabUsers = new System.Windows.Forms.TabPage();
             this.usersTabPage = new nutritionist.Tabs.Management.UsersTabPage();
             this.tabAllergies = new System.Windows.Forms.TabPage();
@@ -223,7 +220,6 @@ namespace nutritionist
             // 
             // tabRawMaterials
             // 
-            this.tabRawMaterials.Controls.Add(this.rawMaterialsTabPage);
             this.tabRawMaterials.Location = new System.Drawing.Point(4, 37);
             this.tabRawMaterials.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabRawMaterials.Name = "tabRawMaterials";
@@ -232,17 +228,6 @@ namespace nutritionist
             this.tabRawMaterials.TabIndex = 0;
             this.tabRawMaterials.Text = "재료 관리";
             this.tabRawMaterials.UseVisualStyleBackColor = true;
-            // 
-            // rawMaterialsTabPage
-            // 
-            this.rawMaterialsTabPage.BackColor = System.Drawing.Color.White;
-            this.rawMaterialsTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rawMaterialsTabPage.Location = new System.Drawing.Point(4, 3);
-            this.rawMaterialsTabPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.rawMaterialsTabPage.Name = "rawMaterialsTabPage";
-            this.rawMaterialsTabPage.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.rawMaterialsTabPage.Size = new System.Drawing.Size(1342, 682);
-            this.rawMaterialsTabPage.TabIndex = 0;
             // 
             // tabIngredients
             // 
@@ -292,7 +277,6 @@ namespace nutritionist
             // 
             // tabRecipes
             // 
-            this.tabRecipes.Controls.Add(this.recipesTabPage);
             this.tabRecipes.Location = new System.Drawing.Point(4, 37);
             this.tabRecipes.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabRecipes.Name = "tabRecipes";
@@ -302,20 +286,8 @@ namespace nutritionist
             this.tabRecipes.Text = "요리 관리";
             this.tabRecipes.UseVisualStyleBackColor = true;
             // 
-            // recipesTabPage
-            // 
-            this.recipesTabPage.BackColor = System.Drawing.Color.White;
-            this.recipesTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.recipesTabPage.Location = new System.Drawing.Point(4, 3);
-            this.recipesTabPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.recipesTabPage.Name = "recipesTabPage";
-            this.recipesTabPage.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.recipesTabPage.Size = new System.Drawing.Size(1338, 677);
-            this.recipesTabPage.TabIndex = 0;
-            // 
             // tabMealPlans
             // 
-            this.tabMealPlans.Controls.Add(this.mealPlansTabPage);
             this.tabMealPlans.Location = new System.Drawing.Point(4, 37);
             this.tabMealPlans.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabMealPlans.Name = "tabMealPlans";
@@ -324,17 +296,6 @@ namespace nutritionist
             this.tabMealPlans.TabIndex = 4;
             this.tabMealPlans.Text = "식단 관리";
             this.tabMealPlans.UseVisualStyleBackColor = true;
-            // 
-            // mealPlansTabPage
-            // 
-            this.mealPlansTabPage.BackColor = System.Drawing.Color.White;
-            this.mealPlansTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mealPlansTabPage.Location = new System.Drawing.Point(4, 3);
-            this.mealPlansTabPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.mealPlansTabPage.Name = "mealPlansTabPage";
-            this.mealPlansTabPage.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.mealPlansTabPage.Size = new System.Drawing.Size(1338, 677);
-            this.mealPlansTabPage.TabIndex = 0;
             // 
             // tabUsers
             // 
@@ -542,11 +503,8 @@ namespace nutritionist
         private System.Windows.Forms.TabPage tabAllergies;
         private System.Windows.Forms.TabPage tabAllergyRelations;
         private System.Windows.Forms.TabPage tabMealEvaluations;
-        private nutritionist.Tabs.Management.RawMaterialsTabPage rawMaterialsTabPage;
         private nutritionist.Tabs.Management.IngredientsTabPage ingredientsTabPage;
         private nutritionist.Tabs.Management.NutrientsTabPage nutrientsTabPage;
-        private nutritionist.Tabs.Management.RecipesTabPage recipesTabPage;
-        private nutritionist.Tabs.Management.MealPlansTabPage mealPlansTabPage;
         private nutritionist.Tabs.Management.UsersTabPage usersTabPage;
         private nutritionist.Tabs.Management.AllergiesTabPage allergiesTabPage;
         private nutritionist.Tabs.Management.AllergyRelationsTabPage allergyRelationsTabPage;

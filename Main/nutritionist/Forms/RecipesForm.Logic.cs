@@ -35,26 +35,26 @@ namespace nutritionist.Forms
         public IReadOnlyDictionary<int, Dictionary<string, decimal>> MenuNutrientAmounts => _menuNutrientAmounts;
         public int? SelectedRecipeId => _selectedRecipeId;
 
-        private FlowLayoutPanel FlowRecipeCalorieFilter => _view?.flowRecipeCalorieFilter;
-        private NumericUpDown NudRecipeCalorieMin => _view?.nudRecipeCalorieMin;
-        private NumericUpDown NudRecipeCalorieMax => _view?.nudRecipeCalorieMax;
-        private FlowLayoutPanel FlowRecipeNutrientFilters => _view?.flowRecipeNutrientFilters;
-        private CheckBox ChkRecipeNutrientProtein => _view?.chkRecipeNutrientProtein;
-        private CheckBox ChkRecipeNutrientFat => _view?.chkRecipeNutrientFat;
-        private CheckBox ChkRecipeNutrientCarb => _view?.chkRecipeNutrientCarb;
-        private Button BtnRecipeSearch => _view?.btnRecipeSearch;
-        private Button BtnRecipeClear => _view?.btnRecipeClear;
-        private TextBox TxtRecipeSearch => _view?.txtRecipeSearch;
-        private Button BtnRefreshRecipe => _view?.btnRefreshRecipe;
-        private Button BtnRegisterRecipe => _view?.btnRegisterRecipe;
-        private DataGridView DgvRecipes => _view?.dgvRecipes;
-        private TextBox TxtRecipeName => _view?.txtRecipeName;
-        private TextBox TxtRecipeCode => _view?.txtRecipeCode;
-        private TextBox TxtRecipeType => _view?.txtRecipeType;
-        private TextBox TxtRecipeServing => _view?.txtRecipeServing;
-        private TextBox TxtRecipeActive => _view?.txtRecipeActive;
-        private DataGridView DgvRecipeComponents => _view?.dgvRecipeComponents;
-        private DataGridView DgvRecipeNutrients => _view?.dgvRecipeNutrients;
+        private FlowLayoutPanel FlowRecipeCalorieFilter => flowRecipeCalorieFilter;
+        private NumericUpDown NudRecipeCalorieMin => nudRecipeCalorieMin;
+        private NumericUpDown NudRecipeCalorieMax => nudRecipeCalorieMax;
+        private FlowLayoutPanel FlowRecipeNutrientFilters => flowRecipeNutrientFilters;
+        private CheckBox ChkRecipeNutrientProtein => chkRecipeNutrientProtein;
+        private CheckBox ChkRecipeNutrientFat => chkRecipeNutrientFat;
+        private CheckBox ChkRecipeNutrientCarb => chkRecipeNutrientCarb;
+        private Button BtnRecipeSearch => btnRecipeSearch;
+        private Button BtnRecipeClear => btnRecipeClear;
+        private TextBox TxtRecipeSearch => txtRecipeSearch;
+        private Button BtnRefreshRecipe => btnRefreshRecipe;
+        private Button BtnRegisterRecipe => btnRegisterRecipe;
+        private DataGridView DgvRecipes => dgvRecipes;
+        private TextBox TxtRecipeName => txtRecipeName;
+        private TextBox TxtRecipeCode => txtRecipeCode;
+        private TextBox TxtRecipeType => txtRecipeType;
+        private TextBox TxtRecipeServing => txtRecipeServing;
+        private TextBox TxtRecipeActive => txtRecipeActive;
+        private DataGridView DgvRecipeComponents => dgvRecipeComponents;
+        private DataGridView DgvRecipeNutrients => dgvRecipeNutrients;
 
         private void InitializeLogic()
         {

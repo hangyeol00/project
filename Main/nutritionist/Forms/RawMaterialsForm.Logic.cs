@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Oracle.DataAccess.Client;
-using nutritionist.Tabs.Management;
 
 namespace nutritionist.Forms
 {
@@ -36,38 +35,38 @@ namespace nutritionist.Forms
         public DataTable RawMaterialTable => _rawMaterialTable;
         public int? SelectedRawMaterialId => _selectedRawMaterialId;
 
-        private Panel PanelRawToolbar => _view?.panelRawToolbar;
-        private FlowLayoutPanel FlowRawCalorieFilter => _view?.flowRawCalorieFilter;
-        private Label LblRawCalorie => _view?.lblRawCalorie;
-        private NumericUpDown NudRawCalorieMin => _view?.nudRawCalorieMin;
-        private Label LblRawCalorieSeparator => _view?.lblRawCalorieSeparator;
-        private NumericUpDown NudRawCalorieMax => _view?.nudRawCalorieMax;
-        private Label LblRawCalorieUnit => _view?.lblRawCalorieUnit;
-        private FlowLayoutPanel FlowRawNutrientFilters => _view?.flowRawNutrientFilters;
-        private Label LblRawNutrientFilter => _view?.lblRawNutrientFilter;
-        private CheckBox ChkRawNutrientProtein => _view?.chkRawNutrientProtein;
-        private CheckBox ChkRawNutrientFat => _view?.chkRawNutrientFat;
-        private CheckBox ChkRawNutrientCarb => _view?.chkRawNutrientCarb;
-        private CheckBox ChkRawGroup => _view?.chkRawGroup;
-        private Button BtnRawClear => _view?.btnRawClear;
-        private Button BtnRawSearch => _view?.btnRawSearch;
-        private TextBox TxtRawSearch => _view?.txtRawSearch;
-        private Label LblRawSearch => _view?.lblRawSearch;
-        private TreeView TvRawMaterials => _view?.tvRawMaterials;
-        private DataGridView DgvRawMaterials => _view?.dgvRawMaterials;
-        private GroupBox GrpRawDetail => _view?.grpRawDetail;
-        private TextBox TxtRawDetailName => _view?.txtRawDetailName;
-        private TextBox TxtRawDetailCategory => _view?.txtRawDetailCategory;
-        private TextBox TxtRawDetailUnit => _view?.txtRawDetailUnit;
-        private TextBox TxtRawDetailBaseQty => _view?.txtRawDetailBaseQty;
-        private TextBox TxtRawDetailUnitGram => _view?.txtRawDetailUnitGram;
-        private TextBox TxtRawDetailStorage => _view?.txtRawDetailStorage;
-        private TextBox TxtRawDetailShelfLife => _view?.txtRawDetailShelfLife;
-        private TextBox TxtRawDetailActive => _view?.txtRawDetailActive;
-        private DataGridView DgvRawNutrients => _view?.dgvRawNutrients;
-        private DataGridView DgvRawComponents => _view?.dgvRawComponents;
-        private Button BtnRawAdd => _view?.btnRawAdd;
-        private Button BtnRawRefresh => _view?.btnRawRefresh;
+        private Panel PanelRawToolbar => panelRawToolbar;
+        private FlowLayoutPanel FlowRawCalorieFilter => flowRawCalorieFilter;
+        private Label LblRawCalorie => lblRawCalorie;
+        private NumericUpDown NudRawCalorieMin => nudRawCalorieMin;
+        private Label LblRawCalorieSeparator => lblRawCalorieSeparator;
+        private NumericUpDown NudRawCalorieMax => nudRawCalorieMax;
+        private Label LblRawCalorieUnit => lblRawCalorieUnit;
+        private FlowLayoutPanel FlowRawNutrientFilters => flowRawNutrientFilters;
+        private Label LblRawNutrientFilter => lblRawNutrientFilter;
+        private CheckBox ChkRawNutrientProtein => chkRawNutrientProtein;
+        private CheckBox ChkRawNutrientFat => chkRawNutrientFat;
+        private CheckBox ChkRawNutrientCarb => chkRawNutrientCarb;
+        private CheckBox ChkRawGroup => chkRawGroup;
+        private Button BtnRawClear => btnRawClear;
+        private Button BtnRawSearch => btnRawSearch;
+        private TextBox TxtRawSearch => txtRawSearch;
+        private Label LblRawSearch => lblRawSearch;
+        private TreeView TvRawMaterials => tvRawMaterials;
+        private DataGridView DgvRawMaterials => dgvRawMaterials;
+        private GroupBox GrpRawDetail => grpRawDetail;
+        private TextBox TxtRawDetailName => txtRawDetailName;
+        private TextBox TxtRawDetailCategory => txtRawDetailCategory;
+        private TextBox TxtRawDetailUnit => txtRawDetailUnit;
+        private TextBox TxtRawDetailBaseQty => txtRawDetailBaseQty;
+        private TextBox TxtRawDetailUnitGram => txtRawDetailUnitGram;
+        private TextBox TxtRawDetailStorage => txtRawDetailStorage;
+        private TextBox TxtRawDetailShelfLife => txtRawDetailShelfLife;
+        private TextBox TxtRawDetailActive => txtRawDetailActive;
+        private DataGridView DgvRawNutrients => dgvRawNutrients;
+        private DataGridView DgvRawComponents => dgvRawComponents;
+        private Button BtnRawAdd => btnRawAdd;
+        private Button BtnRawRefresh => btnRawRefresh;
 
         private void InitializeLogic()
         {

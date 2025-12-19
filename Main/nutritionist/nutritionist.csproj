@@ -60,6 +60,9 @@
     <Compile Include="Forms\RawMaterialsForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\RawMaterialsForm.Designer.cs">
+      <DependentUpon>RawMaterialsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\RawMaterialsForm.Logic.cs">
       <DependentUpon>RawMaterialsForm.cs</DependentUpon>
       <SubType>Form</SubType>
@@ -67,12 +70,22 @@
     <Compile Include="Forms\MealPlansForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\MealPlansForm.Designer.cs">
+      <DependentUpon>MealPlansForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MealPlansForm.Logic.cs">
+      <DependentUpon>MealPlansForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MealPlansForm.MealPlanLogic.cs">
       <DependentUpon>MealPlansForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\RecipesForm.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\RecipesForm.Designer.cs">
+      <DependentUpon>RecipesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\RecipesForm.Logic.cs">
       <DependentUpon>RecipesForm.cs</DependentUpon>
@@ -91,12 +104,6 @@
     <Compile Include="Tabs\Dashboard\NutritionDashboardControl.Designer.cs">
       <DependentUpon>NutritionDashboardControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tabs\Management\RawMaterialsTabPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Tabs\Management\RawMaterialsTabPage.Designer.cs">
-      <DependentUpon>RawMaterialsTabPage.cs</DependentUpon>
-    </Compile>
     <Compile Include="Tabs\Management\IngredientsTabPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -108,18 +115,6 @@
     </Compile>
     <Compile Include="Tabs\Management\NutrientsTabPage.Designer.cs">
       <DependentUpon>NutrientsTabPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Tabs\Management\RecipesTabPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Tabs\Management\RecipesTabPage.Designer.cs">
-      <DependentUpon>RecipesTabPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Tabs\Management\MealPlansTabPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Tabs\Management\MealPlansTabPage.Designer.cs">
-      <DependentUpon>MealPlansTabPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Tabs\Management\UsersTabPage.cs">
       <SubType>UserControl</SubType>
@@ -170,6 +165,15 @@
     <Compile Include="MenuAssignmentTarget.cs" />
     <Compile Include="RawMaterialOption.cs" />
     <Compile Include="UserSession.cs" />
+    <EmbeddedResource Include="Forms\MealPlansForm.resx">
+      <DependentUpon>MealPlansForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\RawMaterialsForm.resx">
+      <DependentUpon>RawMaterialsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\RecipesForm.resx">
+      <DependentUpon>RecipesForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NutritionistForm.resx">
       <DependentUpon>NutritionistForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -191,8 +195,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Tabs\Management\MealPlansTabPage.resx">
-      <DependentUpon>MealPlansTabPage.cs</DependentUpon>
+    <EmbeddedResource Include="Tabs\Management\AllergiesTabPage.resx">
+      <DependentUpon>AllergiesTabPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tabs\Management\NutrientsTabPage.resx">
       <DependentUpon>NutrientsTabPage.cs</DependentUpon>
