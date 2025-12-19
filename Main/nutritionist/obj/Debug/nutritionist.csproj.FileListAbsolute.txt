@@ -58,3 +58,5 @@ C:\Users\leesunwoo\Desktop\workspaces\cs_programing\project\Main\nutritionist\ob
 C:\Users\leesunwoo\Desktop\workspaces\cs_programing\project\Main\nutritionist\obj\Debug\nutritionist.Forms.RecipesForm.resources
 C:\Users\leesunwoo\Desktop\workspaces\cs_programing\project\Main\nutritionist\obj\Debug\nutritionist.Forms.RawMaterialsForm.resources
 C:\Users\leesunwoo\Desktop\workspaces\cs_programing\project\Main\nutritionist\obj\Debug\nutritionist.Forms.MealPlansForm.resources
+C:\Users\leesunwoo\Desktop\workspaces\cs_programing\project\Main\nutritionist\obj\Debug\nutritionist.Tabs.Management.AllergyRelationsTabPage.resources
+C:\Users\leesunwoo\Desktop\workspaces\cs_programing\project\Main\nutritionist\obj\Debug\nutritionist.Tabs.Management.MealEvaluationsTabPage.resources
