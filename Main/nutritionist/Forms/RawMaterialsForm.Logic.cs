@@ -6,15 +6,21 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Oracle.DataAccess.Client;
+using nutritionist;
 
 namespace nutritionist.Forms
 {
     public partial class RawMaterialsForm
     {
+        private readonly UserSession _session;
         private readonly List<RawMaterialOption> _rawMaterials = new List<RawMaterialOption>();
         private readonly Dictionary<int, HashSet<string>> _rawNutrientCodes = new Dictionary<int, HashSet<string>>();
         private readonly Dictionary<int, decimal> _rawCalorieMap = new Dictionary<int, decimal>();
         private readonly HashSet<string> _collapsedCategories = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        private ContextMenuStrip _rawContextMenu;
+        private ToolStripMenuItem _menuRequestPurchase;
+        private ToolStripMenuItem _menuViewRecipes;
+        private const string PurchaseStatusRequested = "REQUESTED";
         private static readonly Dictionary<string, string> RawColumnHeaders = new Dictionary<string, string>
         {
             { "ITEMTYPE", "구분" },
@@ -67,6 +73,7 @@ namespace nutritionist.Forms
         private DataGridView DgvRawComponents => dgvRawComponents;
         private Button BtnRawAdd => btnRawAdd;
         private Button BtnRawRefresh => btnRawRefresh;
+        public event Action<int> ViewRecipesRequested;
 
         private void InitializeLogic()
         {
@@ -92,6 +99,8 @@ namespace nutritionist.Forms
             {
                 DgvRawMaterials.CellClick += DgvRawMaterials_CellClick;
                 DgvRawMaterials.CellFormatting += DgvRawMaterials_CellFormatting;
+                DgvRawMaterials.CellMouseDown += DgvRawMaterials_CellMouseDown;
+                InitializeRawContextMenu();
             }
 
             if (BtnRawAdd != null)
@@ -489,6 +498,25 @@ namespace nutritionist.Forms
             ApplyRawMaterialView();
         }
 
+        private void DgvRawMaterials_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Right || e.RowIndex < 0 || DgvRawMaterials == null)
+            {
+                return;
+            }
+
+            DgvRawMaterials.ClearSelection();
+            if (e.RowIndex < DgvRawMaterials.Rows.Count)
+            {
+                var row = DgvRawMaterials.Rows[e.RowIndex];
+                row.Selected = true;
+                if (e.ColumnIndex >= 0 && e.ColumnIndex < row.Cells.Count)
+                {
+                    DgvRawMaterials.CurrentCell = row.Cells[e.ColumnIndex];
+                }
+            }
+        }
+
         private void TxtRawSearch_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -497,6 +525,88 @@ namespace nutritionist.Forms
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
+        }
+
+        private void InitializeRawContextMenu()
+        {
+            if (DgvRawMaterials == null)
+            {
+                return;
+            }
+
+            _rawContextMenu = new ContextMenuStrip();
+            _menuRequestPurchase = new ToolStripMenuItem("발주 요청");
+            _menuViewRecipes = new ToolStripMenuItem("요리 보기");
+            _menuRequestPurchase.Click += MenuRequestPurchase_Click;
+            _menuViewRecipes.Click += MenuViewRecipes_Click;
+            _rawContextMenu.Items.AddRange(new ToolStripItem[] { _menuRequestPurchase, _menuViewRecipes });
+            _rawContextMenu.Opening += RawContextMenu_Opening;
+            DgvRawMaterials.ContextMenuStrip = _rawContextMenu;
+        }
+
+        private void RawContextMenu_Opening(object sender, CancelEventArgs e)
+        {
+            var info = GetCurrentRawInfo();
+            var hasRaw = info?.IsRaw == true;
+            _menuRequestPurchase.Enabled = hasRaw;
+            _menuViewRecipes.Enabled = hasRaw;
+        }
+
+        private void MenuRequestPurchase_Click(object sender, EventArgs e)
+        {
+            var info = GetCurrentRawInfo();
+            if (info?.IsRaw != true)
+            {
+                MessageBox.Show("발주 요청은 원재료 항목에서만 가능합니다.", "안내");
+                return;
+            }
+
+            var input = ShowQuickPurchaseDialog(info.Value.RawId);
+            if (input == null)
+            {
+                return;
+            }
+
+            try
+            {
+                CreatePurchaseRequest(input);
+                MessageBox.Show("발주 요청이 등록되었습니다.", "완료", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (OracleException ex)
+            {
+                MessageBox.Show($"발주 요청 등록 중 오류가 발생했습니다.\n{ex.Message}", "DB 오류",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"발주 요청 등록 중 오류가 발생했습니다.\n{ex.Message}", "오류",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void MenuViewRecipes_Click(object sender, EventArgs e)
+        {
+            var info = GetCurrentRawInfo();
+            if (info?.RawId == null)
+            {
+                return;
+            }
+
+            var rawId = info.Value.RawId.Value;
+            var recipes = LoadRecipesUsingRaw(rawId);
+            if (recipes.Rows.Count == 0)
+            {
+                MessageBox.Show("해당 원재료를 사용하는 메뉴가 없습니다.", "안내",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            var lines = recipes.Rows.Cast<DataRow>()
+                .Select(r => $"{r["MENUNAME"]} ({r["MENUCODE"]})")
+                .ToArray();
+            MessageBox.Show(string.Join(Environment.NewLine, lines), "사용 메뉴", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            ViewRecipesRequested?.Invoke(rawId);
         }
 
         private void AttachRawFilterEvents()
@@ -679,6 +789,24 @@ namespace nutritionist.Forms
             }
         }
 
+        private (int? RawId, bool IsRaw)? GetCurrentRawInfo()
+        {
+            if (DgvRawMaterials?.CurrentRow == null)
+            {
+                return null;
+            }
+
+            var row = GetDataRowFromGrid(DgvRawMaterials.CurrentRow);
+            if (row == null || IsGroupRow(row))
+            {
+                return null;
+            }
+
+            var rawId = ToInt(row["RAWID"]);
+            var isRaw = string.Equals(row["ITEMTYPE"]?.ToString(), "RAW", StringComparison.OrdinalIgnoreCase);
+            return (rawId > 0 ? (int?)rawId : null, isRaw);
+        }
+
         private List<RawCategoryOption> GetRawCategories()
         {
             const string sql =
@@ -754,6 +882,61 @@ namespace nutritionist.Forms
             }
 
             return set;
+        }
+
+        private PurchaseRequestInput ShowQuickPurchaseDialog(int? defaultRawId)
+        {
+            var rawOptions = _rawMaterials.ToList();
+            if (rawOptions.Count == 0)
+            {
+                MessageBox.Show("등록된 원재료가 없습니다.", "안내", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return null;
+            }
+
+            using (var dialog = new QuickPurchaseRequestForm(rawOptions, defaultRawId))
+            {
+                return dialog.ShowDialog(this) == DialogResult.OK ? dialog.Result : null;
+            }
+        }
+
+        private void CreatePurchaseRequest(PurchaseRequestInput request)
+        {
+            var nextId = GetNextId("PURCHASEREQUEST", "PURCHASEREQUESTID");
+            const string sql =
+                "INSERT INTO PurchaseRequest (PurchaseRequestID, RawID, RawContractID, RequestedBy, RequestedDate, Quantity, " +
+                "UnitPriceEstimate, ExpectedDeliveryDate, Status, Remark) " +
+                "VALUES (:ID, :RAWID, :CONTRACTID, :REQUESTEDBY, :REQUESTEDDATE, :QTY, :PRICE, :EXPECTED, :STATUS, :REMARK)";
+
+            ExecuteNonQuery(sql,
+                new OracleParameter("ID", nextId),
+                new OracleParameter("RAWID", request.RawId),
+                new OracleParameter("CONTRACTID", request.ContractId.HasValue
+                    ? (object)request.ContractId.Value
+                    : DBNull.Value),
+                new OracleParameter("REQUESTEDBY", _session?.UserId ?? "SYSTEM"),
+                new OracleParameter("REQUESTEDDATE", request.RequestedDate),
+                new OracleParameter("QTY", request.Quantity),
+                new OracleParameter("PRICE", request.UnitPriceEstimate.HasValue
+                    ? (object)request.UnitPriceEstimate.Value
+                    : DBNull.Value),
+                new OracleParameter("EXPECTED", request.ExpectedDate.HasValue
+                    ? (object)request.ExpectedDate.Value
+                    : DBNull.Value),
+                new OracleParameter("STATUS", PurchaseStatusRequested),
+                new OracleParameter("REMARK", string.IsNullOrEmpty(request.Remark)
+                    ? (object)DBNull.Value
+                    : request.Remark));
+        }
+
+        private DataTable LoadRecipesUsingRaw(int rawId)
+        {
+            const string sql =
+                "SELECT DISTINCT fm.MenuName AS MENUNAME, fm.MenuCode AS MENUCODE " +
+                "FROM MenuComp mc " +
+                "JOIN FinalMenu fm ON mc.FinalMenuID = fm.FinalMenuID " +
+                "WHERE mc.ComponentType = 'R' AND mc.ComponentRawID = :RAWID " +
+                "ORDER BY fm.MenuName";
+            return ExecuteDataTable(sql, new OracleParameter("RAWID", rawId));
         }
 
         private static DataRow GetDataRowFromGrid(DataGridViewRow gridRow)
@@ -957,6 +1140,143 @@ namespace nutritionist.Forms
         {
             var sql = $"SELECT NVL(MAX({columnName}), 0) + 1 FROM {tableName}";
             return ToInt(ExecuteScalar(sql));
+        }
+    }
+
+    internal sealed class QuickPurchaseRequestForm : Form
+    {
+        private readonly ListView _lvRaw;
+        private readonly NumericUpDown _nudQty;
+        private readonly Button _btnOk;
+        private readonly Button _btnCancel;
+
+        public QuickPurchaseRequestForm(IEnumerable<RawMaterialOption> rawOptions, int? defaultRawId)
+        {
+            Text = "발주 요청";
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            StartPosition = FormStartPosition.CenterParent;
+            ClientSize = new Size(520, 420);
+
+            _lvRaw = new ListView
+            {
+                View = View.Details,
+                FullRowSelect = true,
+                MultiSelect = false,
+                HideSelection = false,
+                Dock = DockStyle.Fill,
+                GridLines = true
+            };
+            _lvRaw.Columns.Add("원재료", 280);
+            _lvRaw.Columns.Add("단위", 100);
+
+            foreach (var raw in rawOptions)
+            {
+                var item = new ListViewItem(raw.RawName) { Tag = raw };
+                item.SubItems.Add(string.IsNullOrWhiteSpace(raw.PurchaseUnit) ? "-" : raw.PurchaseUnit);
+                _lvRaw.Items.Add(item);
+                if (defaultRawId.HasValue && raw.RawId == defaultRawId.Value)
+                {
+                    item.Selected = true;
+                    item.Focused = true;
+                }
+            }
+
+            var qtyPanel = new TableLayoutPanel
+            {
+                ColumnCount = 2,
+                RowCount = 2,
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                Padding = new Padding(6)
+            };
+            qtyPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 80));
+            qtyPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            var lblQty = new Label
+            {
+                Text = "수량",
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleLeft
+            };
+            _nudQty = new NumericUpDown
+            {
+                DecimalPlaces = 2,
+                Maximum = 1000000,
+                Minimum = 0,
+                Increment = 1,
+                Dock = DockStyle.Fill
+            };
+            qtyPanel.Controls.Add(lblQty, 0, 0);
+            qtyPanel.Controls.Add(_nudQty, 1, 0);
+
+            var buttonPanel = new FlowLayoutPanel
+            {
+                FlowDirection = FlowDirection.RightToLeft,
+                Dock = DockStyle.Bottom,
+                Padding = new Padding(8),
+                AutoSize = true
+            };
+            _btnOk = new Button { Text = "등록", Width = 100, DialogResult = DialogResult.OK };
+            _btnCancel = new Button { Text = "취소", Width = 100, DialogResult = DialogResult.Cancel };
+            buttonPanel.Controls.Add(_btnOk);
+            buttonPanel.Controls.Add(_btnCancel);
+
+            var layout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 3
+            };
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            layout.Controls.Add(_lvRaw, 0, 0);
+            layout.Controls.Add(qtyPanel, 0, 1);
+            layout.Controls.Add(buttonPanel, 0, 2);
+            Controls.Add(layout);
+
+            AcceptButton = _btnOk;
+            CancelButton = _btnCancel;
+
+            _btnOk.Click += BtnOk_Click;
+            _lvRaw.DoubleClick += (s, e) => BtnOk_Click(s, e);
+        }
+
+        public PurchaseRequestInput Result { get; private set; }
+
+        private void BtnOk_Click(object sender, EventArgs e)
+        {
+            if (_lvRaw.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("발주할 원재료를 선택해 주세요.", "안내", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult = DialogResult.None;
+                return;
+            }
+
+            if (_nudQty.Value <= 0)
+            {
+                MessageBox.Show("수량을 입력해 주세요.", "안내", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult = DialogResult.None;
+                return;
+            }
+
+            var raw = _lvRaw.SelectedItems[0].Tag as RawMaterialOption;
+            if (raw == null)
+            {
+                DialogResult = DialogResult.None;
+                return;
+            }
+
+            Result = new PurchaseRequestInput
+            {
+                RawId = raw.RawId,
+                Quantity = _nudQty.Value,
+                RequestedDate = DateTime.Today
+            };
+
+            DialogResult = DialogResult.OK;
+            Close();
         }
     }
 }

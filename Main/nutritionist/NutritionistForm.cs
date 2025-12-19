@@ -207,8 +207,9 @@ namespace nutritionist
         {
             if (tabRawMaterials != null)
             {
-                _rawMaterialsForm = new RawMaterialsForm();
+                _rawMaterialsForm = new RawMaterialsForm(_session);
                 HostFormInTab(tabRawMaterials, _rawMaterialsForm);
+                _rawMaterialsForm.ViewRecipesRequested += ShowRecipesForRaw;
             }
 
             if (tabMealPlans != null)
@@ -281,6 +282,15 @@ namespace nutritionist
             HostFormInTab(tabRecipes, _recipesForm);
             _recipesForm.ReloadRecipes();
             _mealPlansForm?.SetDependencies(_session, _recipesForm);
+        }
+
+        private void ShowRecipesForRaw(int rawId)
+        {
+            EnsureRecipesFormInitialized();
+            if (tabControlManagement != null && tabRecipes != null)
+            {
+                tabControlManagement.SelectedTab = tabRecipes;
+            }
         }
 
         private static void AttachCheckChangedHandler(CheckBox checkBox, EventHandler handler)
@@ -666,7 +676,7 @@ namespace nutritionist
             {
                 var item = new ListViewItem(row["RAW_NAME"]?.ToString() ?? "-");
                 item.SubItems.Add(FormatDecimalDisplay(row["REQUIRED_QTY"]));
-                item.SubItems.Add(row["UNIT"]?.ToString() ?? "-");
+                item.SubItems.Add("g");
                 list.Items.Add(item);
             }
 
@@ -701,7 +711,8 @@ namespace nutritionist
                 item.SubItems.Add(row["RAW_NAME"]?.ToString() ?? "-");
                 item.SubItems.Add(FormatDecimalDisplay(row["QUANTITY"]));
                 item.SubItems.Add(FormatDecimalDisplay(row["UNITPRICEESTIMATE"]));
-                item.SubItems.Add(row["STATUS"]?.ToString() ?? "-");
+                var statusDisplay = GetPurchaseStatusDisplay(row["STATUS"]?.ToString());
+                item.SubItems.Add(statusDisplay);
                 item.SubItems.Add(FormatDateDisplay(row["REQUESTEDDATE"]));
                 item.SubItems.Add(FormatDateDisplay(row["EXPECTEDDELIVERYDATE"]));
                 list.Items.Add(item);
@@ -1289,6 +1300,35 @@ namespace nutritionist
             return Color.FromArgb(70, 88, 109);
         }
 
+        private static string GetPurchaseStatusDisplay(string status)
+        {
+            if (string.IsNullOrWhiteSpace(status))
+            {
+                return "-";
+            }
+
+            var trimmed = status.Trim();
+            switch (trimmed.ToUpperInvariant())
+            {
+                case PurchaseStatusRequested:
+                    return "승인 대기";
+                case PurchaseStatusApproved:
+                    return "승인 완료";
+                case "REJECTED":
+                    return "반려";
+                case "CANCELLED":
+                case "CANCELED":
+                    return "취소";
+                case "ORDERED":
+                    return "발주 완료";
+                case "RECEIVED":
+                case "DELIVERED":
+                    return "입고 완료";
+                default:
+                    return trimmed;
+            }
+        }
+
         private void UpdateWeeklyMealSelectionAvailability()
         {
             if (dgvWeeklyMeals == null)
@@ -1668,6 +1708,14 @@ namespace nutritionist
             }
 
             grid.ClearSelection();
+            grid.SelectionChanged += (s, e) =>
+            {
+                if (grid != null)
+                {
+                    grid.ClearSelection();
+                }
+            };
+            grid.Enabled = false;
         }
 
         private static string FormatDecimalDisplay(object value)

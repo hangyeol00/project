@@ -5,8 +5,9 @@ namespace nutritionist.Forms
 {
     public partial class RawMaterialsForm : Form
     {
-        public RawMaterialsForm()
+        public RawMaterialsForm(UserSession session = null)
         {
+            _session = session;
             InitializeComponent();
             InitializeLogic();
         }

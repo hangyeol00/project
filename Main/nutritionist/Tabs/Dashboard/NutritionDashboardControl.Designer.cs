@@ -24,7 +24,7 @@ namespace nutritionist.Tabs
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.layoutDashboard = new System.Windows.Forms.TableLayoutPanel();
             this.grpSummary = new System.Windows.Forms.GroupBox();
             this.lblCurrentServeDate = new System.Windows.Forms.Label();
@@ -214,14 +214,14 @@ namespace nutritionist.Tabs
             this.dgvTodayMealBoard.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTodayMealBoard.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colTodayMealBoard});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("맑은 고딕", 9F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvTodayMealBoard.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("맑은 고딕", 9F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvTodayMealBoard.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvTodayMealBoard.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvTodayMealBoard.Location = new System.Drawing.Point(3, 26);
             this.dgvTodayMealBoard.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -282,7 +282,8 @@ namespace nutritionist.Tabs
             this.grpShortage.Size = new System.Drawing.Size(463, 98);
             this.grpShortage.TabIndex = 3;
             this.grpShortage.TabStop = false;
-            this.grpShortage.Text = "발주 대기 / 부족 원재료";
+            this.grpShortage.Text = "발주 대기";
+            this.grpShortage.Enter += new System.EventHandler(this.grpShortage_Enter);
             // 
             // lvShortageRaw
             // 

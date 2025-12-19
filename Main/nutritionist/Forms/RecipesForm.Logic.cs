@@ -20,6 +20,7 @@ namespace nutritionist.Forms
         private int? _selectedRecipeId;
         private ContextMenuStrip _recipeComponentMenu;
         private ToolStripMenuItem _menuRecipeViewRaw;
+        private static readonly string[] DefaultMenuTypes = { "MAIN", "SIDE", "SOUP", "DRINK", "SNACK" };
         private static readonly Dictionary<string, string> RecipeColumnHeaders = new Dictionary<string, string>
         {
             { "MENUCODE", "메뉴 코드" },
@@ -28,6 +29,24 @@ namespace nutritionist.Forms
             { "SERVINGSIZEGRAM", "1인 제공량(g)" },
             { "ACTIVEFLAG", "사용 여부" }
         };
+
+        private class RecipeComponentInput
+        {
+            public int RawId { get; set; }
+            public string RawName { get; set; }
+            public string Unit { get; set; }
+            public decimal QuantityGram { get; set; }
+        }
+
+        private class RecipeRegisterResult
+        {
+            public string MenuName { get; set; }
+            public string MenuCode { get; set; }
+            public string MenuType { get; set; }
+            public decimal ServingSize { get; set; }
+            public bool IsActive { get; set; }
+            public List<RecipeComponentInput> Components { get; set; }
+        }
 
         public event Action<int> RawMaterialRequested;
 
@@ -658,7 +677,438 @@ namespace nutritionist.Forms
 
         private void BtnRegisterRecipe_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("요리 등록 기능은 추후 제공될 예정입니다.", "안내");
+            try
+            {
+                var result = ShowRegisterRecipeDialog();
+                if (result == null)
+                {
+                    return;
+                }
+
+                SaveNewRecipe(result);
+                MessageBox.Show("메뉴가 등록되었습니다.", "완료", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ReloadRecipes();
+            }
+            catch (OracleException ex)
+            {
+                MessageBox.Show($"메뉴 등록 중 오류가 발생했습니다.\n{ex.Message}", "DB 오류",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"메뉴 등록 중 오류가 발생했습니다.\n{ex.Message}", "오류",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private RecipeRegisterResult ShowRegisterRecipeDialog()
+        {
+            var rawOptions = LoadRawMaterialOptions();
+            if (rawOptions.Count == 0)
+            {
+                MessageBox.Show("등록 가능한 원재료가 없습니다.", "안내", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return null;
+            }
+
+            var typeOptions = GetMenuTypeOptions();
+            RecipeRegisterResult result = null;
+
+            using (var dialog = new Form())
+            {
+                dialog.Text = "메뉴 등록";
+                dialog.Size = new Size(900, 620);
+                dialog.StartPosition = FormStartPosition.CenterParent;
+                dialog.FormBorderStyle = FormBorderStyle.FixedDialog;
+                dialog.MaximizeBox = false;
+                dialog.MinimizeBox = false;
+
+                var mainLayout = new TableLayoutPanel
+                {
+                    Dock = DockStyle.Fill,
+                    RowCount = 3,
+                    ColumnCount = 1,
+                    Padding = new Padding(10),
+                    RowStyles =
+                    {
+                        new RowStyle(SizeType.AutoSize),
+                        new RowStyle(SizeType.Percent, 100),
+                        new RowStyle(SizeType.AutoSize)
+                    }
+                };
+
+                var metaTable = new TableLayoutPanel
+                {
+                    ColumnCount = 4,
+                    RowCount = 3,
+                    Dock = DockStyle.Top,
+                    AutoSize = true,
+                    AutoSizeMode = AutoSizeMode.GrowAndShrink
+                };
+
+                metaTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110));
+                metaTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+                metaTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110));
+                metaTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+                metaTable.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                metaTable.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                metaTable.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+                var lblName = new Label { Text = "메뉴명", Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleLeft, Padding = new Padding(0, 3, 0, 0) };
+                var txtName = new TextBox { Dock = DockStyle.Fill };
+                var lblCode = new Label { Text = "메뉴 코드", Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleLeft, Padding = new Padding(0, 3, 0, 0) };
+                var txtCode = new TextBox { Dock = DockStyle.Fill };
+                var lblType = new Label { Text = "분류", Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleLeft, Padding = new Padding(0, 3, 0, 0) };
+                var cmbType = new ComboBox { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDown };
+                cmbType.Items.AddRange(typeOptions.Cast<object>().ToArray());
+                var lblServing = new Label { Text = "1인 제공량(g)", Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleLeft, Padding = new Padding(0, 3, 0, 0) };
+                var nudServing = new NumericUpDown { Dock = DockStyle.Fill, DecimalPlaces = 1, Minimum = 1, Maximum = 100000, Increment = 1, Value = 100 };
+                var chkActive = new CheckBox { Text = "사용", Dock = DockStyle.Fill, Checked = true, AutoSize = true };
+
+                metaTable.Controls.Add(lblName, 0, 0);
+                metaTable.Controls.Add(txtName, 1, 0);
+                metaTable.Controls.Add(lblCode, 2, 0);
+                metaTable.Controls.Add(txtCode, 3, 0);
+                metaTable.Controls.Add(lblType, 0, 1);
+                metaTable.Controls.Add(cmbType, 1, 1);
+                metaTable.Controls.Add(lblServing, 2, 1);
+                metaTable.Controls.Add(nudServing, 3, 1);
+
+                var listsLayout = new TableLayoutPanel
+                {
+                    ColumnCount = 3,
+                    RowCount = 1,
+                    Dock = DockStyle.Fill
+                };
+                listsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45));
+                listsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 140));
+                listsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55));
+
+                var lvRaw = new ListView
+                {
+                    View = View.Details,
+                    FullRowSelect = true,
+                    MultiSelect = false,
+                    HideSelection = false,
+                    Dock = DockStyle.Fill,
+                    GridLines = true
+                };
+                lvRaw.Columns.Add("원재료", 200);
+                lvRaw.Columns.Add("단위", 80);
+
+                foreach (var raw in rawOptions)
+                {
+                    var item = new ListViewItem(raw.RawName);
+                    item.SubItems.Add(string.IsNullOrWhiteSpace(raw.PurchaseUnit) ? "-" : raw.PurchaseUnit);
+                    item.Tag = raw;
+                    lvRaw.Items.Add(item);
+                }
+
+                var lvSelected = new ListView
+                {
+                    View = View.Details,
+                    FullRowSelect = true,
+                    MultiSelect = false,
+                    HideSelection = false,
+                    Dock = DockStyle.Fill,
+                    GridLines = true
+                };
+                lvSelected.Columns.Add("구성 원재료", 220);
+                lvSelected.Columns.Add("사용량(g)", 100, HorizontalAlignment.Right);
+
+                var actionLayout = new TableLayoutPanel
+                {
+                    ColumnCount = 1,
+                    RowCount = 5,
+                    Dock = DockStyle.Fill,
+                    RowStyles =
+                    {
+                        new RowStyle(SizeType.Percent, 100),
+                        new RowStyle(SizeType.AutoSize),
+                        new RowStyle(SizeType.AutoSize),
+                        new RowStyle(SizeType.AutoSize),
+                        new RowStyle(SizeType.Percent, 0)
+                    }
+                };
+
+                var lblQty = new Label { Text = "사용량(g)", Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Padding = new Padding(0, 6, 0, 6) };
+                var nudQty = new NumericUpDown { DecimalPlaces = 2, Minimum = 0, Maximum = 100000, Increment = 1, Dock = DockStyle.Top, Width = 120 };
+                var btnAdd = new Button { Text = "추가 →", Dock = DockStyle.Top, Height = 32 };
+                var btnRemove = new Button { Text = "← 빼기", Dock = DockStyle.Top, Height = 32 };
+
+                void AddSelectedRaw()
+                {
+                    if (lvRaw.SelectedItems.Count == 0)
+                    {
+                        MessageBox.Show("추가할 원재료를 선택해 주세요.", "안내", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+
+                    var raw = lvRaw.SelectedItems[0].Tag as RawMaterialOption;
+                    if (raw == null)
+                    {
+                        return;
+                    }
+
+                    var qty = nudQty.Value;
+                    if (qty <= 0)
+                    {
+                        MessageBox.Show("사용량을 입력해 주세요.", "안내", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+
+                    var existing = lvSelected.Items.Cast<ListViewItem>()
+                        .FirstOrDefault(i => (i.Tag as RecipeComponentInput)?.RawId == raw.RawId);
+                    if (existing != null)
+                    {
+                        var comp = existing.Tag as RecipeComponentInput;
+                        if (comp != null)
+                        {
+                            comp.QuantityGram = qty;
+                            existing.SubItems[1].Text = FormatQuantity(qty);
+                        }
+                    }
+                    else
+                    {
+                        var comp = new RecipeComponentInput
+                        {
+                            RawId = raw.RawId,
+                            RawName = raw.RawName,
+                            Unit = raw.PurchaseUnit,
+                            QuantityGram = qty
+                        };
+                        var item = new ListViewItem(comp.RawName) { Tag = comp };
+                        item.SubItems.Add(FormatQuantity(comp.QuantityGram));
+                        lvSelected.Items.Add(item);
+                    }
+                }
+
+                void RemoveSelectedRaw()
+                {
+                    if (lvSelected.SelectedItems.Count == 0)
+                    {
+                        return;
+                    }
+
+                    lvSelected.Items.Remove(lvSelected.SelectedItems[0]);
+                }
+
+                btnAdd.Click += (s, e) => AddSelectedRaw();
+                btnRemove.Click += (s, e) => RemoveSelectedRaw();
+                lvRaw.DoubleClick += (s, e) => AddSelectedRaw();
+                lvSelected.DoubleClick += (s, e) => RemoveSelectedRaw();
+
+                actionLayout.Controls.Add(new Panel(), 0, 0);
+                actionLayout.Controls.Add(lblQty, 0, 1);
+                actionLayout.Controls.Add(nudQty, 0, 2);
+                actionLayout.Controls.Add(btnAdd, 0, 3);
+                actionLayout.Controls.Add(btnRemove, 0, 4);
+
+                listsLayout.Controls.Add(lvRaw, 0, 0);
+                listsLayout.Controls.Add(actionLayout, 1, 0);
+                listsLayout.Controls.Add(lvSelected, 2, 0);
+
+                var buttonPanel = new FlowLayoutPanel
+                {
+                    FlowDirection = FlowDirection.RightToLeft,
+                    Dock = DockStyle.Fill,
+                    Padding = new Padding(0, 8, 0, 0),
+                    AutoSize = true
+                };
+
+                var btnOk = new Button { Text = "등록", Width = 100, DialogResult = DialogResult.OK };
+                var btnCancel = new Button { Text = "취소", Width = 100, DialogResult = DialogResult.Cancel };
+                buttonPanel.Controls.Add(btnOk);
+                buttonPanel.Controls.Add(btnCancel);
+
+                dialog.AcceptButton = btnOk;
+                dialog.CancelButton = btnCancel;
+
+                btnOk.Click += (s, e) =>
+                {
+                    var name = txtName.Text?.Trim();
+                    var code = txtCode.Text?.Trim();
+                    var type = cmbType.Text?.Trim();
+                    var serving = nudServing.Value;
+
+                    if (string.IsNullOrWhiteSpace(name))
+                    {
+                        MessageBox.Show("메뉴명을 입력해 주세요.", "안내", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        dialog.DialogResult = DialogResult.None;
+                        return;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(code))
+                    {
+                        MessageBox.Show("메뉴 코드를 입력해 주세요.", "안내", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        dialog.DialogResult = DialogResult.None;
+                        return;
+                    }
+
+                    if (lvSelected.Items.Count == 0)
+                    {
+                        MessageBox.Show("사용할 원재료를 추가해 주세요.", "안내", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        dialog.DialogResult = DialogResult.None;
+                        return;
+                    }
+
+                    result = new RecipeRegisterResult
+                    {
+                        MenuName = name,
+                        MenuCode = code,
+                        MenuType = string.IsNullOrWhiteSpace(type) ? "OTHER" : type,
+                        ServingSize = serving,
+                        IsActive = chkActive.Checked,
+                        Components = lvSelected.Items.Cast<ListViewItem>()
+                            .Select(item => item.Tag as RecipeComponentInput)
+                            .Where(comp => comp != null)
+                            .Select(comp => new RecipeComponentInput
+                            {
+                                RawId = comp.RawId,
+                                RawName = comp.RawName,
+                                Unit = comp.Unit,
+                                QuantityGram = comp.QuantityGram
+                            })
+                            .ToList()
+                    };
+
+                    if (result.Components.Count == 0)
+                    {
+                        MessageBox.Show("사용할 원재료를 추가해 주세요.", "안내", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        dialog.DialogResult = DialogResult.None;
+                    }
+                };
+
+                mainLayout.Controls.Add(metaTable, 0, 0);
+                mainLayout.Controls.Add(listsLayout, 0, 1);
+                mainLayout.Controls.Add(buttonPanel, 0, 2);
+                dialog.Controls.Add(mainLayout);
+                chkActive.Anchor = AnchorStyles.Left;
+                metaTable.Controls.Add(chkActive, 0, 2);
+                metaTable.SetColumnSpan(chkActive, 4);
+                chkActive.Margin = new Padding(0, 6, 0, 0);
+
+                dialog.ShowDialog(this);
+            }
+
+            return result;
+        }
+
+        private void SaveNewRecipe(RecipeRegisterResult result)
+        {
+            if (result == null || result.Components == null || result.Components.Count == 0)
+            {
+                return;
+            }
+
+            using (var conn = new OracleConnection(DatabaseConfig.ConnectionString))
+            {
+                conn.Open();
+                using (var tx = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        var finalMenuId = GetNextId(conn, tx, "FinalMenu", "FinalMenuID");
+                        using (var cmd = conn.CreateCommand())
+                        {
+                            cmd.Transaction = tx;
+                            cmd.BindByName = true;
+                            cmd.CommandText =
+                                "INSERT INTO FinalMenu (FinalMenuID, MenuCode, MenuName, MenuType, ServingSizeGram, ActiveFlag) " +
+                                "VALUES (:ID, :CODE, :NAME, :TYPE, :SERVING, :ACTIVE)";
+                            cmd.Parameters.Add(new OracleParameter("ID", finalMenuId));
+                            cmd.Parameters.Add(new OracleParameter("CODE", result.MenuCode));
+                            cmd.Parameters.Add(new OracleParameter("NAME", result.MenuName));
+                            cmd.Parameters.Add(new OracleParameter("TYPE", result.MenuType));
+                            cmd.Parameters.Add(new OracleParameter("SERVING", result.ServingSize));
+                            cmd.Parameters.Add(new OracleParameter("ACTIVE", result.IsActive ? "Y" : "N"));
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        var nextMenuCompId = GetNextId(conn, tx, "MenuComp", "MenuCompID");
+                        foreach (var comp in result.Components)
+                        {
+                            using (var cmd = conn.CreateCommand())
+                            {
+                                cmd.Transaction = tx;
+                                cmd.BindByName = true;
+                                cmd.CommandText =
+                                    "INSERT INTO MenuComp (MenuCompID, FinalMenuID, ComponentType, ComponentRawID, ComponentIngredientID, QuantityPerServing) " +
+                                    "VALUES (:ID, :FINALID, 'R', :RAWID, NULL, :QTY)";
+                                cmd.Parameters.Add(new OracleParameter("ID", nextMenuCompId++));
+                                cmd.Parameters.Add(new OracleParameter("FINALID", finalMenuId));
+                                cmd.Parameters.Add(new OracleParameter("RAWID", comp.RawId));
+                                cmd.Parameters.Add(new OracleParameter("QTY", comp.QuantityGram));
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+
+                        tx.Commit();
+                    }
+                    catch
+                    {
+                        tx.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+
+        private List<RawMaterialOption> LoadRawMaterialOptions()
+        {
+            const string sql =
+                "SELECT RawID, RawName, PurchaseUnit " +
+                "FROM RawMaterial WHERE NVL(ActiveFlag, 'Y') = 'Y' ORDER BY RawName";
+            var table = ExecuteDataTable(sql);
+            var list = new List<RawMaterialOption>();
+            foreach (DataRow row in table.Rows)
+            {
+                var rawId = ToInt(row["RAWID"]);
+                if (rawId <= 0)
+                {
+                    continue;
+                }
+
+                list.Add(new RawMaterialOption(
+                    rawId,
+                    row["RAWNAME"]?.ToString() ?? string.Empty,
+                    row["PURCHASEUNIT"]?.ToString() ?? string.Empty));
+            }
+
+            return list;
+        }
+
+        private List<string> GetMenuTypeOptions()
+        {
+            var options = new List<string>();
+            if (_recipeTable != null)
+            {
+                options.AddRange(_recipeTable.AsEnumerable()
+                    .Select(r => r["MENUTYPE"]?.ToString())
+                    .Where(type => !string.IsNullOrWhiteSpace(type)));
+            }
+
+            options.AddRange(DefaultMenuTypes);
+            return options
+                .Where(type => !string.IsNullOrWhiteSpace(type))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .OrderBy(type => type)
+                .ToList();
+        }
+
+        private static string FormatQuantity(decimal value)
+        {
+            return value.ToString("0.###");
+        }
+
+        private static int GetNextId(OracleConnection conn, OracleTransaction tx, string tableName, string columnName)
+        {
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.Transaction = tx;
+                cmd.CommandText = $"SELECT NVL(MAX({columnName}), 0) + 1 FROM {tableName}";
+                var result = cmd.ExecuteScalar();
+                return result == null || result == DBNull.Value ? 1 : Convert.ToInt32(result);
+            }
         }
 
         private void InitializeRecipeComponentContextMenu()

@@ -28,5 +28,10 @@ namespace nutritionist.Tabs
         {
 
         }
+
+        private void grpShortage_Enter(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }

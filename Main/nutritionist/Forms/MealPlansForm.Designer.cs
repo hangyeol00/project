@@ -662,10 +662,10 @@ namespace nutritionist.Forms
             this.lstAvailableMenus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstAvailableMenus.FormattingEnabled = true;
             this.lstAvailableMenus.ItemHeight = 18;
-            this.lstAvailableMenus.Location = new System.Drawing.Point(4, 194);
+            this.lstAvailableMenus.Location = new System.Drawing.Point(4, 192);
             this.lstAvailableMenus.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.lstAvailableMenus.Name = "lstAvailableMenus";
-            this.lstAvailableMenus.Size = new System.Drawing.Size(283, 356);
+            this.lstAvailableMenus.Size = new System.Drawing.Size(283, 358);
             this.lstAvailableMenus.TabIndex = 4;
             // 
             // tableMealBuilder

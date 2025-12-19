@@ -25,6 +25,10 @@ namespace nutritionist
         private void InitializeLayout()
         {
             ConfigureGrid(dgvPurchaseRequests);
+            if (dgvPurchaseRequests != null)
+            {
+                dgvPurchaseRequests.CellFormatting += DgvPurchaseRequests_CellFormatting;
+            }
             if (txtRawName != null) txtRawName.ReadOnly = true;
             if (txtDetails != null) txtDetails.ReadOnly = true;
             if (txtStatus != null) txtStatus.ReadOnly = true;
@@ -151,7 +155,8 @@ namespace nutritionist
                 var status = row?["Status"]?.ToString() ?? string.Empty;
                 var requestedBy = row?["RequestedByName"]?.ToString() ?? string.Empty;
                 var requestedDate = row?["RequestedDate"]?.ToString() ?? string.Empty;
-                txtStatus.Text = $"상태: {status}, 요청자: {requestedBy}, 요청일: {requestedDate}";
+                var statusDisplay = GetStatusDisplay(status);
+                txtStatus.Text = $"상태: {statusDisplay}, 요청자: {requestedBy}, 요청일: {requestedDate}";
             }
         }
 
@@ -307,6 +312,52 @@ namespace nutritionist
                 dgv.Columns["APPROVEDBYNAME"].HeaderText = "승인자";
             if (dgv.Columns["REMARK"] != null)
                 dgv.Columns["REMARK"].HeaderText = "비고";
+        }
+
+        private static string GetStatusDisplay(string status)
+        {
+            if (string.IsNullOrWhiteSpace(status))
+            {
+                return "-";
+            }
+
+            switch (status.Trim().ToUpperInvariant())
+            {
+                case PurchaseStatusRequested:
+                    return "승인 대기";
+                case PurchaseStatusApproved:
+                    return "승인 완료";
+                case PurchaseStatusRejected:
+                    return "반려";
+                case "RECEIVED":
+                case "DELIVERED":
+                    return "입고 완료";
+                case "ORDERED":
+                    return "발주 완료";
+                case "CANCELLED":
+                case "CANCELED":
+                    return "취소";
+                default:
+                    return status;
+            }
+        }
+
+        private void DgvPurchaseRequests_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgvPurchaseRequests == null || e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+
+            var column = dgvPurchaseRequests.Columns[e.ColumnIndex];
+            if (column == null || !string.Equals(column.Name, "STATUS", StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            var display = GetStatusDisplay(e.Value?.ToString());
+            e.Value = display;
+            e.FormattingApplied = true;
         }
 
         private static DataRow GetDataRowFromGrid(DataGridViewRow row)
