@@ -24,6 +24,7 @@ namespace nutritionist.Tabs
 
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.layoutDashboard = new System.Windows.Forms.TableLayoutPanel();
             this.grpSummary = new System.Windows.Forms.GroupBox();
             this.lblCurrentServeDate = new System.Windows.Forms.Label();
@@ -35,17 +36,18 @@ namespace nutritionist.Tabs
             this.lblTotalStudentValue = new System.Windows.Forms.Label();
             this.lblTotalStudent = new System.Windows.Forms.Label();
             this.grpTodayMeals = new System.Windows.Forms.GroupBox();
-            this.dgvTodayMeals = new System.Windows.Forms.DataGridView();
+            this.dgvTodayMealBoard = new System.Windows.Forms.DataGridView();
+            this.colTodayMealBoard = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grpTodayRaw = new System.Windows.Forms.GroupBox();
-            this.dgvTodayRawNeeds = new System.Windows.Forms.DataGridView();
+            this.lvTodayRawNeeds = new System.Windows.Forms.ListView();
             this.grpShortage = new System.Windows.Forms.GroupBox();
-            this.dgvShortageRaw = new System.Windows.Forms.DataGridView();
+            this.lvShortageRaw = new System.Windows.Forms.ListView();
             this.grpMealLogs = new System.Windows.Forms.GroupBox();
-            this.dgvMealLogs = new System.Windows.Forms.DataGridView();
+            this.lvMealLogs = new System.Windows.Forms.ListView();
             this.grpStudents = new System.Windows.Forms.GroupBox();
-            this.dgvStudents = new System.Windows.Forms.DataGridView();
+            this.lvRawMaterials = new System.Windows.Forms.ListView();
             this.grpMenus = new System.Windows.Forms.GroupBox();
-            this.dgvMenus = new System.Windows.Forms.DataGridView();
+            this.lvMenus = new System.Windows.Forms.ListView();
             this.grpAction = new System.Windows.Forms.GroupBox();
             this.btnCancelMeal = new System.Windows.Forms.Button();
             this.btnServeMeal = new System.Windows.Forms.Button();
@@ -53,18 +55,13 @@ namespace nutritionist.Tabs
             this.lblStudentId = new System.Windows.Forms.Label();
             this.layoutDashboard.SuspendLayout();
             this.grpSummary.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTodayMeals)).BeginInit();
             this.grpTodayMeals.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTodayRawNeeds)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTodayMealBoard)).BeginInit();
             this.grpTodayRaw.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvShortageRaw)).BeginInit();
             this.grpShortage.SuspendLayout();
             this.grpMealLogs.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvMealLogs)).BeginInit();
             this.grpStudents.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvStudents)).BeginInit();
             this.grpMenus.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvMenus)).BeginInit();
             this.grpAction.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -194,7 +191,7 @@ namespace nutritionist.Tabs
             // 
             // grpTodayMeals
             // 
-            this.grpTodayMeals.Controls.Add(this.dgvTodayMeals);
+            this.grpTodayMeals.Controls.Add(this.dgvTodayMealBoard);
             this.grpTodayMeals.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpTodayMeals.Font = new System.Drawing.Font("Malgun Gothic", 9F);
             this.grpTodayMeals.Location = new System.Drawing.Point(3, 82);
@@ -206,27 +203,42 @@ namespace nutritionist.Tabs
             this.grpTodayMeals.TabStop = false;
             this.grpTodayMeals.Text = "오늘의 식단";
             // 
-            // dgvTodayMeals
+            // dgvTodayMealBoard
             // 
-            this.dgvTodayMeals.AllowUserToAddRows = false;
-            this.dgvTodayMeals.AllowUserToDeleteRows = false;
-            this.dgvTodayMeals.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvTodayMeals.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTodayMeals.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvTodayMeals.Location = new System.Drawing.Point(3, 18);
-            this.dgvTodayMeals.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dgvTodayMeals.MultiSelect = false;
-            this.dgvTodayMeals.Name = "dgvTodayMeals";
-            this.dgvTodayMeals.ReadOnly = true;
-            this.dgvTodayMeals.RowHeadersWidth = 51;
-            this.dgvTodayMeals.RowTemplate.Height = 27;
-            this.dgvTodayMeals.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTodayMeals.Size = new System.Drawing.Size(457, 109);
-            this.dgvTodayMeals.TabIndex = 0;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvTodayMealBoard.AllowUserToAddRows = false;
+            this.dgvTodayMealBoard.AllowUserToDeleteRows = false;
+            this.dgvTodayMealBoard.AllowUserToResizeColumns = false;
+            this.dgvTodayMealBoard.AllowUserToResizeRows = false;
+            this.dgvTodayMealBoard.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvTodayMealBoard.BackgroundColor = System.Drawing.Color.White;
+            this.dgvTodayMealBoard.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTodayMealBoard.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colTodayMealBoard});
+            this.dgvTodayMealBoard.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvTodayMealBoard.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvTodayMealBoard.Location = new System.Drawing.Point(3, 18);
+            this.dgvTodayMealBoard.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dgvTodayMealBoard.MultiSelect = false;
+            this.dgvTodayMealBoard.Name = "dgvTodayMealBoard";
+            this.dgvTodayMealBoard.ReadOnly = true;
+            this.dgvTodayMealBoard.RowHeadersVisible = false;
+            this.dgvTodayMealBoard.RowTemplate.Height = 80;
+            this.dgvTodayMealBoard.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgvTodayMealBoard.Size = new System.Drawing.Size(457, 109);
+            this.dgvTodayMealBoard.TabIndex = 0;
+            // 
+            // colTodayMealBoard
+            // 
+            this.colTodayMealBoard.HeaderText = "오늘의 식단";
+            this.colTodayMealBoard.MinimumWidth = 8;
+            this.colTodayMealBoard.Name = "colTodayMealBoard";
+            this.colTodayMealBoard.ReadOnly = true;
             // 
             // grpTodayRaw
             // 
-            this.grpTodayRaw.Controls.Add(this.dgvTodayRawNeeds);
+            this.grpTodayRaw.Controls.Add(this.lvTodayRawNeeds);
             this.grpTodayRaw.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpTodayRaw.Font = new System.Drawing.Font("Malgun Gothic", 9F);
             this.grpTodayRaw.Location = new System.Drawing.Point(474, 82);
@@ -238,27 +250,23 @@ namespace nutritionist.Tabs
             this.grpTodayRaw.TabStop = false;
             this.grpTodayRaw.Text = "오늘 필요한 원재료";
             // 
-            // dgvTodayRawNeeds
+            // lvTodayRawNeeds
             // 
-            this.dgvTodayRawNeeds.AllowUserToAddRows = false;
-            this.dgvTodayRawNeeds.AllowUserToDeleteRows = false;
-            this.dgvTodayRawNeeds.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvTodayRawNeeds.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTodayRawNeeds.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvTodayRawNeeds.Location = new System.Drawing.Point(3, 18);
-            this.dgvTodayRawNeeds.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dgvTodayRawNeeds.MultiSelect = false;
-            this.dgvTodayRawNeeds.Name = "dgvTodayRawNeeds";
-            this.dgvTodayRawNeeds.ReadOnly = true;
-            this.dgvTodayRawNeeds.RowHeadersWidth = 51;
-            this.dgvTodayRawNeeds.RowTemplate.Height = 27;
-            this.dgvTodayRawNeeds.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTodayRawNeeds.Size = new System.Drawing.Size(461, 109);
-            this.dgvTodayRawNeeds.TabIndex = 0;
+            this.lvTodayRawNeeds.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvTodayRawNeeds.FullRowSelect = true;
+            this.lvTodayRawNeeds.HideSelection = false;
+            this.lvTodayRawNeeds.Location = new System.Drawing.Point(3, 18);
+            this.lvTodayRawNeeds.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.lvTodayRawNeeds.MultiSelect = false;
+            this.lvTodayRawNeeds.Name = "lvTodayRawNeeds";
+            this.lvTodayRawNeeds.Size = new System.Drawing.Size(461, 109);
+            this.lvTodayRawNeeds.TabIndex = 0;
+            this.lvTodayRawNeeds.UseCompatibleStateImageBehavior = false;
+            this.lvTodayRawNeeds.View = System.Windows.Forms.View.Details;
             // 
             // grpShortage
             // 
-            this.grpShortage.Controls.Add(this.dgvShortageRaw);
+            this.grpShortage.Controls.Add(this.lvShortageRaw);
             this.grpShortage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpShortage.Font = new System.Drawing.Font("Malgun Gothic", 9F);
             this.grpShortage.Location = new System.Drawing.Point(3, 215);
@@ -270,27 +278,23 @@ namespace nutritionist.Tabs
             this.grpShortage.TabStop = false;
             this.grpShortage.Text = "발주 대기 / 부족 원재료";
             // 
-            // dgvShortageRaw
+            // lvShortageRaw
             // 
-            this.dgvShortageRaw.AllowUserToAddRows = false;
-            this.dgvShortageRaw.AllowUserToDeleteRows = false;
-            this.dgvShortageRaw.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvShortageRaw.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvShortageRaw.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvShortageRaw.Location = new System.Drawing.Point(3, 18);
-            this.dgvShortageRaw.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dgvShortageRaw.MultiSelect = false;
-            this.dgvShortageRaw.Name = "dgvShortageRaw";
-            this.dgvShortageRaw.ReadOnly = true;
-            this.dgvShortageRaw.RowHeadersWidth = 51;
-            this.dgvShortageRaw.RowTemplate.Height = 27;
-            this.dgvShortageRaw.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvShortageRaw.Size = new System.Drawing.Size(457, 109);
-            this.dgvShortageRaw.TabIndex = 0;
+            this.lvShortageRaw.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvShortageRaw.FullRowSelect = true;
+            this.lvShortageRaw.HideSelection = false;
+            this.lvShortageRaw.Location = new System.Drawing.Point(3, 18);
+            this.lvShortageRaw.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.lvShortageRaw.MultiSelect = false;
+            this.lvShortageRaw.Name = "lvShortageRaw";
+            this.lvShortageRaw.Size = new System.Drawing.Size(457, 109);
+            this.lvShortageRaw.TabIndex = 0;
+            this.lvShortageRaw.UseCompatibleStateImageBehavior = false;
+            this.lvShortageRaw.View = System.Windows.Forms.View.Details;
             // 
             // grpMealLogs
             // 
-            this.grpMealLogs.Controls.Add(this.dgvMealLogs);
+            this.grpMealLogs.Controls.Add(this.lvMealLogs);
             this.grpMealLogs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpMealLogs.Font = new System.Drawing.Font("Malgun Gothic", 9F);
             this.grpMealLogs.Location = new System.Drawing.Point(474, 215);
@@ -302,27 +306,23 @@ namespace nutritionist.Tabs
             this.grpMealLogs.TabStop = false;
             this.grpMealLogs.Text = "식단 계획 승인 현황";
             // 
-            // dgvMealLogs
+            // lvMealLogs
             // 
-            this.dgvMealLogs.AllowUserToAddRows = false;
-            this.dgvMealLogs.AllowUserToDeleteRows = false;
-            this.dgvMealLogs.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvMealLogs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMealLogs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvMealLogs.Location = new System.Drawing.Point(3, 18);
-            this.dgvMealLogs.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dgvMealLogs.MultiSelect = false;
-            this.dgvMealLogs.Name = "dgvMealLogs";
-            this.dgvMealLogs.ReadOnly = true;
-            this.dgvMealLogs.RowHeadersWidth = 51;
-            this.dgvMealLogs.RowTemplate.Height = 27;
-            this.dgvMealLogs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMealLogs.Size = new System.Drawing.Size(461, 109);
-            this.dgvMealLogs.TabIndex = 0;
+            this.lvMealLogs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvMealLogs.FullRowSelect = true;
+            this.lvMealLogs.HideSelection = false;
+            this.lvMealLogs.Location = new System.Drawing.Point(3, 18);
+            this.lvMealLogs.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.lvMealLogs.MultiSelect = false;
+            this.lvMealLogs.Name = "lvMealLogs";
+            this.lvMealLogs.Size = new System.Drawing.Size(461, 109);
+            this.lvMealLogs.TabIndex = 0;
+            this.lvMealLogs.UseCompatibleStateImageBehavior = false;
+            this.lvMealLogs.View = System.Windows.Forms.View.Details;
             // 
             // grpStudents
             // 
-            this.grpStudents.Controls.Add(this.dgvStudents);
+            this.grpStudents.Controls.Add(this.lvRawMaterials);
             this.grpStudents.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpStudents.Font = new System.Drawing.Font("Malgun Gothic", 9F);
             this.grpStudents.Location = new System.Drawing.Point(3, 348);
@@ -334,27 +334,23 @@ namespace nutritionist.Tabs
             this.grpStudents.TabStop = false;
             this.grpStudents.Text = "원재료 목록";
             // 
-            // dgvStudents
+            // lvRawMaterials
             // 
-            this.dgvStudents.AllowUserToAddRows = false;
-            this.dgvStudents.AllowUserToDeleteRows = false;
-            this.dgvStudents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvStudents.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvStudents.Location = new System.Drawing.Point(3, 18);
-            this.dgvStudents.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dgvStudents.MultiSelect = false;
-            this.dgvStudents.Name = "dgvStudents";
-            this.dgvStudents.ReadOnly = true;
-            this.dgvStudents.RowHeadersWidth = 51;
-            this.dgvStudents.RowTemplate.Height = 27;
-            this.dgvStudents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvStudents.Size = new System.Drawing.Size(457, 115);
-            this.dgvStudents.TabIndex = 0;
+            this.lvRawMaterials.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvRawMaterials.FullRowSelect = true;
+            this.lvRawMaterials.HideSelection = false;
+            this.lvRawMaterials.Location = new System.Drawing.Point(3, 18);
+            this.lvRawMaterials.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.lvRawMaterials.MultiSelect = false;
+            this.lvRawMaterials.Name = "lvRawMaterials";
+            this.lvRawMaterials.Size = new System.Drawing.Size(457, 115);
+            this.lvRawMaterials.TabIndex = 0;
+            this.lvRawMaterials.UseCompatibleStateImageBehavior = false;
+            this.lvRawMaterials.View = System.Windows.Forms.View.Details;
             // 
             // grpMenus
             // 
-            this.grpMenus.Controls.Add(this.dgvMenus);
+            this.grpMenus.Controls.Add(this.lvMenus);
             this.grpMenus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpMenus.Font = new System.Drawing.Font("Malgun Gothic", 9F);
             this.grpMenus.Location = new System.Drawing.Point(474, 348);
@@ -366,23 +362,19 @@ namespace nutritionist.Tabs
             this.grpMenus.TabStop = false;
             this.grpMenus.Text = "최종 메뉴";
             // 
-            // dgvMenus
+            // lvMenus
             // 
-            this.dgvMenus.AllowUserToAddRows = false;
-            this.dgvMenus.AllowUserToDeleteRows = false;
-            this.dgvMenus.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvMenus.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMenus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvMenus.Location = new System.Drawing.Point(3, 18);
-            this.dgvMenus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dgvMenus.MultiSelect = false;
-            this.dgvMenus.Name = "dgvMenus";
-            this.dgvMenus.ReadOnly = true;
-            this.dgvMenus.RowHeadersWidth = 51;
-            this.dgvMenus.RowTemplate.Height = 27;
-            this.dgvMenus.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMenus.Size = new System.Drawing.Size(461, 115);
-            this.dgvMenus.TabIndex = 0;
+            this.lvMenus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvMenus.FullRowSelect = true;
+            this.lvMenus.HideSelection = false;
+            this.lvMenus.Location = new System.Drawing.Point(3, 18);
+            this.lvMenus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.lvMenus.MultiSelect = false;
+            this.lvMenus.Name = "lvMenus";
+            this.lvMenus.Size = new System.Drawing.Size(461, 115);
+            this.lvMenus.TabIndex = 0;
+            this.lvMenus.UseCompatibleStateImageBehavior = false;
+            this.lvMenus.View = System.Windows.Forms.View.Details;
             // 
             // grpAction
             // 
@@ -424,7 +416,6 @@ namespace nutritionist.Tabs
             this.btnServeMeal.Text = "식단 계획 등록";
             this.btnServeMeal.UseVisualStyleBackColor = true;
             // 
-            // 
             // txtStudentId
             // 
             this.txtStudentId.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -459,17 +450,12 @@ namespace nutritionist.Tabs
             this.grpSummary.ResumeLayout(false);
             this.grpSummary.PerformLayout();
             this.grpTodayMeals.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTodayMeals)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTodayMealBoard)).EndInit();
             this.grpTodayRaw.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTodayRawNeeds)).EndInit();
             this.grpShortage.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvShortageRaw)).EndInit();
             this.grpMealLogs.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvMealLogs)).EndInit();
             this.grpStudents.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvStudents)).EndInit();
             this.grpMenus.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvMenus)).EndInit();
             this.grpAction.ResumeLayout(false);
             this.grpAction.PerformLayout();
             this.ResumeLayout(false);
@@ -489,17 +475,18 @@ namespace nutritionist.Tabs
         internal System.Windows.Forms.Label lblTotalStudentValue;
         internal System.Windows.Forms.Label lblTotalStudent;
         internal System.Windows.Forms.GroupBox grpTodayMeals;
-        internal System.Windows.Forms.DataGridView dgvTodayMeals;
+        internal System.Windows.Forms.DataGridView dgvTodayMealBoard;
+        internal System.Windows.Forms.DataGridViewTextBoxColumn colTodayMealBoard;
         internal System.Windows.Forms.GroupBox grpTodayRaw;
-        internal System.Windows.Forms.DataGridView dgvTodayRawNeeds;
+        internal System.Windows.Forms.ListView lvTodayRawNeeds;
         internal System.Windows.Forms.GroupBox grpShortage;
-        internal System.Windows.Forms.DataGridView dgvShortageRaw;
+        internal System.Windows.Forms.ListView lvShortageRaw;
         internal System.Windows.Forms.GroupBox grpMealLogs;
-        internal System.Windows.Forms.DataGridView dgvMealLogs;
+        internal System.Windows.Forms.ListView lvMealLogs;
         internal System.Windows.Forms.GroupBox grpStudents;
-        internal System.Windows.Forms.DataGridView dgvStudents;
+        internal System.Windows.Forms.ListView lvRawMaterials;
         internal System.Windows.Forms.GroupBox grpMenus;
-        internal System.Windows.Forms.DataGridView dgvMenus;
+        internal System.Windows.Forms.ListView lvMenus;
         internal System.Windows.Forms.GroupBox grpAction;
         internal System.Windows.Forms.Button btnCancelMeal;
         internal System.Windows.Forms.Button btnServeMeal;

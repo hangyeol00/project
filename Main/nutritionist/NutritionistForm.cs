@@ -65,18 +65,6 @@ namespace nutritionist
         private DateTime? _currentPlanEnd;
         private ContextMenuStrip _allergyAlertMenu;
         private ToolStripMenuItem _menuAssignAlternative;
-        private static readonly Dictionary<string, string> RawColumnHeaders = new Dictionary<string, string>
-        {
-            { "ITEMTYPE", "구분" },
-            { "RAWNAME", "명칭" },
-            { "CATEGORYNAME", "분류" },
-            { "PURCHASEUNIT", "단위" },
-            { "BASEUNITQTY", "기준량" },
-            { "UNITGRAMQTY", "1단위(g)" },
-            { "STORAGETYPE", "보관 방식" },
-            { "SHELFLIFEDAYS", "유통기한(일)" },
-            { "ACTIVEFLAG", "사용 여부" }
-        };
         private const int DefaultMealPortion = 100;
         private static readonly string[] WeekdayNames = { "월", "화", "수", "목", "금" };
 
@@ -94,21 +82,22 @@ namespace nutritionist
         private NutritionDashboardControl Dashboard => dashboardTabControl;
         private TableLayoutPanel layoutDashboard => Dashboard?.layoutDashboard;
         private GroupBox grpTodayMeals => Dashboard?.grpTodayMeals;
-        private DataGridView dgvTodayMeals => Dashboard?.dgvTodayMeals;
+        private DataGridView dgvTodayMealBoard => Dashboard?.dgvTodayMealBoard;
         private GroupBox grpTodayRaw => Dashboard?.grpTodayRaw;
-        private DataGridView dgvTodayRawNeeds => Dashboard?.dgvTodayRawNeeds;
+        private ListView lvTodayRawNeeds => Dashboard?.lvTodayRawNeeds;
         private GroupBox grpShortage => Dashboard?.grpShortage;
-        private DataGridView dgvShortageRaw => Dashboard?.dgvShortageRaw;
+        private ListView lvShortageRaw => Dashboard?.lvShortageRaw;
         private GroupBox grpMealLogs => Dashboard?.grpMealLogs;
+        private ListView lvMealLogs => Dashboard?.lvMealLogs;
         private GroupBox grpAction => Dashboard?.grpAction;
         private Button btnCancelMeal => Dashboard?.btnCancelMeal;
         private Button btnServeMeal => Dashboard?.btnServeMeal;
         private TextBox txtStudentId => Dashboard?.txtStudentId;
         private Label lblStudentId => Dashboard?.lblStudentId;
         private GroupBox grpMenus => Dashboard?.grpMenus;
-        private DataGridView dgvMenus => Dashboard?.dgvMenus;
+        private ListView lvMenus => Dashboard?.lvMenus;
         private GroupBox grpStudents => Dashboard?.grpStudents;
-        private DataGridView dgvStudents => Dashboard?.dgvStudents;
+        private ListView lvRawMaterials => Dashboard?.lvRawMaterials;
         private GroupBox grpSummary => Dashboard?.grpSummary;
         private Label lblServeDateTitle => Dashboard?.lblServeDateTitle;
         private Label lblCurrentServeDate => Dashboard?.lblCurrentServeDate;
@@ -167,7 +156,10 @@ namespace nutritionist
             menuAddRaw.Click += MenuAddRaw_Click;
             menuOpenAdmin.Click += MenuOpenAdmin_Click;
             menuExit.Click += MenuExit_Click;
-            dgvStudents.CellClick += DgvStudents_CellClick;
+            if (lvRawMaterials != null)
+            {
+                lvRawMaterials.SelectedIndexChanged += LvRawMaterials_SelectedIndexChanged;
+            }
             dgvIngredients.CellClick += DgvPurchaseRequests_CellClick;
             btnServeMeal.Click += BtnServeMeal_Click;
             btnCancelMeal.Click += BtnCancelMeal_Click;
@@ -177,15 +169,11 @@ namespace nutritionist
 
         private void InitializeLayout()
         {
-            ConfigureGrid(dgvStudents);
-            ConfigureGrid(dgvTodayMeals);
-            ConfigureGrid(dgvTodayRawNeeds);
-            ConfigureGrid(dgvShortageRaw);
-            ConfigureGrid(dgvMenus);
             ConfigureGrid(dgvIngredients);
             ConfigureGrid(dgvEvaluationMenus);
             ConfigureGrid(dgvEvaluationIngredients);
             ConfigureGrid(dgvEvaluationAllergies);
+            ConfigureDashboardViews();
 
             if (dgvEvaluationMenus != null)
             {
@@ -228,7 +216,7 @@ namespace nutritionist
                 _mealPlansForm = new MealPlansForm(_session);
                 HostFormInTab(tabMealPlans, _mealPlansForm);
                 _mealPlansForm.SetDependencies(_session, _recipesForm);
-                _mealPlansForm.MealPlansChanged += LoadSummary;
+                _mealPlansForm.MealPlansChanged += LoadDashboardData;
             }
 
             if (tabControlManagement != null)
@@ -429,8 +417,7 @@ namespace nutritionist
         {
             try
             {
-                LoadSummary();
-                _rawMaterialsForm?.ReloadRawMaterials();
+                LoadDashboardData();
                 LoadRecipesManagement();
                 _mealPlansForm?.ReloadData();
                 LoadEvaluationExplorer();
@@ -499,16 +486,32 @@ namespace nutritionist
             }
         }
 
+        private void LoadDashboardData()
+        {
+            LoadSummary();
+            LoadTodayMealBoard();
+            LoadTodayRawNeeds();
+            LoadPendingPurchaseRequestsSummary();
+            LoadRecentMealLogs();
+            LoadRawMaterials();
+            LoadFinalMenusSummary();
+        }
+
         private void LoadSummary()
         {
-            var totalRaw = ToInt(ExecuteScalar("SELECT COUNT(*) FROM RAWMATERIAL"));
-            var totalMealPlan = ToInt(ExecuteScalar("SELECT COUNT(*) FROM MEALPLAN"));
-            var pendingPurchase = ToInt(
-                ExecuteScalar("SELECT COUNT(*) FROM PURCHASEREQUEST WHERE UPPER(STATUS) <> :STATUS",
-                    new OracleParameter("STATUS", PurchaseStatusApproved)));
+            EnsureSummaryLabels();
 
-            lblTotalStudentValue.Text = totalRaw.ToString();
-            lblTodayMealValue.Text = totalMealPlan.ToString();
+            var totalStudents = ToInt(ExecuteScalar(
+                "SELECT COUNT(*) FROM Consumer WHERE ConsumerType = 'S' AND NVL(Status, 'ACTIVE') = 'ACTIVE'"));
+            var todayMenuCount = ToInt(ExecuteScalar(
+                "SELECT COUNT(*) FROM MealComp mc JOIN Meal m ON m.MealID = mc.MealID WHERE TRUNC(m.MealDate) = TRUNC(:TODAY)",
+                new OracleParameter("TODAY", DateTime.Today)));
+            var pendingPurchase = ToInt(ExecuteScalar(
+                "SELECT COUNT(*) FROM PurchaseRequest WHERE UPPER(NVL(Status, :STATUS)) <> :STATUS",
+                new OracleParameter("STATUS", PurchaseStatusApproved)));
+
+            lblTotalStudentValue.Text = totalStudents.ToString();
+            lblTodayMealValue.Text = todayMenuCount.ToString();
             lblNotMealValue.Text = pendingPurchase.ToString();
             if (lblCurrentServeDate != null)
             {
@@ -516,14 +519,266 @@ namespace nutritionist
             }
         }
 
+        private void EnsureSummaryLabels()
+        {
+            if (lblServeDateTitle != null)
+            {
+                lblServeDateTitle.Text = "기준 일자:";
+            }
+
+            if (lblTotalStudent != null)
+            {
+                lblTotalStudent.Text = "재학생 수:";
+            }
+
+            if (lblTodayMeal != null)
+            {
+                lblTodayMeal.Text = "오늘 메뉴 수:";
+            }
+
+            if (lblNotMeal != null)
+            {
+                lblNotMeal.Text = "미승인 발주:";
+            }
+        }
+
         private void LoadRawMaterials()
         {
             _rawMaterialsForm?.ReloadRawMaterials();
-            if (_rawMaterialsForm?.RawMaterialTable != null)
+            var list = lvRawMaterials;
+            var table = _rawMaterialsForm?.RawMaterialTable;
+            if (list == null || table == null)
             {
-                dgvStudents.DataSource = _rawMaterialsForm.RawMaterialTable;
-                ApplyRawColumnHeaders(dgvStudents);
+                return;
             }
+
+            DataRow firstRow = null;
+            list.BeginUpdate();
+            list.Items.Clear();
+
+            foreach (DataRow row in table.Rows)
+            {
+                var item = new ListViewItem(row["RAWNAME"]?.ToString() ?? "-");
+                item.SubItems.Add(row["CATEGORYNAME"]?.ToString() ?? "-");
+                item.SubItems.Add(row["PURCHASEUNIT"]?.ToString() ?? "-");
+                item.SubItems.Add(row["ACTIVEFLAG"]?.ToString() ?? "-");
+                item.Tag = row;
+                list.Items.Add(item);
+
+                if (firstRow == null)
+                {
+                    firstRow = row;
+                }
+            }
+
+            list.EndUpdate();
+
+            if (list.Items.Count > 0 && firstRow != null)
+            {
+                list.Items[0].Selected = true;
+                SetSelectedRawMaterial(firstRow);
+            }
+            else
+            {
+                SetSelectedRawMaterial(null);
+            }
+        }
+
+        private void LoadTodayMealBoard()
+        {
+            var grid = dgvTodayMealBoard;
+            if (grid == null)
+            {
+                return;
+            }
+
+            const string sql =
+                "WITH today_meal AS ( " +
+                "    SELECT MealID FROM Meal WHERE TRUNC(MealDate) = TRUNC(:MEALDATE) " +
+                "), menu_tags AS ( " +
+                "    SELECT mtm.FinalMenuID, LISTAGG(mt.TagName, ', ') WITHIN GROUP(ORDER BY mt.TagName) AS Tags " +
+                "    FROM MenuTagMap mtm " +
+                "    JOIN MenuTag mt ON mtm.MenuTagID = mt.MenuTagID " +
+                "    GROUP BY mtm.FinalMenuID " +
+                ") " +
+                "SELECT DISTINCT fm.FinalMenuID, fm.MenuName AS MENU_NAME, fm.MenuType AS MENU_TYPE, NVL(mt.Tags, '-') AS TAGS " +
+                "FROM MealComp mc " +
+                "JOIN today_meal tm ON mc.MealID = tm.MealID " +
+                "JOIN FinalMenu fm ON mc.FinalMenuID = fm.FinalMenuID " +
+                "LEFT JOIN menu_tags mt ON fm.FinalMenuID = mt.FinalMenuID " +
+                "ORDER BY CASE UPPER(fm.MenuType) WHEN 'MAIN' THEN 1 WHEN 'SIDE' THEN 2 WHEN 'SOUP' THEN 3 WHEN 'DRINK' THEN 4 ELSE 5 END, fm.MenuName";
+
+            var table = ExecuteDataTable(sql, new OracleParameter("MEALDATE", DateTime.Today));
+
+            if (grid.Columns.Count > 0)
+            {
+                grid.Columns[0].HeaderText = $"{DateTime.Today:MM/dd} (오늘)";
+            }
+
+            if (grid.Rows.Count == 0)
+            {
+                grid.Rows.Add();
+            }
+
+            var lines = table.Rows.Count == 0
+                ? new[] { "등록된 식단 없음" }
+                : table.Rows.Cast<DataRow>().Select(FormatTodayMealLine).ToArray();
+
+            grid.Rows[0].Cells[0].Value = string.Join(Environment.NewLine, lines);
+            grid.ClearSelection();
+            if (lblTodayMealValue != null)
+            {
+                lblTodayMealValue.Text = table.Rows.Count.ToString();
+            }
+        }
+
+        private void LoadTodayRawNeeds()
+        {
+            var list = lvTodayRawNeeds;
+            if (list == null)
+            {
+                return;
+            }
+
+            const string sql =
+                "WITH today_meal AS ( " +
+                "    SELECT MealID FROM Meal WHERE TRUNC(MealDate) = TRUNC(:MEALDATE) " +
+                "), raw_need AS ( " +
+                "    SELECT mc.MealID, mc.PortionCount, comp.ComponentRawID AS RawID, comp.QuantityPerServing " +
+                "    FROM MealComp mc " +
+                "    JOIN today_meal tm ON mc.MealID = tm.MealID " +
+                "    JOIN MenuComp comp ON mc.FinalMenuID = comp.FinalMenuID " +
+                "    WHERE comp.ComponentType = 'R' " +
+                ") " +
+                "SELECT rm.RawName AS RAW_NAME, " +
+                "       ROUND(NVL(SUM(NVL(raw_need.QuantityPerServing, 0) * NVL(raw_need.PortionCount, 1)), 0), 2) AS REQUIRED_QTY, " +
+                "       rm.PurchaseUnit AS UNIT " +
+                "FROM raw_need " +
+                "JOIN RawMaterial rm ON raw_need.RawID = rm.RawID " +
+                "GROUP BY rm.RawName, rm.PurchaseUnit " +
+                "ORDER BY rm.RawName";
+
+            var table = ExecuteDataTable(sql, new OracleParameter("MEALDATE", DateTime.Today));
+
+            list.BeginUpdate();
+            list.Items.Clear();
+            foreach (DataRow row in table.Rows)
+            {
+                var item = new ListViewItem(row["RAW_NAME"]?.ToString() ?? "-");
+                item.SubItems.Add(FormatDecimalDisplay(row["REQUIRED_QTY"]));
+                item.SubItems.Add(row["UNIT"]?.ToString() ?? "-");
+                list.Items.Add(item);
+            }
+
+            list.EndUpdate();
+        }
+
+        private void LoadPendingPurchaseRequestsSummary()
+        {
+            var list = lvShortageRaw;
+            if (list == null)
+            {
+                return;
+            }
+
+            const string sql =
+                "SELECT pr.PurchaseRequestID, " +
+                "       NVL(r.RawName, '원재료 ' || pr.RawID) AS RAW_NAME, " +
+                "       pr.Quantity, pr.UnitPriceEstimate, NVL(pr.Status, 'REQUESTED') AS STATUS, " +
+                "       pr.RequestedDate, pr.ExpectedDeliveryDate " +
+                "FROM PurchaseRequest pr " +
+                "LEFT JOIN RawMaterial r ON pr.RawID = r.RawID " +
+                "WHERE UPPER(NVL(pr.Status, 'REQUESTED')) <> :STATUS " +
+                "ORDER BY pr.RequestedDate DESC";
+
+            var table = ExecuteDataTable(sql, new OracleParameter("STATUS", PurchaseStatusApproved));
+
+            list.BeginUpdate();
+            list.Items.Clear();
+            foreach (DataRow row in table.Rows)
+            {
+                var item = new ListViewItem(row["PURCHASEREQUESTID"]?.ToString() ?? "-");
+                item.SubItems.Add(row["RAW_NAME"]?.ToString() ?? "-");
+                item.SubItems.Add(FormatDecimalDisplay(row["QUANTITY"]));
+                item.SubItems.Add(FormatDecimalDisplay(row["UNITPRICEESTIMATE"]));
+                item.SubItems.Add(row["STATUS"]?.ToString() ?? "-");
+                item.SubItems.Add(FormatDateDisplay(row["REQUESTEDDATE"]));
+                item.SubItems.Add(FormatDateDisplay(row["EXPECTEDDELIVERYDATE"]));
+                list.Items.Add(item);
+            }
+
+            list.EndUpdate();
+        }
+
+        private void LoadRecentMealLogs()
+        {
+            var list = lvMealLogs;
+            if (list == null)
+            {
+                return;
+            }
+
+            const string sql =
+                "SELECT m.MealID, NVL(mp.PlanName, '계획 ' || m.MealPlanID) AS PLAN_NAME, " +
+                "       m.MealDate, NVL(m.TargetGroup, '-') AS TARGET_GROUP, NVL(m.Notes, '-') AS NOTES " +
+                "FROM Meal m " +
+                "LEFT JOIN MealPlan mp ON m.MealPlanID = mp.MealPlanID " +
+                "ORDER BY m.MealDate DESC " +
+                "FETCH FIRST 20 ROWS ONLY";
+
+            var table = ExecuteDataTable(sql);
+            list.BeginUpdate();
+            list.Items.Clear();
+            foreach (DataRow row in table.Rows)
+            {
+                var item = new ListViewItem(row["MEALID"]?.ToString() ?? "-");
+                item.SubItems.Add(row["PLAN_NAME"]?.ToString() ?? "-");
+                item.SubItems.Add(FormatDateDisplay(row["MEALDATE"]));
+                item.SubItems.Add(row["TARGET_GROUP"]?.ToString() ?? "-");
+                item.SubItems.Add(row["NOTES"]?.ToString() ?? "-");
+                list.Items.Add(item);
+            }
+
+            list.EndUpdate();
+        }
+
+        private void LoadFinalMenusSummary()
+        {
+            var list = lvMenus;
+            if (list == null)
+            {
+                return;
+            }
+
+            const string sql =
+                "SELECT fm.FinalMenuID, fm.MenuName AS MENU_NAME, fm.MenuType AS MENU_TYPE, " +
+                "       CASE UPPER(fm.MenuType) " +
+                "            WHEN 'MAIN' THEN '주식' " +
+                "            WHEN 'SIDE' THEN '반찬' " +
+                "            WHEN 'SOUP' THEN '국/탕' " +
+                "            WHEN 'DRINK' THEN '음료' " +
+                "            ELSE '기타' END AS MENU_TYPE_NAME, " +
+                "       NVL(fm.ActiveFlag, 'Y') AS ACTIVE_FLAG " +
+                "FROM FinalMenu fm " +
+                "ORDER BY fm.MenuName";
+
+            var table = ExecuteDataTable(sql);
+            list.BeginUpdate();
+            list.Items.Clear();
+            foreach (DataRow row in table.Rows)
+            {
+                var menuName = row["MENU_NAME"]?.ToString() ?? "-";
+                var typeName = row["MENU_TYPE_NAME"]?.ToString() ?? "-";
+                var activeFlag = row["ACTIVE_FLAG"]?.ToString();
+                var activeText = string.Equals(activeFlag, "Y", StringComparison.OrdinalIgnoreCase) ? "사용" : "중지";
+                var item = new ListViewItem(menuName);
+                item.SubItems.Add(typeName);
+                item.SubItems.Add(activeText);
+                item.SubItems.Add(row["FINALMENUID"]?.ToString() ?? "-");
+                list.Items.Add(item);
+            }
+
+            list.EndUpdate();
         }
 
         private void LoadRecipesManagement()
@@ -857,29 +1112,38 @@ namespace nutritionist
             e.CellStyle.SelectionForeColor = color;
         }
 
-        private void DgvStudents_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void LvRawMaterials_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (e.RowIndex < 0 || dgvStudents.CurrentRow == null)
+            var list = lvRawMaterials;
+            if (list?.SelectedItems == null || list.SelectedItems.Count == 0)
             {
+                SetSelectedRawMaterial(null);
                 return;
             }
 
-            SetSelectedRawMaterialFromRow(dgvStudents.CurrentRow);
+            var selected = list.SelectedItems[0];
+            if (selected.Tag is DataRow row)
+            {
+                SetSelectedRawMaterial(row);
+            }
+            else
+            {
+                SetSelectedRawMaterial(null);
+            }
         }
 
-        private void SetSelectedRawMaterialFromRow(DataGridViewRow row)
+        private void SetSelectedRawMaterial(DataRow row)
         {
-            var dataRow = GetDataRowFromGrid(row);
-            if (dataRow == null)
+            if (row == null)
             {
                 _selectedRawMaterialId = null;
                 DisplaySelectedRawMaterial(null);
                 return;
             }
 
-            var isRaw = string.Equals(dataRow["ITEMTYPE"]?.ToString(), "RAW", StringComparison.OrdinalIgnoreCase);
-            _selectedRawMaterialId = isRaw ? ToInt(dataRow["RAWID"]) : (int?)null;
-            DisplaySelectedRawMaterial(dataRow);
+            var isRaw = string.Equals(row["ITEMTYPE"]?.ToString(), "RAW", StringComparison.OrdinalIgnoreCase);
+            _selectedRawMaterialId = isRaw ? ToInt(row["RAWID"]) : (int?)null;
+            DisplaySelectedRawMaterial(row);
         }
 
         private void DisplaySelectedRawMaterial(DataRow row)
@@ -903,6 +1167,24 @@ namespace nutritionist
             txtStudentId.Text = string.IsNullOrWhiteSpace(idText)
                 ? $"{name} ({typeText})"
                 : $"{name} ({typeText} ID: {idText})";
+        }
+
+        private static string GetMenuTypeDisplay(string menuType)
+        {
+            var code = menuType?.Trim().ToUpperInvariant();
+            switch (code)
+            {
+                case "MAIN":
+                    return "주식";
+                case "SIDE":
+                    return "반찬";
+                case "SOUP":
+                    return "국/탕";
+                case "DRINK":
+                    return "음료";
+                default:
+                    return "기타";
+            }
         }
 
         private void UpdateMealPlanInteractionState()
@@ -1263,11 +1545,6 @@ namespace nutritionist
             return true;
         }
 
-        private static DataRow GetDataRowFromGrid(DataGridViewRow gridRow)
-        {
-            return (gridRow?.DataBoundItem as DataRowView)?.Row;
-        }
-
         private void ShowRawMaterialInManager(int rawId)
         {
             if (rawId <= 0)
@@ -1309,6 +1586,120 @@ namespace nutritionist
             grid.MultiSelect = false;
             grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+        private static void ConfigureListView(ListView list, params (string Header, int Width, HorizontalAlignment Align)[] columns)
+        {
+            if (list == null)
+            {
+                return;
+            }
+
+            if (columns?.Length > 0 && list.Columns.Count == 0)
+            {
+                foreach (var column in columns)
+                {
+                    list.Columns.Add(column.Header, column.Width, column.Align);
+                }
+            }
+
+            list.View = View.Details;
+            list.FullRowSelect = true;
+            list.MultiSelect = false;
+            list.HideSelection = false;
+            list.GridLines = true;
+        }
+
+        private void ConfigureDashboardViews()
+        {
+            ConfigureTodayMealBoardGrid();
+            ConfigureListView(lvTodayRawNeeds,
+                ("원재료", 200, HorizontalAlignment.Left),
+                ("필요 수량", 100, HorizontalAlignment.Right),
+                ("단위", 80, HorizontalAlignment.Left));
+            ConfigureListView(lvShortageRaw,
+                ("요청 ID", 70, HorizontalAlignment.Left),
+                ("원재료", 130, HorizontalAlignment.Left),
+                ("수량", 80, HorizontalAlignment.Right),
+                ("예상 단가", 90, HorizontalAlignment.Right),
+                ("상태", 80, HorizontalAlignment.Center),
+                ("요청일", 90, HorizontalAlignment.Left),
+                ("입고 예정", 90, HorizontalAlignment.Left));
+            ConfigureListView(lvMealLogs,
+                ("식단 ID", 80, HorizontalAlignment.Left),
+                ("식단 계획", 160, HorizontalAlignment.Left),
+                ("일자", 100, HorizontalAlignment.Left),
+                ("대상", 90, HorizontalAlignment.Left),
+                ("비고", 150, HorizontalAlignment.Left));
+            ConfigureListView(lvRawMaterials,
+                ("명칭", 160, HorizontalAlignment.Left),
+                ("분류", 130, HorizontalAlignment.Left),
+                ("단위", 80, HorizontalAlignment.Left),
+                ("사용 여부", 80, HorizontalAlignment.Center));
+            ConfigureListView(lvMenus,
+                ("메뉴명", 170, HorizontalAlignment.Left),
+                ("분류", 90, HorizontalAlignment.Left),
+                ("사용 여부", 80, HorizontalAlignment.Center),
+                ("메뉴 ID", 80, HorizontalAlignment.Left));
+        }
+
+        private void ConfigureTodayMealBoardGrid()
+        {
+            var grid = dgvTodayMealBoard;
+            if (grid == null)
+            {
+                return;
+            }
+
+            if (grid.Columns.Count == 0)
+            {
+                grid.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "colTodayMealBoard",
+                    HeaderText = "오늘의 식단",
+                    ReadOnly = true,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                });
+            }
+
+            if (grid.Rows.Count == 0)
+            {
+                grid.Rows.Add();
+            }
+
+            grid.ClearSelection();
+        }
+
+        private static string FormatDecimalDisplay(object value)
+        {
+            if (value == null || value == DBNull.Value)
+            {
+                return "-";
+            }
+
+            if (decimal.TryParse(value.ToString(), out var number))
+            {
+                return number.ToString("0.##");
+            }
+
+            return value.ToString();
+        }
+
+        private static string FormatDateDisplay(object value)
+        {
+            var date = ToNullableDate(value);
+            return date?.ToString("yyyy-MM-dd") ?? "-";
+        }
+
+        private static string FormatTodayMealLine(DataRow row)
+        {
+            var menuName = row["MENU_NAME"]?.ToString() ?? "-";
+            var typeDisplay = GetMenuTypeDisplay(row["MENU_TYPE"]?.ToString());
+            var tags = row["TAGS"]?.ToString();
+            var tagText = string.IsNullOrWhiteSpace(tags) ? string.Empty : $" ({tags})";
+            return string.IsNullOrWhiteSpace(typeDisplay)
+                ? $"{menuName}{tagText}"
+                : $"{menuName} [{typeDisplay}]{tagText}";
         }
 
         private void LstAvailableMenus_MouseDown(object sender, MouseEventArgs e)
@@ -1807,22 +2198,6 @@ namespace nutritionist
             }
 
             return Color.RoyalBlue;
-        }
-
-        private static void ApplyRawColumnHeaders(DataGridView grid)
-        {
-            if (grid == null || grid.Columns.Count == 0)
-            {
-                return;
-            }
-
-            foreach (var kvp in RawColumnHeaders)
-            {
-                if (grid.Columns.Contains(kvp.Key))
-                {
-                    grid.Columns[kvp.Key].HeaderText = kvp.Value;
-                }
-            }
         }
 
         private sealed class MealPlanInfo

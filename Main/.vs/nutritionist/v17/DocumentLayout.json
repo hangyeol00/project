@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|c:\\users\\leesunwoo\\desktop\\workspaces\\cs_programing\\project\\main\\nutritionist\\tabs\\dashboard\\nutritiondashboardcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\tabs\\dashboard\\nutritiondashboardcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\nutritionistform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\nutritionistform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\forms\\mealplansform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\forms\\mealplansform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\forms\\mealplansform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\forms\\mealplansform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|c:\\users\\leesunwoo\\desktop\\workspaces\\cs_programing\\project\\main\\nutritionist\\forms\\mealplansform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\forms\\mealplansform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -11,24 +27,12 @@
       "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\nutritionistform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\nutritionistform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\nutritionistform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\forms\\mealplansform.logic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\forms\\mealplansform.logic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\forms\\mealplansform.logic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\forms\\mealplansform.logic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\forms\\mealplansform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\forms\\mealplansform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\forms\\mealplansform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{52F74FB5-6B9F-4405-B3A3-801D54B64D8A}|nutritionist\\nutritionist.csproj|solutionrelative:nutritionist\\forms\\mealplansform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -63,43 +67,56 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "NutritionDashboardControl.cs [\uB514\uC790\uC778]",
+              "DocumentMoniker": "C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\Tabs\\Dashboard\\NutritionDashboardControl.cs",
+              "RelativeDocumentMoniker": "nutritionist\\Tabs\\Dashboard\\NutritionDashboardControl.cs",
+              "ToolTip": "C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\Tabs\\Dashboard\\NutritionDashboardControl.cs [\uB514\uC790\uC778]",
+              "RelativeToolTip": "nutritionist\\Tabs\\Dashboard\\NutritionDashboardControl.cs [\uB514\uC790\uC778]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-19T01:25:46.869Z",
+              "EditorCaption": " [\uB514\uC790\uC778]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "MealPlansForm.Designer.cs",
               "DocumentMoniker": "C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\Forms\\MealPlansForm.Designer.cs",
               "RelativeDocumentMoniker": "nutritionist\\Forms\\MealPlansForm.Designer.cs",
               "ToolTip": "C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\Forms\\MealPlansForm.Designer.cs",
               "RelativeToolTip": "nutritionist\\Forms\\MealPlansForm.Designer.cs",
-              "ViewState": "AgIAAPUCAAAAAAAAAAAAAAcDAAA2AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-19T01:22:28.347Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "NutritionistForm.cs",
               "DocumentMoniker": "C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\NutritionistForm.cs",
               "RelativeDocumentMoniker": "nutritionist\\NutritionistForm.cs",
               "ToolTip": "C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\NutritionistForm.cs",
               "RelativeToolTip": "nutritionist\\NutritionistForm.cs",
-              "ViewState": "AgIAAGIAAAAAAAAAAAA2wGwFAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAFYAAAAAAAAAAAA2wPMGAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-19T00:20:32.346Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "NutritionistForm.cs [\uB514\uC790\uC778]",
               "DocumentMoniker": "C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\NutritionistForm.cs",
               "RelativeDocumentMoniker": "nutritionist\\NutritionistForm.cs",
               "ToolTip": "C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\NutritionistForm.cs [\uB514\uC790\uC778]",
               "RelativeToolTip": "nutritionist\\NutritionistForm.cs [\uB514\uC790\uC778]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T00:20:30.013Z"
+              "WhenOpened": "2025-12-19T00:20:30.013Z",
+              "EditorCaption": " [\uB514\uC790\uC778]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "MealPlansForm.Logic.cs",
               "DocumentMoniker": "C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\Forms\\MealPlansForm.Logic.cs",
               "RelativeDocumentMoniker": "nutritionist\\Forms\\MealPlansForm.Logic.cs",
@@ -107,41 +124,45 @@
               "RelativeToolTip": "nutritionist\\Forms\\MealPlansForm.Logic.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T00:20:07.165Z"
+              "WhenOpened": "2025-12-19T00:20:07.165Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "MealPlansForm.Logic.cs [\uB514\uC790\uC778]",
               "DocumentMoniker": "C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\Forms\\MealPlansForm.Logic.cs",
               "RelativeDocumentMoniker": "nutritionist\\Forms\\MealPlansForm.Logic.cs",
               "ToolTip": "C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\Forms\\MealPlansForm.Logic.cs [\uB514\uC790\uC778]",
               "RelativeToolTip": "nutritionist\\Forms\\MealPlansForm.Logic.cs [\uB514\uC790\uC778]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T00:20:04.538Z"
+              "WhenOpened": "2025-12-19T00:20:04.538Z",
+              "EditorCaption": " [\uB514\uC790\uC778]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "MealPlansForm.cs",
               "DocumentMoniker": "C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\Forms\\MealPlansForm.cs",
               "RelativeDocumentMoniker": "nutritionist\\Forms\\MealPlansForm.cs",
               "ToolTip": "C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\Forms\\MealPlansForm.cs",
               "RelativeToolTip": "nutritionist\\Forms\\MealPlansForm.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADgAAAAAAAAAAAAiwDsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-18T23:57:20.623Z"
+              "WhenOpened": "2025-12-18T23:57:20.623Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
               "Title": "MealPlansForm.cs [\uB514\uC790\uC778]",
               "DocumentMoniker": "C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\Forms\\MealPlansForm.cs",
               "RelativeDocumentMoniker": "nutritionist\\Forms\\MealPlansForm.cs",
               "ToolTip": "C:\\Users\\leesunwoo\\Desktop\\workspaces\\cs_programing\\project\\Main\\nutritionist\\Forms\\MealPlansForm.cs [\uB514\uC790\uC778]",
               "RelativeToolTip": "nutritionist\\Forms\\MealPlansForm.cs [\uB514\uC790\uC778]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-18T23:53:39.885Z"
+              "WhenOpened": "2025-12-18T23:53:39.885Z",
+              "EditorCaption": " [\uB514\uC790\uC778]"
             }
           ]
         },

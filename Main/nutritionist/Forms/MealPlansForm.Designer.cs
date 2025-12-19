@@ -15,7 +15,7 @@ namespace nutritionist.Forms
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnRegisterMealPlan = new System.Windows.Forms.Button();
             this.btnResetMenuFilter = new System.Windows.Forms.Button();
             this.btnRequestMealApproval = new System.Windows.Forms.Button();
@@ -36,6 +36,7 @@ namespace nutritionist.Forms
             this.cmbMealWeek = new System.Windows.Forms.ComboBox();
             this.lblSelectedMealDay = new System.Windows.Forms.Label();
             this.tablePlanButtons = new System.Windows.Forms.TableLayoutPanel();
+            this.btnDeleteMealPlan = new System.Windows.Forms.Button();
             this.btnStartMealPlan = new System.Windows.Forms.Button();
             this.planListRow = new System.Windows.Forms.TableLayoutPanel();
             this.lstWeekMealPlans = new System.Windows.Forms.ListBox();
@@ -80,9 +81,9 @@ namespace nutritionist.Forms
             this.colAllergyRiskCount = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colAllergyAltCount = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colAllergyAltSummary = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.lblMealPlanStatus = new System.Windows.Forms.Label();
             this.lblWeeklyMeals = new System.Windows.Forms.Label();
-            this.btnDeleteMealPlan = new System.Windows.Forms.Button();
+            this.lblMealPlanStatus = new System.Windows.Forms.Label();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMealNutrition)).BeginInit();
             this.planListRow.SuspendLayout();
             this.flowMealPeriodRow.SuspendLayout();
@@ -106,6 +107,7 @@ namespace nutritionist.Forms
             this.tableMealSchedule.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWeeklyMeals)).BeginInit();
             this.grpAllergyStatus.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnRegisterMealPlan
@@ -254,7 +256,7 @@ namespace nutritionist.Forms
             // 
             // dtpMealDate
             // 
-            this.dtpMealDate.Location = new System.Drawing.Point(434, 2);
+            this.dtpMealDate.Location = new System.Drawing.Point(452, 2);
             this.dtpMealDate.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dtpMealDate.Name = "dtpMealDate";
             this.dtpMealDate.Size = new System.Drawing.Size(190, 28);
@@ -296,35 +298,14 @@ namespace nutritionist.Forms
             // 
             this.tablePlanButtons.AutoSize = true;
             this.tablePlanButtons.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tablePlanButtons.ColumnCount = 2;
-            this.tablePlanButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tablePlanButtons.ColumnCount = 1;
             this.tablePlanButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tablePlanButtons.Location = new System.Drawing.Point(677, 0);
             this.tablePlanButtons.Margin = new System.Windows.Forms.Padding(12, 0, 0, 0);
             this.tablePlanButtons.Name = "tablePlanButtons";
-            this.tablePlanButtons.RowCount = 1;
+            this.tablePlanButtons.RowCount = 2;
             this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tablePlanButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -367,13 +348,24 @@ namespace nutritionist.Forms
             this.tablePlanButtons.Size = new System.Drawing.Size(0, 0);
             this.tablePlanButtons.TabIndex = 19;
             // 
+            // btnDeleteMealPlan
+            // 
+            this.btnDeleteMealPlan.Enabled = false;
+            this.btnDeleteMealPlan.Location = new System.Drawing.Point(273, 0);
+            this.btnDeleteMealPlan.Margin = new System.Windows.Forms.Padding(0, 0, 6, 0);
+            this.btnDeleteMealPlan.Name = "btnDeleteMealPlan";
+            this.btnDeleteMealPlan.Size = new System.Drawing.Size(181, 55);
+            this.btnDeleteMealPlan.TabIndex = 0;
+            this.btnDeleteMealPlan.Text = "식단 계획 삭제";
+            this.btnDeleteMealPlan.UseVisualStyleBackColor = true;
+            // 
             // btnStartMealPlan
             // 
             this.btnStartMealPlan.AutoSize = true;
-            this.btnStartMealPlan.Location = new System.Drawing.Point(0, 72);
-            this.btnStartMealPlan.Margin = new System.Windows.Forms.Padding(0);
+            this.btnStartMealPlan.Location = new System.Drawing.Point(460, 4);
+            this.btnStartMealPlan.Margin = new System.Windows.Forms.Padding(0, 4, 0, 0);
             this.btnStartMealPlan.Name = "btnStartMealPlan";
-            this.btnStartMealPlan.Size = new System.Drawing.Size(237, 28);
+            this.btnStartMealPlan.Size = new System.Drawing.Size(211, 51);
             this.btnStartMealPlan.TabIndex = 1;
             this.btnStartMealPlan.Text = "식단 계획 시작";
             this.btnStartMealPlan.UseVisualStyleBackColor = true;
@@ -419,7 +411,7 @@ namespace nutritionist.Forms
             this.flowMealPeriodRow.Location = new System.Drawing.Point(0, 0);
             this.flowMealPeriodRow.Margin = new System.Windows.Forms.Padding(0);
             this.flowMealPeriodRow.Name = "flowMealPeriodRow";
-            this.flowMealPeriodRow.Size = new System.Drawing.Size(628, 44);
+            this.flowMealPeriodRow.Size = new System.Drawing.Size(646, 44);
             this.flowMealPeriodRow.TabIndex = 19;
             this.flowMealPeriodRow.WrapContents = false;
             // 
@@ -459,7 +451,7 @@ namespace nutritionist.Forms
             this.tableMealDaySelector.RowCount = 2;
             this.tableMealDaySelector.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableMealDaySelector.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableMealDaySelector.Size = new System.Drawing.Size(26, 40);
+            this.tableMealDaySelector.Size = new System.Drawing.Size(44, 40);
             this.tableMealDaySelector.TabIndex = 18;
             // 
             // lblMealDayTitle
@@ -540,7 +532,7 @@ namespace nutritionist.Forms
             this.flowMealPeriodSelector.ColumnCount = 1;
             this.flowMealPeriodSelector.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.flowMealPeriodSelector.Controls.Add(this.flowMealPeriodRow, 0, 0);
-            this.flowMealPeriodSelector.Controls.Add(this.planListRow, 0, 1);
+            this.flowMealPeriodSelector.Controls.Add(this.flowLayoutPanel1, 0, 1);
             this.flowMealPeriodSelector.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowMealPeriodSelector.Location = new System.Drawing.Point(0, 0);
             this.flowMealPeriodSelector.Margin = new System.Windows.Forms.Padding(0);
@@ -548,6 +540,7 @@ namespace nutritionist.Forms
             this.flowMealPeriodSelector.RowCount = 2;
             this.flowMealPeriodSelector.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.flowMealPeriodSelector.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.flowMealPeriodSelector.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.flowMealPeriodSelector.Size = new System.Drawing.Size(677, 105);
             this.flowMealPeriodSelector.TabIndex = 14;
             // 
@@ -774,6 +767,7 @@ namespace nutritionist.Forms
             this.splitContainerMealPlans.SplitterDistance = 699;
             this.splitContainerMealPlans.SplitterWidth = 5;
             this.splitContainerMealPlans.TabIndex = 0;
+            // 
             // grpMealSchedule
             // 
             this.grpMealSchedule.Controls.Add(this.tableMealSchedule);
@@ -824,14 +818,14 @@ namespace nutritionist.Forms
             this.colWeekWednesday,
             this.colWeekThursday,
             this.colWeekFriday});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvWeeklyMeals.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvWeeklyMeals.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvWeeklyMeals.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvWeeklyMeals.Location = new System.Drawing.Point(4, 190);
             this.dgvWeeklyMeals.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
@@ -844,6 +838,7 @@ namespace nutritionist.Forms
             this.dgvWeeklyMeals.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvWeeklyMeals.Size = new System.Drawing.Size(683, 381);
             this.dgvWeeklyMeals.TabIndex = 2;
+            this.dgvWeeklyMeals.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvWeeklyMeals_CellContentClick);
             // 
             // colWeekMonday
             // 
@@ -937,6 +932,17 @@ namespace nutritionist.Forms
             this.colAllergyAltSummary.Text = "대체 메뉴";
             this.colAllergyAltSummary.Width = 200;
             // 
+            // lblWeeklyMeals
+            // 
+            this.lblWeeklyMeals.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblWeeklyMeals.Location = new System.Drawing.Point(4, 160);
+            this.lblWeeklyMeals.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblWeeklyMeals.Name = "lblWeeklyMeals";
+            this.lblWeeklyMeals.Size = new System.Drawing.Size(683, 28);
+            this.lblWeeklyMeals.TabIndex = 1;
+            this.lblWeeklyMeals.Text = "주간 식단표";
+            this.lblWeeklyMeals.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // lblMealPlanStatus
             // 
             this.lblMealPlanStatus.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -949,27 +955,16 @@ namespace nutritionist.Forms
             this.lblMealPlanStatus.Text = "계획 상태: -";
             this.lblMealPlanStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblWeeklyMeals
+            // flowLayoutPanel1
             // 
-            this.lblWeeklyMeals.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblWeeklyMeals.Location = new System.Drawing.Point(4, 160);
-            this.lblWeeklyMeals.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblWeeklyMeals.Name = "lblWeeklyMeals";
-            this.lblWeeklyMeals.Size = new System.Drawing.Size(683, 28);
-            this.lblWeeklyMeals.TabIndex = 1;
-            this.lblWeeklyMeals.Text = "주간 식단표";
-            this.lblWeeklyMeals.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnDeleteMealPlan
-            // 
-            this.btnDeleteMealPlan.Enabled = false;
-            this.btnDeleteMealPlan.Location = new System.Drawing.Point(0, 44);
-            this.btnDeleteMealPlan.Margin = new System.Windows.Forms.Padding(0, 0, 6, 0);
-            this.btnDeleteMealPlan.Name = "btnDeleteMealPlan";
-            this.btnDeleteMealPlan.Size = new System.Drawing.Size(237, 28);
-            this.btnDeleteMealPlan.TabIndex = 0;
-            this.btnDeleteMealPlan.Text = "식단 계획 삭제";
-            this.btnDeleteMealPlan.UseVisualStyleBackColor = true;
+            this.flowLayoutPanel1.Controls.Add(this.btnStartMealPlan);
+            this.flowLayoutPanel1.Controls.Add(this.btnDeleteMealPlan);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 47);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(671, 55);
+            this.flowLayoutPanel1.TabIndex = 20;
             // 
             // MealPlansForm
             // 
@@ -1015,6 +1010,8 @@ namespace nutritionist.Forms
             this.tableMealSchedule.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvWeeklyMeals)).EndInit();
             this.grpAllergyStatus.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1086,5 +1083,6 @@ namespace nutritionist.Forms
         internal System.Windows.Forms.Button btnDeleteMealPlan;
         internal System.Windows.Forms.Label lblWeeklyMeals;
         internal System.Windows.Forms.Label lblMealPlanStatus;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }

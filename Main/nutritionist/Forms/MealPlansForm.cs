@@ -50,5 +50,14 @@ namespace nutritionist.Forms
         public DataGridViewTextBoxColumn ColNutrientStatus => colNutrientStatus;
         public GroupBox GrpMealPlanDetail => grpMealPlanDetail;
 
+        private void flowMealPeriodSelector_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void dgvWeeklyMeals_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
